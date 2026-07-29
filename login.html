@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — EnviGuide IHM Enterprise Portal</title>
+  <meta name="description" content="Access your EnviGuide IHM enterprise portal to manage fleet hazardous material inventories, PO audits, and supplier MD/SDoC compliance.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Full page viewport split auth layout */
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #f8fafc;
+    }
+    .auth-section {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
+    .auth-wire-card {
+      width: 100%;
+      min-height: calc(100vh - 72px);
+      margin: 0;
+      background: var(--white);
+      border-radius: 0;
+      overflow: hidden;
+      border: none;
+      box-shadow: none;
+    }
+    .auth-split {
+      display: grid;
+      grid-template-columns: 60% 40%;
+      min-height: calc(100vh - 72px);
+    }
+    /* Left Visual Panel - Video Background */
+    .visual-panel {
+      background: #071c37;
+      position: relative;
+      overflow: hidden;
+    }
+    .visual-panel video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    /* Right Form Side */
+    .form-side {
+      padding: 56px 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: var(--white);
+    }
+    .form-inner-wrap {
+      max-width: 400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .auth-eyebrow {
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #0082cb;
+      margin-bottom: 8px;
+    }
+    .auth-heading {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #071c37;
+      margin: 0 0 8px;
+      letter-spacing: -0.02em;
+    }
+    .auth-muted {
+      color: #475569;
+      font-size: 0.92rem;
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+    .auth-field {
+      margin-bottom: 18px;
+    }
+    .auth-label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #1e293b;
+      margin-bottom: 6px;
+    }
+    .auth-input {
+      width: 100%;
+      height: 44px;
+      border: 1.5px solid #cbd5e1;
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 0 14px;
+      font-size: 0.9rem;
+      color: #0f172a;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .auth-input:focus {
+      outline: none;
+      border-color: #0099e6;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(0, 153, 230, 0.15);
+    }
+    .auth-row-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 16px 0 24px;
+      font-size: 0.84rem;
+    }
+    .auth-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #475569;
+      cursor: pointer;
+      font-weight: 500;
+      user-select: none;
+    }
+    .auth-checkbox input {
+      width: 16px; height: 16px; accent-color: #0099e6; cursor: pointer;
+    }
+    .auth-link {
+      color: #0099e6;
+      font-weight: 600;
+      text-decoration: underline;
+      transition: color 0.15s;
+    }
+    .auth-link:hover { color: #0082cb; }
+
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0;
+      font-size: 0.74rem;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+    .auth-divider::before, .auth-divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+    .auth-sso-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .auth-sso-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 42px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 999px;
+      background: #fff;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .auth-sso-btn:hover {
+      background: #f1f5f9;
+      border-color: #94a3b8;
+    }
+    .auth-footer-note {
+      margin-top: 36px;
+      text-align: center;
+      font-size: 0.78rem;
+      color: #94a3b8;
+    }
+
+    @media (max-width: 900px) {
+      .auth-split { grid-template-columns: 1fr; min-height: auto; }
+      .visual-panel { display: none; }
+      .form-side { padding: 40px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ NAVIGATION ============ -->
+  <nav class="nav" id="main-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo" aria-label="EnviGuide IHM Home">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="28" height="28" rx="6" fill="#0ea5e9"/>
+          <path d="M7 14 L14 7 L21 14 L14 21 Z" fill="white" opacity="0.9"/>
+          <circle cx="14" cy="14" r="3" fill="#0ea5e9"/>
+        </svg>
+        <span>EnviGuide <strong>IHM</strong></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html#features" class="nav-link">Features</a>
+        <a href="industries.html" class="nav-link">Industries</a>
+        <a href="index.html#faq" class="nav-link">Resources</a>
+      </div>
+      <div class="nav-actions">
+        <span style="font-size:0.85rem; color: var(--gray-500); margin-right: 4px;">Don't have an account?</span>
+        <a href="book-demo.html" class="btn-primary" id="nav-get-started">Book a Demo</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ============ SPLIT AUTH SECTION (BLANK LEFT, FORM RIGHT, FIT PAGE) ============ -->
+  <section class="auth-section">
+    <div class="auth-wire-card">
+      <div class="auth-split">
+        <!-- LEFT: VISUAL PANEL WITH VIDEO -->
+        <div class="visual-panel">
+          <video autoplay loop muted playsinline preload="auto">
+            <source src="video.login.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <!-- RIGHT: FORM SIDE -->
+        <div class="form-side">
+          <div class="form-inner-wrap">
+            <div class="auth-eyebrow">Sign in</div>
+            <h2 class="auth-heading">Log in to your account</h2>
+            <p class="auth-muted">Access your fleet's IHM dashboard, reports &amp; supplier portal.</p>
+
+            <form id="portal-login-form" action="#" method="POST">
+              <div class="auth-field">
+                <label for="work-email" class="auth-label">Email</label>
+                <input type="email" id="work-email" class="auth-input" placeholder="jane@company.com" required>
+              </div>
+
+              <div class="auth-field">
+                <label for="work-password" class="auth-label">Password</label>
+                <input type="password" id="work-password" class="auth-input" placeholder="••••••••••" required>
+              </div>
+
+              <div class="auth-row-between">
+                <label class="auth-checkbox">
+                  <input type="checkbox" id="remember-me" checked> Remember me
+                </label>
+                <a href="#" class="auth-link">Forgot password?</a>
+              </div>
+
+              <button type="submit" class="btn-primary btn-lg" style="width: 100%; justify-content: center;">Log In →</button>
+            </form>
+
+
+
+            <div style="text-align: center; margin-top: 24px; font-size: 0.85rem; color: #64748b;">
+              Don't have an account? <a href="book-demo.html" class="auth-link">Get Started →</a>
+            </div>
+
+            <div class="auth-footer-note">© EnviGuide IHM · Privacy Policy · Terms</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="main.js"></script>
+</body>
+</html>

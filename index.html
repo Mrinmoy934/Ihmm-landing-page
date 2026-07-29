@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EnviGuide IHM: Keep Your Fleet Audit-Ready</title>
+  <meta name="description" content="Digitize IHM Part I maintenance across your whole fleet. Auto-screen purchase orders for hazardous materials, collect MD/SDoC from suppliers, and generate class-ready compliance reports in minutes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+  <!-- ============ NAVIGATION ============ -->
+  <nav class="nav" id="main-nav">
+    <div class="nav-inner">
+      <a href="#" class="logo" aria-label="EnviGuide IHM Home">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="28" height="28" rx="6" fill="#0ea5e9"/>
+          <path d="M7 14 L14 7 L21 14 L14 21 Z" fill="white" opacity="0.9"/>
+          <circle cx="14" cy="14" r="3" fill="#0ea5e9"/>
+        </svg>
+        <span>EnviGuide <strong>IHM</strong></span>
+      </a>
+      <div class="nav-links">
+        <!-- Features Dropdown -->
+        <div class="nav-item has-dropdown" id="nav-features">
+          <button class="nav-link" aria-expanded="false" aria-haspopup="true" id="btn-features">Features <svg class="chevron" width="12" height="12" viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button>
+          <div class="dropdown" id="dropdown-features" role="menu" aria-labelledby="btn-features">
+            <div class="dropdown-inner">
+              <div class="dropdown-section">
+                <div class="dropdown-section-label">Core Features</div>
+                <a href="#features" class="dropdown-item" role="menuitem">
+                  <span class="dropdown-icon fc-teal"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+                  <span><strong>Hazmat Mapping</strong><span>Map materials to deck, area &amp; equipment</span></span>
+                </a>
+                <a href="#po-audits" class="dropdown-item" role="menuitem">
+                  <span class="dropdown-icon fc-orange"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 15V8l6-5 6 5v7H4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><rect x="7" y="11" width="6" height="4" stroke="currentColor" stroke-width="1.5"/></svg></span>
+                  <span><strong>PO Auditing</strong><span>Auto-screen purchase orders for hazmat</span></span>
+                </a>
+                <a href="#supplier-portal" class="dropdown-item" role="menuitem">
+                  <span class="dropdown-icon fc-purple"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M6 2h8l4 4v12H2V2h4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M6 11h8M6 14h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+                  <span><strong>MD/SDoC Collection</strong><span>Collect declarations with email chase</span></span>
+                </a>
+              </div>
+              <div class="dropdown-section">
+                <div class="dropdown-section-label">Tools</div>
+                <a href="#all-features" class="dropdown-item" role="menuitem">
+                  <span class="dropdown-icon fc-green"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M3 18c0-4 3-6 7-6s7 2 7 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+                  <span><strong>Supplier Portal</strong><span>Frictionless portal for your suppliers</span></span>
+                </a>
+                <a href="#all-features" class="dropdown-item" role="menuitem">
+                  <span class="dropdown-icon fc-blue"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M6 10h8M6 13h5M6 7h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+                  <span><strong>Compliance Reports</strong><span>Class-ready PDF reports in minutes</span></span>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Industries Dropdown -->
+        <div class="nav-item has-dropdown" id="nav-industries">
+          <button class="nav-link" aria-expanded="false" aria-haspopup="true" id="btn-industries">Industries <svg class="chevron" width="12" height="12" viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button>
+          <div class="dropdown dropdown--sm" id="dropdown-industries" role="menu" aria-labelledby="btn-industries">
+            <div class="dropdown-inner">
+              <div class="dropdown-section">
+                <div class="dropdown-section-label">Vessel Types</div>
+                <a href="industries.html?type=bulk-carriers" class="dropdown-item" role="menuitem">
+                  <span class="dropdown-icon fc-blue"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="7" height="9" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="3" width="7" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="11" width="7" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="14" width="7" height="3" rx="1" stroke="currentColor" stroke-width="1.5"/></svg></span>
+                  <span><strong>Bulk Carriers</strong><span>Full IHM lifecycle for dry bulk fleets</span></span>
+                </a>
+                <a href="industries.html?type=tankers" class="dropdown-item" role="menuitem">
+                  <span class="dropdown-icon fc-teal"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M3 13h14l-2-6H5L3 13z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M3 13l-1 3h16l-1-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+                  <span><strong>Tankers</strong><span>Hazmat compliance for liquid bulk</span></span>
+                </a>
+                <a href="industries.html?type=container-ships" class="dropdown-item" role="menuitem">
+                  <span class="dropdown-icon fc-orange"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="2" y="6" width="16" height="9" rx="1" stroke="currentColor" stroke-width="1.5"/><path d="M5 6V4h10v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+                  <span><strong>Container Ships</strong><span>PO screening &amp; MD collection at scale</span></span>
+                </a>
+                <a href="industries.html?type=offshore-vessels" class="dropdown-item" role="menuitem">
+                  <span class="dropdown-icon fc-purple"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M2 14l8-10 8 10H2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
+                  <span><strong>Offshore Vessels</strong><span>IHM support for OSV &amp; MODU</span></span>
+                </a>
+                <a href="industries.html?type=passenger-ships" class="dropdown-item" role="menuitem">
+                  <span class="dropdown-icon fc-green"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M3 18c0-4 3-6 7-6s7 2 7 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+                  <span><strong>Passenger Ships</strong><span>Cruise &amp; RoPax compliance ready</span></span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Resources Dropdown -->
+        <div class="nav-item has-dropdown" id="nav-resources">
+          <button class="nav-link" aria-expanded="false" aria-haspopup="true" id="btn-resources">Resources <svg class="chevron" width="12" height="12" viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button>
+          <div class="dropdown dropdown--sm" id="dropdown-resources" role="menu" aria-labelledby="btn-resources">
+            <div class="dropdown-inner">
+              <div class="dropdown-section">
+                <div class="dropdown-section-label">Learn</div>
+                <a href="#" class="dropdown-item" role="menuitem">
+                  <span class="dropdown-icon fc-blue"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M5 2h10v16H5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 6h4M8 9h4M8 12h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+                  <span><strong>Documentation</strong><span>Platform guides &amp; API reference</span></span>
+                </a>
+                <a href="#" class="dropdown-item" role="menuitem">
+                  <span class="dropdown-icon fc-teal"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M6 10h8M6 13h5M6 7h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+                  <span><strong>IHM Guidelines</strong><span>HKC &amp; EU SRR explained</span></span>
+                </a>
+                <a href="#" class="dropdown-item" role="menuitem">
+                  <span class="dropdown-icon fc-orange"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M4 2h12v16H4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 7h6M7 10h6M7 13h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+                  <span><strong>Blog &amp; Insights</strong><span>Latest trends in maritime compliance</span></span>
+                </a>
+              </div>
+              <div class="dropdown-section">
+                <div class="dropdown-section-label">Support</div>
+                <a href="#" class="dropdown-item" role="menuitem">
+                  <span class="dropdown-icon fc-purple"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+                  <span><strong>Case Studies</strong><span>Customer success stories</span></span>
+                </a>
+                <a href="#faq" class="dropdown-item" role="menuitem">
+                  <span class="dropdown-icon fc-green"><svg width="16" height="16" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 9v5M10 7h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+                  <span><strong>Help Center &amp; FAQ</strong><span>Common questions &amp; answers</span></span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <a href="login.html" class="btn-ghost" id="nav-login">Login</a>
+        <a href="book-demo.html" class="btn-primary" id="nav-get-started">Book a Demo</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <video class="hero-video" autoplay loop muted playsinline preload="auto">
+        <source src="video.mp4" type="video/mp4">
+      </video>
+      <div class="hero-video-overlay"></div>
+      <div class="hero-glow"></div>
+    </div>
+    <div class="container hero-inner">
+      <div class="hero-content">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          IHM Compliance Platform
+        </div>
+        <h1>Keep your fleet's Hazardous Material Inventory audit-ready, without the paperwork.</h1>
+        <p class="hero-desc">Digitize IHM Part I maintenance across your whole fleet. Auto-screen purchase orders for hazardous materials, collect MD/SDoC from suppliers, and generate class-ready compliance reports in minutes.</p>
+        <div class="hero-cta">
+          <a href="book-demo.html" class="btn-primary btn-lg" id="hero-trial">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2v14M2 9h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            Book a Demo
+          </a>
+          <a href="book-demo.html" class="btn-outline btn-lg" id="hero-demo">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 9h10M10 5l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Get Started
+          </a>
+        </div>
+        <div class="hero-micro">
+          <span>✓ Fleet-wide setup</span>
+          <span>✓ Hong Kong Convention &amp; EU SRR ready</span>
+          <span>✓ MEPC Guidelines compliant</span>
+        </div>
+        <div class="trust-strip">
+          <span class="trust-label">Trusted by fleets worldwide</span>
+          <div class="trust-logos">
+            <div class="trust-logo">MAERSK</div>
+            <div class="trust-logo">MSC</div>
+            <div class="trust-logo">CMA CGM</div>
+            <div class="trust-logo">HAPAG</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURE TABS ============ -->
+  <section class="feature-tabs" id="features">
+    <div class="container">
+      <div class="section-header center">
+        <div class="eyebrow">Purpose-built for IHM compliance</div>
+        <h2>One platform for the entire IHM lifecycle</h2>
+      </div>
+      <div class="tabs-nav" role="tablist" aria-label="Features">
+        <button class="tab active" role="tab" aria-selected="true" data-tab="hazmat" id="tab-hazmat">Hazmat Mapping</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="po" id="tab-po">PO Audits</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="mdsdc" id="tab-mdsdc">MD &amp; SDoC</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="supplier" id="tab-supplier">Supplier Portal</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="reports" id="tab-reports">Compliance Reports</button>
+      </div>
+      <!-- Auto-advance progress rail -->
+      <div class="tabs-progress-rail"><div class="tabs-progress-fill" id="tabs-rail-fill"></div></div>
+
+      <!-- ===== PANEL 1 : HAZMAT MAPPING ===== -->
+      <div class="tab-content" id="tab-hazmat-panel" role="tabpanel" aria-labelledby="tab-hazmat">
+        <div class="split">
+          <div class="split-visual anim-stage-wrap">
+            <div class="anim-stage-label">Deck &amp; Area Hazmat Map</div>
+            <div class="anim-scan-line"></div>
+            <div class="anim-deck-grid">
+              <div class="anim-deck-cell"></div>
+              <div class="anim-deck-cell"><div class="anim-marker anim-pulse" style="animation-delay:.2s"></div></div>
+              <div class="anim-deck-cell"></div>
+              <div class="anim-deck-cell"></div>
+              <div class="anim-deck-cell"><div class="anim-marker anim-pulse" style="animation-delay:1.1s"></div></div>
+              <div class="anim-deck-cell"></div>
+              <div class="anim-deck-cell"><div class="anim-marker anim-pulse" style="animation-delay:.7s"></div></div>
+              <div class="anim-deck-cell"></div>
+              <div class="anim-deck-cell"></div>
+              <div class="anim-deck-cell"><div class="anim-marker anim-pulse" style="animation-delay:1.8s"></div></div>
+              <div class="anim-deck-cell"></div>
+              <div class="anim-deck-cell"></div>
+              <div class="anim-deck-cell"></div>
+              <div class="anim-deck-cell"><div class="anim-marker anim-pulse" style="animation-delay:.4s"></div></div>
+              <div class="anim-deck-cell"></div>
+              <div class="anim-deck-cell"></div>
+              <div class="anim-deck-cell"><div class="anim-marker anim-pulse" style="animation-delay:1.4s"></div></div>
+              <div class="anim-deck-cell"></div>
+            </div>
+          </div>
+          <div class="split-copy">
+            <div class="eyebrow">Hazardous Material Mapping</div>
+            <h2>Map every hazardous material to deck, area &amp; equipment</h2>
+            <p>Maintain a live, searchable inventory of hazardous materials onboard. Every item is mapped to GA plans, decks and equipment, complete with quantities, locations and supporting documents.</p>
+            <ul class="checklist">
+              <li>Deck &amp; area-level hazmat mapping</li>
+              <li>Equipment-linked material records</li>
+              <li>GA plan &amp; deck plan viewer</li>
+              <li>Searchable materials register</li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PANEL 2 : PO AUDITS ===== -->
+      <div class="tab-content hidden" id="tab-po-panel" role="tabpanel" aria-labelledby="tab-po">
+        <div class="split">
+          <div class="split-visual anim-stage-wrap">
+            <div class="anim-stage-label">Purchase Order Line-Item Screening</div>
+            <div class="anim-po-list">
+              <div class="anim-po-row">
+                <div class="anim-po-check anim-tick" style="--tick-delay:.4s"></div>
+                <div class="anim-po-bar" style="width:70%"></div>
+                <span class="anim-po-tag">Cleared</span>
+              </div>
+              <div class="anim-po-row">
+                <div class="anim-po-check anim-tick" style="--tick-delay:1s"></div>
+                <div class="anim-po-bar" style="width:85%"></div>
+                <span class="anim-po-tag">Cleared</span>
+              </div>
+              <div class="anim-po-row anim-po-flagged">
+                <div class="anim-po-flag-icon"></div>
+                <div class="anim-po-bar" style="width:60%"></div>
+                <span class="anim-po-tag anim-flag-tag">⚑ Flagged</span>
+              </div>
+              <div class="anim-po-row">
+                <div class="anim-po-check anim-tick" style="--tick-delay:2.2s"></div>
+                <div class="anim-po-bar" style="width:75%"></div>
+                <span class="anim-po-tag">Cleared</span>
+              </div>
+              <div class="anim-po-row">
+                <div class="anim-po-check anim-tick" style="--tick-delay:2.8s"></div>
+                <div class="anim-po-bar" style="width:65%"></div>
+                <span class="anim-po-tag">Cleared</span>
+              </div>
+            </div>
+          </div>
+          <div class="split-copy">
+            <div class="eyebrow">Purchase Order Audits</div>
+            <h2>Auto-screen purchase orders for suspected hazmat</h2>
+            <p>Upload purchase orders by spreadsheet and let the system flag line items against your suspected-keyword list, so nothing hazardous slips onboard undocumented.</p>
+            <ul class="checklist">
+              <li>Bulk PO upload (CSV / Excel)</li>
+              <li>Keyword-based hazmat flagging</li>
+              <li>Line item review and approval workflow</li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PANEL 3 : MD & SDoC ===== -->
+      <div class="tab-content hidden" id="tab-mdsdc-panel" role="tabpanel" aria-labelledby="tab-mdsdc">
+        <div class="split">
+          <div class="split-visual anim-stage-wrap">
+            <div class="anim-stage-label">MD / SDoC Auto-Collection</div>
+            <div class="anim-doc-inner">
+              <div class="anim-doc-sheet anim-doc-sheet1"></div>
+              <div class="anim-doc-sheet anim-doc-sheet2"></div>
+              <div class="anim-folder">
+                <div class="anim-folder-tab"></div>
+                <div class="anim-folder-body"></div>
+              </div>
+              <div class="anim-progress-track"><div class="anim-progress-fill"></div></div>
+            </div>
+          </div>
+          <div class="split-copy">
+            <div class="eyebrow">MD &amp; SDoC Collection</div>
+            <h2>Collect Material Declarations with the email chase</h2>
+            <p>Send suppliers a secure upload link. They submit MD/SDoC documents through a branded portal with no login required, and everything files itself against the correct PO and vessel automatically.</p>
+            <ul class="checklist">
+              <li>Token-based public supplier upload</li>
+              <li>Automated MD/SDoC request emails</li>
+              <li>Document audit &amp; clarification requests</li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PANEL 4 : SUPPLIER PORTAL ===== -->
+      <div class="tab-content hidden" id="tab-supplier-panel" role="tabpanel" aria-labelledby="tab-supplier">
+        <div class="split">
+          <div class="split-visual anim-stage-wrap">
+            <div class="anim-stage-label">Supplier Upload Flow</div>
+            <div class="anim-portal-inner">
+              <div class="anim-node anim-node-left">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="7" r="4"/><path d="M3 21c0-5 3-8 9-8s9 3 9 8"/></svg>
+                <span>Supplier</span>
+              </div>
+              <div class="anim-path-track">
+                <div class="anim-travel-dot"></div>
+              </div>
+              <div class="anim-node anim-node-right anim-node-pulse">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                <span>Portal</span>
+              </div>
+              <div class="anim-status-chip">Document received ✓</div>
+            </div>
+          </div>
+          <div class="split-copy">
+            <div class="eyebrow">Supplier Portal</div>
+            <h2>A frictionless portal your suppliers will actually use</h2>
+            <p>Give suppliers a clean, branded experience to submit documentation. No account creation needed: just a secure link that accepts their documents and routes them automatically.</p>
+            <ul class="checklist">
+              <li>Branded supplier-facing portal</li>
+              <li>No supplier account required</li>
+              <li>Automatic document routing &amp; filing</li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PANEL 5 : COMPLIANCE REPORTS ===== -->
+      <div class="tab-content hidden" id="tab-reports-panel" role="tabpanel" aria-labelledby="tab-reports">
+        <div class="split">
+          <div class="split-visual anim-stage-wrap">
+            <div class="anim-stage-label">Class-Ready Report Export</div>
+            <div class="anim-report-inner">
+              <div class="anim-report-page">
+                <div class="anim-rline" style="--rw:90%;--rd:0s"></div>
+                <div class="anim-rline" style="--rw:70%;--rd:.3s"></div>
+                <div class="anim-rline" style="--rw:88%;--rd:.6s"></div>
+                <div class="anim-rline" style="--rw:60%;--rd:.9s"></div>
+                <div class="anim-rline" style="--rw:76%;--rd:1.2s"></div>
+                <div class="anim-rline" style="--rw:82%;--rd:1.5s"></div>
+                <div class="anim-seal">✓</div>
+              </div>
+            </div>
+          </div>
+          <div class="split-copy">
+            <div class="eyebrow">Compliance Reports</div>
+            <h2>Generate class-ready compliance reports in minutes</h2>
+            <p>Export IHM Part I reports formatted for classification societies, port-state control and recycling yards. A full audit trail is included automatically with every report.</p>
+            <ul class="checklist">
+              <li>One-click PDF generation</li>
+              <li>Classification society formats</li>
+              <li>Full audit trail included</li>
+              <li>Hong Kong Convention &amp; EU SRR compliant</li>
+            </ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============ FEATURE ROW A — PO Audits ============ -->
+  <section class="feature-row" id="po-audits">
+    <div class="container">
+      <div class="split">
+        <div class="split-visual anim-stage-wrap" data-reveal="left">
+          <div class="anim-stage-label">Purchase Order Screening</div>
+          <div class="anim-po-list">
+            <div class="anim-po-row">
+              <div class="anim-po-check anim-tick" style="--tick-delay:.4s"></div>
+              <div class="anim-po-bar" style="width:74%"></div>
+              <span class="anim-po-tag">Cleared</span>
+            </div>
+            <div class="anim-po-row">
+              <div class="anim-po-check anim-tick" style="--tick-delay:1s"></div>
+              <div class="anim-po-bar" style="width:88%"></div>
+              <span class="anim-po-tag">Cleared</span>
+            </div>
+            <div class="anim-po-row anim-po-flagged">
+              <div class="anim-po-flag-icon"></div>
+              <div class="anim-po-bar" style="width:62%"></div>
+              <span class="anim-po-tag anim-flag-tag">⚑ Flagged</span>
+            </div>
+            <div class="anim-po-row">
+              <div class="anim-po-check anim-tick" style="--tick-delay:2.2s"></div>
+              <div class="anim-po-bar" style="width:79%"></div>
+              <span class="anim-po-tag">Cleared</span>
+            </div>
+            <div class="anim-po-row">
+              <div class="anim-po-check anim-tick" style="--tick-delay:2.8s"></div>
+              <div class="anim-po-bar" style="width:66%"></div>
+              <span class="anim-po-tag">Cleared</span>
+            </div>
+          </div>
+        </div>
+        <div class="split-copy" data-reveal="right">
+          <div class="eyebrow">Purchase Order Audits</div>
+          <h2>Auto-screen purchase orders for suspected hazmat</h2>
+          <p>Upload purchase orders by spreadsheet and let the system flag line items against your keyword list, so nothing hazardous slips onboard undocumented.</p>
+          <ul class="checklist">
+            <li>Bulk PO upload (CSV / Excel)</li>
+            <li>Keyword-based hazmat flagging</li>
+            <li>Line item review and approval workflow</li>
+          </ul>
+          <div class="feature-row-stats">
+            <div class="fr-stat"><span class="fr-stat-num">12,000+</span><span class="fr-stat-lbl">PO lines screened / month</span></div>
+            <div class="fr-stat"><span class="fr-stat-num">99%</span><span class="fr-stat-lbl">Keyword match accuracy</span></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============ FEATURE ROW B — Supplier Portal ============ -->
+  <section class="feature-row feature-row--alt" id="supplier-portal">
+    <div class="container">
+      <div class="split split--reverse">
+        <div class="split-copy" data-reveal="left">
+          <div class="eyebrow">Supplier Portal</div>
+          <h2>A frictionless portal your suppliers will actually use</h2>
+          <p>Give suppliers a clean, branded experience to submit documentation. No account creation needed: just a secure link that accepts their documents and routes them automatically.</p>
+          <ul class="checklist">
+            <li>Branded supplier-facing portal</li>
+            <li>No supplier account required</li>
+            <li>Automatic document routing &amp; filing</li>
+          </ul>
+          <div class="feature-row-stats">
+            <div class="fr-stat"><span class="fr-stat-num">Zero</span><span class="fr-stat-lbl">Supplier account needed</span></div>
+            <div class="fr-stat"><span class="fr-stat-num">&lt;2 min</span><span class="fr-stat-lbl">Avg supplier submission time</span></div>
+          </div>
+
+        </div>
+        <div class="split-visual anim-stage-wrap" data-reveal="right">
+          <div class="anim-stage-label">Supplier Upload Flow</div>
+          <div class="anim-portal-inner">
+            <div class="anim-node anim-node-left">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="7" r="4"/><path d="M3 21c0-5 3-8 9-8s9 3 9 8"/></svg>
+              <span>Supplier</span>
+            </div>
+            <div class="anim-path-track">
+              <div class="anim-travel-dot"></div>
+            </div>
+            <div class="anim-node anim-node-right anim-node-pulse">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+              <span>Portal</span>
+            </div>
+            <div class="anim-status-chip">Document received ✓</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURE ROW C — MD / SDoC ============ -->
+  <section class="feature-row" id="mdsdc">
+    <div class="container">
+      <div class="split">
+        <div class="split-visual anim-stage-wrap" data-reveal="left">
+          <div class="anim-stage-label">MD / SDoC Auto-Collection</div>
+          <div class="anim-doc-inner">
+            <div class="anim-doc-sheet anim-doc-sheet1"></div>
+            <div class="anim-doc-sheet anim-doc-sheet2"></div>
+            <div class="anim-folder">
+              <div class="anim-folder-tab"></div>
+              <div class="anim-folder-body"></div>
+            </div>
+            <div class="anim-progress-track"><div class="anim-progress-fill"></div></div>
+          </div>
+        </div>
+        <div class="split-copy" data-reveal="right">
+          <div class="eyebrow">MD &amp; SDoC Collection</div>
+          <h2>Collect Material Declarations with the email chase</h2>
+          <p>Send suppliers a secure upload link. They submit MD/SDoC documents through a branded portal with no login required, and everything files itself against the correct PO and vessel automatically.</p>
+          <ul class="checklist">
+            <li>Token-based public supplier upload</li>
+            <li>Automated MD/SDoC request emails</li>
+            <li>Document audit &amp; clarification requests</li>
+            <li>Auto-routed to correct PO &amp; vessel</li>
+          </ul>
+          <div class="feature-row-stats">
+            <div class="fr-stat"><span class="fr-stat-num">80%</span><span class="fr-stat-lbl">Reduction in email follow-ups</span></div>
+            <div class="fr-stat"><span class="fr-stat-num">3×</span><span class="fr-stat-lbl">Faster document collection</span></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============ FEATURE GRID ============ -->
+  <section class="feature-grid" id="all-features">
+    <div class="container">
+      <div class="section-header center">
+        <div class="eyebrow">Full-coverage compliance toolset</div>
+        <h2>Every tool your fleet needs, all in one place</h2>
+        <p class="section-desc">From hazmat mapping and PO screening to supplier document collection and class-ready reporting, EnviGuide IHM covers the complete IHM Part I lifecycle across your entire fleet.</p>
+      </div>
+      <div class="grid3">
+        <div class="feature-card">
+          <div class="fc-icon-wrap fc-blue">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="3" width="7" height="9" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="3" width="7" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="11" y="11" width="7" height="6" rx="1" stroke="currentColor" stroke-width="1.5"/><rect x="2" y="14" width="7" height="3" rx="1" stroke="currentColor" stroke-width="1.5"/></svg>
+          </div>
+          <h3>Fleet &amp; Vessel Management</h3>
+          <p>Manage your entire fleet from a single dashboard. Add vessels, assign roles and track IHM status across all ships simultaneously.</p>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon-wrap fc-teal">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Hazmat Material Mapping</h3>
+          <p>Map hazardous materials to GA plans, decks and equipment with quantities, locations and supporting compliance documents.</p>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon-wrap fc-orange">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 15V8l6-5 6 5v7H4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><rect x="7" y="11" width="6" height="4" stroke="currentColor" stroke-width="1.5"/></svg>
+          </div>
+          <h3>Purchase Order Auditing</h3>
+          <p>Upload PO spreadsheets and automatically flag suspected hazardous line items using a configurable keyword engine.</p>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon-wrap fc-purple">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M6 2h8l4 4v12H2V2h4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M6 11h8M6 14h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3>MD/SDoC Collection</h3>
+          <p>Automate the collection of Material Declarations and Statements of Compliance from your global supplier base.</p>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon-wrap fc-red">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 3l1.5 4.5H16l-3.5 2.5 1.5 4.5L10 12l-4 2.5 1.5-4.5L4 7.5h4.5L10 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Suspected Keyword Engine</h3>
+          <p>Maintain and customize a library of hazardous material keywords used to flag purchase order items automatically.</p>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon-wrap fc-blue">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M6 10h8M6 13h5M6 7h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3>GA / Deck Plan Viewer</h3>
+          <p>Visualize hazardous material locations on General Arrangement and deck plans with interactive zone overlays.</p>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon-wrap fc-teal">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5 2h10v16H5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 6h4M8 9h4M8 12h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Compliance Reports (PDF)</h3>
+          <p>Export IHM Part I reports formatted for classification societies, port-state control and recycling yard inspections.</p>
+        </div>
+        <div class="feature-card">
+          <div class="fc-icon-wrap fc-purple">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="7" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/><circle cx="14" cy="5" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 17c0-3 2-5 5-5s5 2 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M14 10c2 0 4 1 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Role-Based Access Control</h3>
+          <p>Assign fleet managers, vessel officers, surveyors and read-only auditors with granular permission controls.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STATS BAND ============ -->
+  <section class="stats-band" id="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="stat-num" data-target="500">0</div>
+          <div class="stat-suffix">+</div>
+          <div class="stat-lbl">Vessels Managed</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" data-target="25">0</div>
+          <div class="stat-suffix">+</div>
+          <div class="stat-lbl">Countries</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" data-target="1">0</div>
+          <div class="stat-suffix">M+</div>
+          <div class="stat-lbl">Line Items Screened</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" data-target="60">0</div>
+          <div class="stat-suffix">%</div>
+          <div class="stat-lbl">Avg. Time Saved on IHM Maintenance</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="how-it-works" id="how-it-works">
+    <div class="container">
+      <div class="section-header center">
+        <div class="eyebrow">Rapid fleet onboarding</div>
+        <h2>From setup to audit-ready in 4 steps</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-connector"></div>
+          <h3>Add your fleet</h3>
+          <p>Register your vessels, upload existing IHM documentation and set up roles for your fleet management team and onboard officers.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-connector"></div>
+          <h3>Upload POs</h3>
+          <p>Import purchase orders via CSV or Excel. The system automatically screens every line item for suspected hazardous materials.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-connector"></div>
+          <h3>Collect MD/SDoC</h3>
+          <p>Send automated requests to suppliers for Material Declarations. They upload through the portal and you get notified when documents arrive.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <h3>Generate reports</h3>
+          <p>Export audit-ready IHM Part I reports in formats accepted by classification societies, ready for surveyor or port-state inspection.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIALS ============ -->
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <div class="section-header center">
+        <div class="eyebrow">Proven Results Across Global Fleets</div>
+        <h2>Trusted by compliance &amp; fleet teams</h2>
+        <p class="section-desc">See how leading vessel managers, superintendents, and HSE directors maintain 100% audit readiness with EnviGuide IHM.</p>
+        <div class="rating-row">
+          <div class="stars">★★★★★</div>
+          <span class="rating-text"><strong>4.9 / 5.0 Rating</strong> · Based on 140+ Fleet Inspections &amp; Class Audits</span>
+        </div>
+      </div>
+      
+      <div class="quotes-grid">
+        <!-- Review Card 1 -->
+        <div class="quote-card" data-reveal="zoom">
+          <div class="quote-card-top">
+            <div class="stars">★★★★★</div>
+            <span class="verified-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Verified Operator</span>
+          </div>
+          <p class="quote-text">"EnviGuide IHM transformed how we manage hazardous material compliance across our 42-vessel fleet. What used to take weeks of manual paperwork is now done in hours. Our last DNV class survey was completed with zero deficiencies."</p>
+          <div class="quote-fleet-chip">Fleet: 42 Bulk Carriers &amp; Tankers</div>
+          <div class="quote-author">
+            <div class="avatar">
+              <svg width="38" height="38" viewBox="0 0 38 38" fill="none"><circle cx="19" cy="19" r="19" fill="#e0f2fe"/><circle cx="19" cy="15" r="6" fill="#0ea5e9"/><path d="M7 35c0-7 5-11 12-11s12 4 12 11" fill="#0ea5e9"/></svg>
+            </div>
+            <div>
+              <div class="author-name">Capt. James Hartley</div>
+              <div class="author-title">Fleet Technical Manager · Pacific Carriers Ltd, Singapore</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review Card 2 -->
+        <div class="quote-card" data-reveal="zoom">
+          <div class="quote-card-top">
+            <div class="stars">★★★★★</div>
+            <span class="verified-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Verified Operator</span>
+          </div>
+          <p class="quote-text">"The PO screening feature alone saves us countless hours per month. Flagging suspected hazardous items automatically means we never miss a Material Declaration. Supplier submission through the portal is completely seamless."</p>
+          <div class="quote-fleet-chip">Fleet: 18 Offshore Support Vessels</div>
+          <div class="quote-author">
+            <div class="avatar">
+              <svg width="38" height="38" viewBox="0 0 38 38" fill="none"><circle cx="19" cy="19" r="19" fill="#fce7f3"/><circle cx="19" cy="15" r="6" fill="#ec4899"/><path d="M7 35c0-7 5-11 12-11s12 4 12 11" fill="#ec4899"/></svg>
+            </div>
+            <div>
+              <div class="author-name">Anna Kowalski</div>
+              <div class="author-title">VP of HSE &amp; Sustainability · North Sea Shipping, Oslo</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Review Card 3 -->
+        <div class="quote-card" data-reveal="zoom">
+          <div class="quote-card-top">
+            <div class="stars">★★★★★</div>
+            <span class="verified-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Verified Operator</span>
+          </div>
+          <p class="quote-text">"We manage a mixed fleet across three flag states. EnviGuide IHM handles all the complexity for us: a single platform covering both HKC and EU SRR compliance. Implementation was incredibly fast and smooth."</p>
+          <div class="quote-fleet-chip">Fleet: 35 Container Ships</div>
+          <div class="quote-author">
+            <div class="avatar">
+              <svg width="38" height="38" viewBox="0 0 38 38" fill="none"><circle cx="19" cy="19" r="19" fill="#ecfdf5"/><circle cx="19" cy="15" r="6" fill="#10b981"/><path d="M7 35c0-7 5-11 12-11s12 4 12 11" fill="#10b981"/></svg>
+            </div>
+            <div>
+              <div class="author-name">Rajesh Menon</div>
+              <div class="author-title">Senior Technical Superintendent · Global Maritime Group, Mumbai</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <div class="section-header center">
+        <div class="eyebrow">Help &amp; guidance</div>
+        <h2>Frequently asked questions</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false" id="faq1">
+            How much time does EnviGuide IHM save compared to manual processes?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a" id="faq1-a">
+            <p>Fleet operators typically save 60–80% of the time spent on IHM maintenance when moving from paper-based or spreadsheet processes to EnviGuide IHM. Beyond time savings, you significantly reduce the risk of costly port-state detentions and class survey findings caused by incomplete or outdated IHM records. Most customers report measurable efficiency gains within the first few months of deployment.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false" id="faq2">
+            Does it support Hong Kong Convention &amp; EU SRR?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a" id="faq2-a">
+            <p>Yes. EnviGuide IHM is built from the ground up to support both the Hong Kong International Convention for the Safe and Environmentally Sound Recycling of Ships (HKC) and the EU Ship Recycling Regulation (EU SRR). Reports are formatted to meet the specific requirements of each framework, including mandatory annexes and material thresholds.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false" id="faq3">
+            Can it be customized to our fleet's workflow?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a" id="faq3-a">
+            <p>Absolutely. You can customize the keyword library, approval workflows, notification templates and report formats. Role-based access control lets you tailor permissions for fleet managers, vessel officers, surveyors and external auditors. Our team also provides onboarding support to configure the system around your existing processes.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false" id="faq4">
+            How do suppliers submit MD/SDoC documents?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a" id="faq4-a">
+            <p>Suppliers receive a secure, token-based link via email. They click the link and reach a branded upload portal where they can attach MD or SDoC documents without creating an account. Documents are automatically routed to the correct purchase order and vessel record. You get notified immediately upon submission, and can request clarifications directly through the portal.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" aria-expanded="false" id="faq5">
+            Is it suitable for different vessel types?
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a" id="faq5-a">
+            <p>Yes. EnviGuide IHM supports all commercially operated vessel types including bulk carriers, tankers, container ships, ro-ro vessels, offshore support vessels and passenger ships. The GA plan viewer and hazmat mapping system are flexible enough to accommodate any vessel layout and equipment configuration.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="cta-band" id="cta">
+    <div class="container cta-inner">
+      <h2>Ready to keep your fleet permanently audit-ready?</h2>
+      <p>Book a personalized demo or speak with our team about rolling EnviGuide IHM out across your fleet.</p>
+      <div class="cta-actions">
+        <a href="book-demo.html" class="btn-primary btn-lg" id="cta-trial">Book a Demo</a>
+        <a href="book-demo.html" class="btn-outline btn-lg" id="cta-sales">Talk to Our Team</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="logo logo--footer">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="28" height="28" rx="6" fill="#0ea5e9"/>
+              <path d="M7 14 L14 7 L21 14 L14 21 Z" fill="white" opacity="0.9"/>
+              <circle cx="14" cy="14" r="3" fill="#0ea5e9"/>
+            </svg>
+            <span>EnviGuide <strong>IHM</strong></span>
+          </a>
+          <p class="footer-tagline">The leading digital platform for IHM Part I maintenance and fleet hazmat compliance.</p>
+
+        </div>
+        <div class="footer-col">
+          <h4>Features</h4>
+          <ul>
+            <li><a href="#">Hazmat Mapping</a></li>
+            <li><a href="#">PO Auditing</a></li>
+            <li><a href="#">MD/SDoC Collection</a></li>
+            <li><a href="#">Supplier Portal</a></li>
+            <li><a href="#">Compliance Reports</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Industries</h4>
+          <ul>
+            <li><a href="#">Bulk Carriers</a></li>
+            <li><a href="#">Tankers</a></li>
+            <li><a href="#">Container Ships</a></li>
+            <li><a href="#">Offshore Vessels</a></li>
+            <li><a href="#">Passenger Ships</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#">Documentation</a></li>
+            <li><a href="#">IHM Guidelines</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Case Studies</a></li>
+            <li><a href="#">Support</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 EnviGuide IHM · All rights reserved</span>
+        <span class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms &amp; Conditions</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

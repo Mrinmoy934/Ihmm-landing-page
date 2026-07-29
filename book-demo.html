@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a Demo — EnviGuide IHM</title>
+  <meta name="description" content="Book a personalized 30-minute demo of EnviGuide IHM. Discover how our digital platform simplifies hazardous material compliance across your fleet.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Full page viewport split layout for Book a Demo */
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background: #f8fafc;
+    }
+    .demo-hero-section {
+      height: calc(100vh - 72px);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      background: #f8fafc;
+    }
+    .demo-wire-card {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      background: var(--white);
+      border-radius: 0;
+      overflow: hidden;
+      border: none;
+      box-shadow: none;
+    }
+    .demo-grid {
+      display: grid;
+      grid-template-columns: 60% 40%;
+      height: calc(100vh - 72px);
+      overflow: hidden;
+    }
+    /* Left Visual Panel - Fixed & Static to Page */
+    .visual-panel {
+      background: #071c37;
+      position: sticky;
+      top: 0;
+      height: calc(100vh - 72px);
+      overflow: hidden;
+    }
+    .visual-panel video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    /* Right Form Side - Scrollable inside fixed viewport */
+    .demo-form-card {
+      padding: 28px 64px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: var(--white);
+      border: none;
+      box-shadow: none;
+      border-radius: 0;
+      height: calc(100vh - 72px);
+      overflow-y: auto;
+    }
+    .form-inner-wrap {
+      max-width: 440px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .demo-form-card h2 {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: #071c37;
+      margin: 0 0 6px;
+      letter-spacing: -0.02em;
+    }
+    .demo-form-card p.demo-subtitle {
+      color: #475569;
+      font-size: 0.88rem;
+      margin-bottom: 20px;
+      line-height: 1.45;
+    }
+    .form-group {
+      margin-bottom: 14px;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #1e293b;
+      margin-bottom: 5px;
+    }
+    .form-control {
+      width: 100%;
+      height: 40px;
+      border: 1.5px solid #cbd5e1;
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 0 14px;
+      font-size: 0.86rem;
+      color: #0f172a;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: #0099e6;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(0, 153, 230, 0.15);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 900px) {
+      html, body { overflow: auto; height: auto; }
+      .demo-hero-section, .demo-grid, .demo-form-card { height: auto; overflow: visible; }
+      .demo-grid { grid-template-columns: 1fr; }
+      .visual-panel { display: none; }
+      .demo-form-card { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ NAVIGATION ============ -->
+  <nav class="nav" id="main-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="logo" aria-label="EnviGuide IHM Home">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="28" height="28" rx="6" fill="#0ea5e9"/>
+          <path d="M7 14 L14 7 L21 14 L14 21 Z" fill="white" opacity="0.9"/>
+          <circle cx="14" cy="14" r="3" fill="#0ea5e9"/>
+        </svg>
+        <span>EnviGuide <strong>IHM</strong></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html#features" class="nav-link">Features</a>
+        <a href="industries.html" class="nav-link">Industries</a>
+        <a href="index.html#faq" class="nav-link">Resources</a>
+      </div>
+      <div class="nav-actions">
+        <span style="font-size:0.85rem; color: var(--gray-500); margin-right: 4px;">Have an account?</span>
+        <a href="login.html" class="btn-ghost" id="nav-login">Login</a>
+        <a href="book-demo.html" class="btn-primary" id="nav-get-started">Book a Demo</a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ============ SPLIT DEMO SECTION (BLANK LEFT, FORM RIGHT, FIT PAGE) ============ -->
+  <section class="demo-hero-section">
+    <div class="demo-wire-card">
+      <div class="demo-grid">
+        <!-- LEFT: VISUAL PANEL WITH VIDEO -->
+        <div class="visual-panel">
+          <video autoplay loop muted playsinline preload="auto">
+            <source src="video.bookademo.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <!-- RIGHT: DEMO FORM CARD -->
+        <div class="demo-form-card" id="demo-form-card">
+          <div class="form-inner-wrap">
+            <div class="eyebrow" style="margin-bottom: 4px;">Book a demo</div>
+            <h2>Talk to our team</h2>
+            <p class="demo-subtitle">Fill in your details and we'll get back to you within 1 business day to schedule.</p>
+
+            <form id="demo-request-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="firstname" class="form-label">First Name</label>
+                  <input type="text" id="firstname" class="form-control" placeholder="Jane" required>
+                </div>
+                <div class="form-group">
+                  <label for="lastname" class="form-label">Last Name</label>
+                  <input type="text" id="lastname" class="form-control" placeholder="Doe" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="workemail" class="form-label">Email</label>
+                <input type="email" id="workemail" class="form-control" placeholder="jane@company.com" required>
+              </div>
+
+              <div class="form-group">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="tel" id="phone" class="form-control" placeholder="+1 (___) ___-____" required>
+              </div>
+
+              <div class="form-group">
+                <label for="companyname" class="form-label">Company Name</label>
+                <input type="text" id="companyname" class="form-control" placeholder="Acme Shipping Ltd." required>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="fleetsize" class="form-label">Fleet Size</label>
+                  <select id="fleetsize" class="form-control" required>
+                    <option value="" disabled selected>Select range</option>
+                    <option value="1-10">1-10 vessels</option>
+                    <option value="11-50">11-50 vessels</option>
+                    <option value="51-200">51-200 vessels</option>
+                    <option value="200+">200+ vessels</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="userrole" class="form-label">Role</label>
+                  <select id="userrole" class="form-control" required>
+                    <option value="" disabled selected>Select role</option>
+                    <option value="fleet-manager">Fleet Technical Manager</option>
+                    <option value="superintendent">Technical Superintendent</option>
+                    <option value="hse-director">HSE &amp; Sustainability Director</option>
+                    <option value="compliance-officer">Compliance / Class Officer</option>
+                    <option value="vessel-operator">Vessel Owner / Operator</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="countryflag" class="form-label">Country Flag (optional)</label>
+                <select id="countryflag" class="form-control">
+                  <option value="" selected>Select Flag State (optional)</option>
+                  <option value="panama">🇵🇦 Panama</option>
+                  <option value="marshall-islands">🇲🇭 Marshall Islands</option>
+                  <option value="liberia">🇱🇷 Liberia</option>
+                  <option value="singapore">🇸🇬 Singapore</option>
+                  <option value="bahamas">🇧🇸 Bahamas</option>
+                  <option value="malta">🇲🇹 Malta</option>
+                  <option value="cyprus">🇨🇾 Cyprus</option>
+                  <option value="united-kingdom">🇬🇧 United Kingdom</option>
+                  <option value="norway">🇳🇴 Norway</option>
+                  <option value="other">🌐 Other Flag State</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="notes" class="form-label">What would you like to see? (optional)</label>
+                <input type="text" id="notes" class="form-control" placeholder="e.g. supplier portal, PO auditing, reporting…">
+              </div>
+
+              <div class="form-group" style="display: flex; align-items: flex-start; gap: 8px; margin: 16px 0 18px;">
+                <input type="checkbox" id="agree-terms" style="width: 16px; height: 16px; margin-top: 2px; accent-color: #0099e6; cursor: pointer;" required>
+                <label for="agree-terms" style="font-size: 0.82rem; color: #475569; cursor: pointer; line-height: 1.4;">
+                  I agree to be contacted about EnviGuide IHM products and services
+                </label>
+              </div>
+
+              <button type="submit" class="btn-primary btn-lg" style="width: 100%; justify-content: center;">Request Demo →</button>
+            </form>
+
+            <div id="form-success-msg" style="display:none; text-align: center; padding: 24px 0;">
+              <div style="width: 48px; height: 48px; border-radius: 50%; background: #ecfdf5; color: #10b981; font-size: 24px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">✓</div>
+              <h3 style="margin-bottom: 8px;">Demo Request Received!</h3>
+              <p style="font-size: 0.9rem; color: var(--gray-600);">Thank you. A compliance specialist will confirm your request via email shortly.</p>
+            </div>
+
+            <div class="auth-footer-note" style="margin-top: 24px; text-align: center; font-size: 0.78rem; color: #94a3b8;">
+              © EnviGuide IHM · Privacy Policy · Terms
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script src="main.js"></script>
+</body>
+</html>
