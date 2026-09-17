@@ -115,7 +115,6 @@
     <a class="nav-link" href="industries.html">Industries</a>
     <a class="nav-link" href="#faq">Resources</a>
     <div style="height:1px;background:#e2e8f0;margin:8px 0;"></div>
-    <a class="btn-ghost" href="login.html" id="mob-login" style="justify-content:center">Login</a>
     <a class="btn-primary" href="book-demo.html" id="mob-get-started" style="justify-content:center">Book a Demo</a>
   `;
   nav.insertAdjacentElement('afterend', mobileMenu);
@@ -443,102 +442,7 @@
     });
   });
 
-  /* ---- Login Page Interactive Logic ---- */
-  const loginForm = document.getElementById('login-form');
-  if (loginForm) {
-    const tabFleet = document.getElementById('tab-fleet');
-    const tabSupplier = document.getElementById('tab-supplier');
-    const tabSso = document.getElementById('tab-sso');
-    const groupRole = document.getElementById('group-role');
-    const groupPassword = document.getElementById('group-password');
-    const groupOptions = document.getElementById('group-options');
-    const lblEmail = document.getElementById('lbl-email');
-    const loginEmail = document.getElementById('login-email');
-    const loginPassword = document.getElementById('login-password');
-    const btnSubmitText = document.getElementById('btn-submit-text');
-    const ssoSection = document.getElementById('sso-section');
-    const demoHelper = document.getElementById('demo-helper');
-    const btnFillDemo = document.getElementById('btn-fill-demo');
-    const btnTogglePassword = document.getElementById('btn-toggle-password');
 
-    // Tab switcher
-    const tabs = [tabFleet, tabSupplier, tabSso];
-    function selectTab(selected) {
-      tabs.forEach(t => t && t.classList.remove('active'));
-      if (selected) selected.classList.add('active');
-
-      if (selected === tabFleet) {
-        if (groupRole) groupRole.style.display = 'block';
-        if (groupPassword) groupPassword.style.display = 'block';
-        if (groupOptions) groupOptions.style.display = 'flex';
-        if (lblEmail) lblEmail.textContent = 'Work Email Address';
-        if (loginEmail) loginEmail.placeholder = 'name@company.com';
-        if (btnSubmitText) btnSubmitText.textContent = 'Sign In to Fleet Dashboard';
-        if (ssoSection) ssoSection.classList.add('hidden');
-        if (demoHelper) demoHelper.style.display = 'flex';
-      } else if (selected === tabSupplier) {
-        if (groupRole) groupRole.style.display = 'none';
-        if (groupPassword) groupPassword.style.display = 'none';
-        if (groupOptions) groupOptions.style.display = 'none';
-        if (lblEmail) lblEmail.textContent = 'Purchase Order Number or Access Token';
-        if (loginEmail) loginEmail.placeholder = 'PO-2026-88419 / Supplier Token';
-        if (btnSubmitText) btnSubmitText.textContent = 'Access Supplier Upload Portal';
-        if (ssoSection) ssoSection.classList.add('hidden');
-        if (demoHelper) demoHelper.style.display = 'flex';
-      } else if (selected === tabSso) {
-        if (groupRole) groupRole.style.display = 'none';
-        if (groupPassword) groupPassword.style.display = 'none';
-        if (groupOptions) groupOptions.style.display = 'none';
-        if (lblEmail) lblEmail.textContent = 'Fleet Domain Email';
-        if (loginEmail) loginEmail.placeholder = 'you@fleetdomain.com';
-        if (btnSubmitText) btnSubmitText.textContent = 'Authenticate with SSO';
-        if (ssoSection) ssoSection.classList.remove('hidden');
-        if (demoHelper) demoHelper.style.display = 'none';
-      }
-    }
-
-    if (tabFleet) tabFleet.addEventListener('click', () => selectTab(tabFleet));
-    if (tabSupplier) tabSupplier.addEventListener('click', () => selectTab(tabSupplier));
-    if (tabSso) tabSso.addEventListener('click', () => selectTab(tabSso));
-
-    // Password toggle
-    if (btnTogglePassword && loginPassword) {
-      btnTogglePassword.addEventListener('click', () => {
-        const isPassword = loginPassword.type === 'password';
-        loginPassword.type = isPassword ? 'text' : 'password';
-        btnTogglePassword.style.color = isPassword ? 'var(--sky-light)' : 'rgba(255,255,255,0.5)';
-      });
-    }
-
-    // Auto-fill demo
-    if (btnFillDemo) {
-      btnFillDemo.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (tabSupplier && tabSupplier.classList.contains('active')) {
-          if (loginEmail) loginEmail.value = 'PO-2026-99482';
-        } else {
-          if (loginEmail) loginEmail.value = 'demo@enviguide.com';
-          if (loginPassword) loginPassword.value = 'FleetDemo2026!';
-        }
-        showToast('Demo credentials auto-filled!');
-      });
-    }
-
-    // Form submit simulation
-    loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const origText = btnSubmitText ? btnSubmitText.textContent : 'Sign In';
-      if (btnSubmitText) btnSubmitText.textContent = 'Authenticating...';
-      const btnSubmit = document.getElementById('btn-submit');
-      if (btnSubmit) btnSubmit.disabled = true;
-
-      setTimeout(() => {
-        if (btnSubmit) btnSubmit.disabled = false;
-        if (btnSubmitText) btnSubmitText.textContent = origText;
-        showToast('🎉 Authentication successful! Access granted.', 4000);
-      }, 1200);
-    });
-  }
 
   /* ---- Live Snapshot Component (Ring Chart + Counter + Ticker) ---- */
   const pctEl = document.getElementById('pctNum');
@@ -635,33 +539,7 @@
     setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, duration);
   }
 
-  // OAuth Button Handlers
-  const btnOAuthGoogle = document.getElementById('btn-oauth-google');
-  const btnOAuthMS = document.getElementById('btn-oauth-ms');
-  const btnSsoSaml = document.getElementById('btn-sso-saml');
-  const linkForgot = document.getElementById('link-forgot-password');
 
-  if (btnOAuthGoogle) {
-    btnOAuthGoogle.addEventListener('click', () => {
-      showToast('Redirecting to Google Enterprise Workspace authentication...');
-    });
-  }
-  if (btnOAuthMS) {
-    btnOAuthMS.addEventListener('click', () => {
-      showToast('Redirecting to Microsoft 365 Single Sign-On...');
-    });
-  }
-  if (btnSsoSaml) {
-    btnSsoSaml.addEventListener('click', () => {
-      showToast('Initiating SAML 2.0 Enterprise Handshake (Okta / Azure AD)...');
-    });
-  }
-  if (linkForgot) {
-    linkForgot.addEventListener('click', (e) => {
-      e.preventDefault();
-      showToast('📩 Password reset instructions sent to your email address.');
-    });
-  }
 
 })();
 
