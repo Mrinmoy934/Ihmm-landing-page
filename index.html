@@ -847,8 +847,8 @@
   <div class="chat-backdrop" id="chatBackdrop" aria-hidden="true"></div>
 
   <!-- Chat Panel -->
-  <div class="chat-panel" id="chatPanel" role="dialog" aria-label="EnviGuide IHM Virtual Assistant" aria-modal="true">
-    <div class="chat-drag-handle" id="chatDragHandle"></div>
+  <div class="chat-panel" id="chatPanel" role="dialog" aria-label="IHMM Virtual Assistant" aria-modal="true">
+    <div class="chat-drag-handle" id="chatDragHandle" aria-label="Drag down to close"></div>
     <div class="chat-panel-header">
       <div class="chat-header-row">
         <div class="chat-avatar">
@@ -858,7 +858,7 @@
           </svg>
         </div>
         <div class="chat-header-info">
-          <div class="chat-header-name">EnviGuide IHM Assistant</div>
+          <div class="chat-header-name">IHMM AI Assistant</div>
           <div class="chat-header-status">
             <span class="chat-status-dot"></span>
             Online · Typically replies instantly
@@ -875,23 +875,23 @@
       </div>
     </div>
 
-    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-messages" id="chatMessages" role="log" aria-live="polite"></div>
 
     <!-- WhatsApp bar -->
     <div class="chat-whatsapp-bar">
-      <a href="https://wa.me/919986331158?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20EnviGuide%20IHM" target="_blank" rel="noopener" class="chat-wa-link" id="chatWaLink">
+      <a href="https://wa.me/919986331158?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20IHMM" target="_blank" rel="noopener" class="chat-wa-link" id="chatWaLink">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         Continue on WhatsApp
       </a>
     </div>
 
-    <!-- Input area -->
-    <div class="chat-input-area">
-      <input type="text" class="chat-input" id="chatInput" placeholder="Ask anything about IHM compliance…" autocomplete="off" maxlength="300">
-      <button class="chat-send-btn" id="chatSend" aria-label="Send message">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    <!-- Input area form -->
+    <form class="chat-input-area" id="chatForm" autocomplete="off" action="#">
+      <input type="text" class="chat-input" id="chatInput" placeholder="Ask anything about IHM compliance…" autocomplete="off" maxlength="300" enterkeyhint="send">
+      <button type="submit" class="chat-send-btn" id="chatSend" aria-label="Send message">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
       </button>
-    </div>
+    </form>
   </div>
 
   <!-- FAB Launcher -->
@@ -903,7 +903,7 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
         </span>
       </div>
-      <a href="https://wa.me/919986331158?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20EnviGuide%20IHM" target="_blank" rel="noopener" class="chat-quick-item">
+      <a href="https://wa.me/919986331158?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20IHMM" target="_blank" rel="noopener" class="chat-quick-item">
         <span class="chat-quick-label">Chat on WhatsApp</span>
         <span class="chat-quick-icon whatsapp">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -921,11 +921,13 @@
   (function () {
     const panel        = document.getElementById('chatPanel');
     const backdrop     = document.getElementById('chatBackdrop');
+    const chatFab      = document.getElementById('chatFab');
     const toggleBtn    = document.getElementById('chatToggle');
     const closeBtn     = document.getElementById('chatClose');
     const resetBtn     = document.getElementById('chatReset');
     const messagesEl   = document.getElementById('chatMessages');
     const inputEl      = document.getElementById('chatInput');
+    const chatForm     = document.getElementById('chatForm');
     const sendBtn      = document.getElementById('chatSend');
     const badge        = document.getElementById('chatBadge');
     const quickActs    = document.getElementById('chatQuickActions');
@@ -940,11 +942,11 @@
       'How does IHM work?',
       'Book a demo',
       'Pricing plans',
-      'Talk to a human',
+      'Talk to an expert',
     ];
 
     /* ----------- Bot greeting ----------- */
-    const GREET = "👋 Hi there! I'm the **EnviGuide IHM virtual assistant**. I can answer questions about IHM compliance, platform features, pricing, or help you book a demo. How can I assist you today?";
+    const GREET = "👋 Hi there! I'm your **IHMM Virtual Assistant**. I can answer questions about IHM compliance, platform features, pricing, or help you schedule a demo. How can I assist you today?";
 
     /* ----------- Helpers ----------- */
     function getTime() {
@@ -952,23 +954,39 @@
     }
 
     function scrollBottom(smooth = true) {
-      setTimeout(() => {
+      requestAnimationFrame(() => {
         messagesEl.scrollTo({
           top: messagesEl.scrollHeight,
           behavior: smooth ? 'smooth' : 'auto'
         });
-      }, 60);
+      });
     }
+
+    /* ----------- Virtual Viewport Keyboard Handling ----------- */
+    function syncViewport() {
+      if (!isOpen) return;
+      if (window.visualViewport && window.innerWidth <= 768) {
+        const vv = window.visualViewport;
+        panel.style.height = `${vv.height}px`;
+      } else {
+        panel.style.height = '';
+      }
+      scrollBottom(false);
+    }
+
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', syncViewport);
+      window.visualViewport.addEventListener('scroll', syncViewport);
+    }
+    window.addEventListener('resize', syncViewport);
 
     function formatMarkdown(text) {
       if (!text) return '';
-      // Escape basic HTML entities while preserving safe custom tags
       let s = text
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
 
-      // Allow basic formatting
       s = s.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
       s = s.replace(/\*(.*?)\*/g, '<em>$1</em>');
       s = s.replace(/`([^`]+)`/g, '<code style="background:#f1f5f9;padding:2px 5px;border-radius:4px;font-size:0.85em;">$1</code>');
@@ -1007,6 +1025,7 @@
         chips.className = 'chat-chips';
         QUICK_REPLIES.forEach(label => {
           const btn = document.createElement('button');
+          btn.type = 'button';
           btn.className = 'chat-chip';
           btn.textContent = label;
           btn.addEventListener('click', () => {
@@ -1060,7 +1079,7 @@
     }
 
     async function sendUserMsg(text) {
-      const trimmed = text.trim();
+      const trimmed = (text || '').trim();
       if (!trimmed) return;
 
       addMsg('user', trimmed, false);
@@ -1080,9 +1099,10 @@
       } finally {
         inputEl.disabled = false;
         sendBtn.disabled = false;
-        if (window.innerWidth > 600) {
+        if (window.innerWidth > 768) {
           inputEl.focus();
         }
+        scrollBottom();
       }
     }
 
@@ -1098,27 +1118,31 @@
     function openPanel() {
       isOpen = true;
       panel.classList.add('visible');
+      if (chatFab) chatFab.classList.add('chat-fab-hidden');
       if (backdrop) backdrop.classList.add('visible');
       quickActs.classList.remove('visible');
       toggleBtn.classList.add('is-open');
       toggleBtn.setAttribute('aria-expanded', 'true');
       badge.classList.add('hidden');
 
+      syncViewport();
+
       if (messagesEl.children.length === 0) {
         setTimeout(() => {
           addMsg('bot', GREET, false, true);
-        }, 300);
+        }, 200);
       }
 
-      // Avoid auto-focusing on mobile to avoid keyboard jumping immediately
-      if (window.innerWidth > 600) {
-        setTimeout(() => inputEl.focus(), 320);
+      if (window.innerWidth > 768) {
+        setTimeout(() => inputEl.focus(), 250);
       }
     }
 
     function closePanel() {
       isOpen = false;
       panel.classList.remove('visible');
+      panel.style.height = '';
+      if (chatFab) chatFab.classList.remove('chat-fab-hidden');
       if (backdrop) backdrop.classList.remove('visible');
       toggleBtn.classList.remove('is-open');
       toggleBtn.setAttribute('aria-expanded', 'false');
@@ -1143,13 +1167,18 @@
     if (resetBtn) resetBtn.addEventListener('click', resetConversation);
     if (backdrop) backdrop.addEventListener('click', closePanel);
 
-    sendBtn.addEventListener('click', () => sendUserMsg(inputEl.value));
-
-    inputEl.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
+    if (chatForm) {
+      chatForm.addEventListener('submit', (e) => {
         e.preventDefault();
         sendUserMsg(inputEl.value);
-      }
+      });
+    }
+
+    inputEl.addEventListener('focus', () => {
+      setTimeout(() => {
+        syncViewport();
+        scrollBottom(true);
+      }, 150);
     });
 
     // Mobile swipe down to close
@@ -1169,14 +1198,14 @@
 
     // Close on outside click (desktop)
     document.addEventListener('click', (e) => {
-      if (isOpen && window.innerWidth > 600 && !panel.contains(e.target) && !document.getElementById('chatFab').contains(e.target)) {
+      if (isOpen && window.innerWidth > 768 && !panel.contains(e.target) && !chatFab.contains(e.target)) {
         closePanel();
       }
     });
 
     // Auto-show quick actions after 8s
     setTimeout(() => {
-      if (!isOpen) quickActs.classList.add('visible');
+      if (!isOpen && quickActs) quickActs.classList.add('visible');
     }, 8000);
   })();
   </script>
