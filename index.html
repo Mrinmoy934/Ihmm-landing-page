@@ -984,21 +984,14 @@
       scrollBtn.addEventListener('click', () => scrollBottom(true));
     }
 
-    /* ----------- Virtual Viewport Keyboard Handling ----------- */
+    /* ----------- Viewport & Keyboard Scroll Handling ----------- */
     function syncViewport() {
       if (!isOpen) return;
-      if (window.visualViewport && window.innerWidth <= 768) {
-        const vv = window.visualViewport;
-        panel.style.height = `${vv.height}px`;
-      } else {
-        panel.style.height = '';
-      }
       scrollBottom(false);
     }
 
     if (window.visualViewport) {
       window.visualViewport.addEventListener('resize', syncViewport);
-      window.visualViewport.addEventListener('scroll', syncViewport);
     }
     window.addEventListener('resize', syncViewport);
 
@@ -1303,6 +1296,11 @@
       toggleBtn.setAttribute('aria-expanded', 'true');
       badge.classList.add('hidden');
 
+      if (window.innerWidth <= 768) {
+        document.body.style.overflow = 'hidden';
+        document.body.style.touchAction = 'none';
+      }
+
       syncViewport();
 
       if (messagesEl.children.length === 0) {
@@ -1323,6 +1321,9 @@
       toggleBtn.classList.remove('is-open');
       toggleBtn.setAttribute('aria-expanded', 'false');
       quickActs.classList.remove('visible');
+
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
     }
 
     /* ----------- Event Listeners ----------- */
