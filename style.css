@@ -60,7 +60,13 @@
   --transition: 0.22s cubic-bezier(.4,0,.2,1);
 }
 
-html { scroll-behavior: smooth; font-size: 16px; }
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
+}
 
 body {
   font-family: var(--font);
@@ -69,6 +75,9 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
+  position: relative;
 }
 
 a { text-decoration: none; color: inherit; }
@@ -2905,6 +2914,66 @@ p  { color: var(--ink-soft); line-height: 1.7; }
     transform: none !important;
     transition: none !important;
     will-change: auto !important;
+  }
+}
+
+/* ============================================================
+   MOBILE & TABLET: PURE STATIC LAYOUT (ZERO HORIZONTAL SLIDING)
+   ============================================================ */
+@media (max-width: 1024px) {
+  html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    touch-action: pan-y;
+  }
+
+  .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Eliminate all off-canvas / directional slide-in transforms on mobile & tablet */
+  .reveal,
+  .reveal-left,
+  .reveal-right,
+  .reveal-zoom,
+  [data-reveal],
+  [data-reveal="left"],
+  [data-reveal="right"],
+  [data-reveal="zoom"] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
+
+  /* Disable wave scrolling and floating animations on mobile & tablet */
+  .wave-layer {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .feat-chip {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .hero-visual {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .hero-content .badge,
+  .hero-content h1,
+  .hero-content .hero-desc,
+  .hero-content .hero-cta,
+  .hero-content .hero-micro,
+  .hero-content .trust-strip {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }
 
