@@ -11,6 +11,12 @@ Guidelines:
 - Keep replies concise: 2-4 sentences max. Be friendly, professional, and clear
 - Do NOT reveal you are powered by Google Gemini or any third-party AI model`;
 
+const CANDIDATE_MODELS = [
+  'gemini-2.0-flash',
+  'gemini-1.5-flash',
+  'gemini-1.5-pro'
+];
+
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -21,7 +27,7 @@ module.exports = async function handler(req, res) {
 
   let body = req.body;
 
-  // Vercel may not parse body automatically for plain HTML projects — handle both cases
+  // Vercel may pass body as string in static deployments — parse if needed
   if (typeof body === 'string') {
     try { body = JSON.parse(body); } catch (e) {
       return res.status(400).json({ error: 'Invalid JSON body' });
@@ -33,44 +39,58 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid body. Expected { history: [] }' });
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
+  const rawKey = process.env.GEMINI_API_KEY;
+  if (!rawKey) {
     console.error('GEMINI_API_KEY not set in Vercel environment variables');
-    return res.status(500).json({ error: 'Server configuration error — API key missing' });
+    return res.status(500).json({ error: 'Server configuration error — GEMINI_API_KEY missing in Vercel environment variables' });
   }
+  const apiKey = rawKey.trim();
 
-  try {
-    const geminiRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-      {
+  let lastError = null;
+
+  for (const model of CANDIDATE_MODELS) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+      const geminiRes = await fetch(url, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': apiKey
+        },
         body: JSON.stringify({
           system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
           contents: history,
           generationConfig: { maxOutputTokens: 350, temperature: 0.7 }
         })
+      });
+
+      if (!geminiRes.ok) {
+        const errText = await geminiRes.text();
+        console.error(`Gemini API error with model ${model} (${geminiRes.status}):`, errText);
+        lastError = { model, status: geminiRes.status, details: errText };
+        // If 404 (model not found) or 503 (service overloaded), try next model in candidate list
+        continue;
       }
-    );
 
-    if (!geminiRes.ok) {
-      const errText = await geminiRes.text();
-      console.error('Gemini API error:', geminiRes.status, errText);
-      return res.status(502).json({ error: 'Upstream error', status: geminiRes.status });
+      const data = await geminiRes.json();
+      const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+      if (!reply) {
+        console.error(`Empty response from model ${model}:`, JSON.stringify(data));
+        lastError = { model, status: 502, details: 'Empty content in candidate' };
+        continue;
+      }
+
+      return res.status(200).json({ reply });
+
+    } catch (err) {
+      console.error(`Exception with model ${model}:`, err.message);
+      lastError = { model, status: 500, details: err.message };
     }
-
-    const data = await geminiRes.json();
-    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-    if (!reply) {
-      console.error('Empty Gemini response:', JSON.stringify(data));
-      return res.status(502).json({ error: 'Empty response from Gemini' });
-    }
-
-    return res.status(200).json({ reply });
-
-  } catch (err) {
-    console.error('Handler error:', err);
-    return res.status(500).json({ error: 'Internal server error: ' + err.message });
   }
+
+  return res.status(502).json({
+    error: 'All Gemini model endpoints failed',
+    lastError
+  });
 };
