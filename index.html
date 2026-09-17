@@ -843,25 +843,36 @@
   <script src="main.js"></script>
 
   <!-- ============ AI CHAT WIDGET ============ -->
+  <!-- Mobile Backdrop -->
+  <div class="chat-backdrop" id="chatBackdrop" aria-hidden="true"></div>
+
   <!-- Chat Panel -->
-  <div class="chat-panel" id="chatPanel" role="dialog" aria-label="EnviGuide IHM Support" aria-modal="true">
+  <div class="chat-panel" id="chatPanel" role="dialog" aria-label="EnviGuide IHM Virtual Assistant" aria-modal="true">
+    <div class="chat-drag-handle" id="chatDragHandle"></div>
     <div class="chat-panel-header">
-      <div class="chat-avatar">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-          <circle cx="12" cy="8" r="4" fill="rgba(255,255,255,0.9)"/>
-          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" fill="rgba(255,255,255,0.9)"/>
-        </svg>
-      </div>
-      <div class="chat-header-info">
-        <div class="chat-header-name">EnviGuide IHM Assistant</div>
-        <div class="chat-header-status">
-          <span class="chat-status-dot"></span>
-          Online · Typically replies instantly
+      <div class="chat-header-row">
+        <div class="chat-avatar">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="8" r="4" fill="rgba(255,255,255,0.9)"/>
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" fill="rgba(255,255,255,0.9)"/>
+          </svg>
+        </div>
+        <div class="chat-header-info">
+          <div class="chat-header-name">EnviGuide IHM Assistant</div>
+          <div class="chat-header-status">
+            <span class="chat-status-dot"></span>
+            Online · Typically replies instantly
+          </div>
+        </div>
+        <div class="chat-header-actions">
+          <button class="chat-panel-btn" id="chatReset" aria-label="Restart chat" title="Restart conversation">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          </button>
+          <button class="chat-panel-btn" id="chatClose" aria-label="Close chat" title="Close chat">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
         </div>
       </div>
-      <button class="chat-panel-close" id="chatClose" aria-label="Close chat">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-      </button>
     </div>
 
     <div class="chat-messages" id="chatMessages"></div>
@@ -908,42 +919,21 @@
 
   <script>
   (function () {
-    const panel       = document.getElementById('chatPanel');
-    const toggleBtn   = document.getElementById('chatToggle');
-    const closeBtn    = document.getElementById('chatClose');
-    const messagesEl  = document.getElementById('chatMessages');
-    const inputEl     = document.getElementById('chatInput');
-    const sendBtn     = document.getElementById('chatSend');
-    const badge       = document.getElementById('chatBadge');
-    const quickActs   = document.getElementById('chatQuickActions');
+    const panel        = document.getElementById('chatPanel');
+    const backdrop     = document.getElementById('chatBackdrop');
+    const toggleBtn    = document.getElementById('chatToggle');
+    const closeBtn     = document.getElementById('chatClose');
+    const resetBtn     = document.getElementById('chatReset');
+    const messagesEl   = document.getElementById('chatMessages');
+    const inputEl      = document.getElementById('chatInput');
+    const sendBtn      = document.getElementById('chatSend');
+    const badge        = document.getElementById('chatBadge');
+    const quickActs    = document.getElementById('chatQuickActions');
     const quickContact = document.getElementById('quickContact');
+    const dragHandle   = document.getElementById('chatDragHandle');
 
     let isOpen = false;
-    let typingTimer = null;
-
-    /* ----------- Knowledge Base ----------- */
-    const KB = [
-      { k: ['price','pricing','cost','plan','fee','subscription'],
-        a: 'Our pricing is tailored to fleet size and scope. We offer flexible plans starting from small operators to full enterprise fleets. Book a demo to get a custom quote that fits your needs.' },
-      { k: ['demo','trial','test','try','book'],
-        a: 'You can book a personalized demo at any time — our team will walk you through the full IHM platform live. <a href="book-demo.html" style="color:#0099e6;font-weight:600;">Schedule a demo →</a>' },
-      { k: ['ihm','hazardous','material','inventory','compliance','hmu','marpol','regulation','class'],
-        a: 'EnviGuide IHM helps you digitize your Inventory of Hazardous Materials (IHM Part I) across your entire fleet — automating supplier outreach, MD/SDoC collection, and generating audit-ready compliance reports.' },
-      { k: ['supplier','vendor','md','sdoc','certificate'],
-        a: 'Our platform auto-screens purchase orders for hazardous materials and automatically contacts suppliers to collect Material Declarations and Supplier Declarations of Conformity (SDoC) — no manual follow-up needed.' },
-      { k: ['fleet','ship','vessel','management'],
-        a: 'EnviGuide IHM scales from single vessels to large international fleets. Our dashboard gives you real-time compliance visibility across every ship in your fleet.' },
-      { k: ['report','audit','inspection','survey','class'],
-        a: 'Generate class-ready IHM Part I compliance reports in minutes. Our structured reports are accepted by all major classification societies.' },
-      { k: ['integrate','api','erp','crm','connect'],
-        a: 'We offer API integrations with major maritime ERP and procurement systems. Contact our team to discuss your specific integration requirements.' },
-      { k: ['contact','email','phone','reach','talk','human','person','team'],
-        a: 'You can reach our team at <strong>info@enviguide.com</strong> or book a call via our demo page. We typically respond within a few hours on business days.' },
-      { k: ['whatsapp','wa','message','chat'],
-        a: 'You can also reach us directly on WhatsApp for a quick conversation with our compliance experts!' },
-      { k: ['hello','hi','hey','greet','howdy'],
-        a: 'Hello! 👋 I\'m the EnviGuide IHM assistant. I can help you with questions about our platform, IHM compliance, pricing, or booking a demo. What can I help you with?' },
-    ];
+    let conversationHistory = [];
 
     /* ----------- Quick replies ----------- */
     const QUICK_REPLIES = [
@@ -954,18 +944,41 @@
     ];
 
     /* ----------- Bot greeting ----------- */
-    const GREET = "👋 Hi there! I'm the EnviGuide IHM virtual assistant. I can answer questions about IHM compliance, pricing, or our platform. How can I help you today?";
+    const GREET = "👋 Hi there! I'm the **EnviGuide IHM virtual assistant**. I can answer questions about IHM compliance, platform features, pricing, or help you book a demo. How can I assist you today?";
 
     /* ----------- Helpers ----------- */
     function getTime() {
       return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }
 
-    function scrollBottom() {
-      setTimeout(() => { messagesEl.scrollTop = messagesEl.scrollHeight; }, 50);
+    function scrollBottom(smooth = true) {
+      setTimeout(() => {
+        messagesEl.scrollTo({
+          top: messagesEl.scrollHeight,
+          behavior: smooth ? 'smooth' : 'auto'
+        });
+      }, 60);
     }
 
-    function addMsg(type, text, showChips) {
+    function formatMarkdown(text) {
+      if (!text) return '';
+      // Escape basic HTML entities while preserving safe custom tags
+      let s = text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+      // Allow basic formatting
+      s = s.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      s = s.replace(/\*(.*?)\*/g, '<em>$1</em>');
+      s = s.replace(/`([^`]+)`/g, '<code style="background:#f1f5f9;padding:2px 5px;border-radius:4px;font-size:0.85em;">$1</code>');
+      s = s.replace(/\[(.*?)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+      s = s.replace(/\n/g, '<br>');
+
+      return s;
+    }
+
+    function addMsg(type, content, isHtml = false, showChips = false) {
       const wrap = document.createElement('div');
       wrap.className = 'chat-msg ' + type;
 
@@ -977,9 +990,11 @@
       }
 
       const col = document.createElement('div');
+      col.style.maxWidth = '100%';
+
       const bub = document.createElement('div');
       bub.className = 'chat-msg-bubble';
-      bub.innerHTML = text;
+      bub.innerHTML = isHtml ? content : formatMarkdown(content);
       col.appendChild(bub);
 
       const time = document.createElement('div');
@@ -1022,9 +1037,7 @@
       if (t) t.remove();
     }
 
-    /* ----------- Gemini via /api/chat (Vercel serverless) ----------- */
-    const conversationHistory = [];
-
+    /* ----------- Gemini via /api/chat ----------- */
     async function getBotReply(userText) {
       conversationHistory.push({ role: 'user', parts: [{ text: userText }] });
 
@@ -1037,9 +1050,9 @@
       const data = await res.json().catch(() => null);
 
       if (!res.ok) {
-        console.error('Chat API error response:', data);
-        const detailMsg = data?.error || ('HTTP ' + res.status);
-        throw new Error(detailMsg);
+        console.error('Chat API error:', data);
+        const msg = data?.error || ('HTTP ' + res.status);
+        throw new Error(msg);
       }
 
       conversationHistory.push({ role: 'model', parts: [{ text: data.reply }] });
@@ -1047,44 +1060,66 @@
     }
 
     async function sendUserMsg(text) {
-      if (!text.trim()) return;
-      addMsg('user', text);
+      const trimmed = text.trim();
+      if (!trimmed) return;
+
+      addMsg('user', trimmed, false);
       inputEl.value = '';
       inputEl.disabled = true;
       sendBtn.disabled = true;
       showTyping();
+
       try {
-        const reply = await getBotReply(text);
+        const reply = await getBotReply(trimmed);
         removeTyping();
-        addMsg('bot', reply);
+        addMsg('bot', reply, false);
       } catch (err) {
         removeTyping();
-        addMsg('bot', "Sorry, I'm having a connection issue. Please try WhatsApp below or <a href='book-demo.html' style='color:#0099e6;font-weight:600;'>book a demo</a> and we'll reach out. 🚢");
+        addMsg('bot', "I'm having a brief connection issue. Please reach out via WhatsApp below or <a href='book-demo.html'>schedule a demo</a> and our compliance team will help you promptly. 🚢", true);
         console.error('Chat error:', err);
       } finally {
         inputEl.disabled = false;
         sendBtn.disabled = false;
-        inputEl.focus();
+        if (window.innerWidth > 600) {
+          inputEl.focus();
+        }
       }
+    }
+
+    function resetConversation() {
+      conversationHistory = [];
+      messagesEl.innerHTML = '';
+      setTimeout(() => {
+        addMsg('bot', GREET, false, true);
+      }, 150);
     }
 
     /* ----------- Open / Close ----------- */
     function openPanel() {
       isOpen = true;
       panel.classList.add('visible');
+      if (backdrop) backdrop.classList.add('visible');
       quickActs.classList.remove('visible');
       toggleBtn.classList.add('is-open');
       toggleBtn.setAttribute('aria-expanded', 'true');
       badge.classList.add('hidden');
+
       if (messagesEl.children.length === 0) {
-        setTimeout(() => { addMsg('bot', GREET, true); }, 350);
+        setTimeout(() => {
+          addMsg('bot', GREET, false, true);
+        }, 300);
       }
-      inputEl.focus();
+
+      // Avoid auto-focusing on mobile to avoid keyboard jumping immediately
+      if (window.innerWidth > 600) {
+        setTimeout(() => inputEl.focus(), 320);
+      }
     }
 
     function closePanel() {
       isOpen = false;
       panel.classList.remove('visible');
+      if (backdrop) backdrop.classList.remove('visible');
       toggleBtn.classList.remove('is-open');
       toggleBtn.setAttribute('aria-expanded', 'false');
       quickActs.classList.remove('visible');
@@ -1103,19 +1138,38 @@
       }
     });
 
-    quickContact.addEventListener('click', () => openPanel());
-
-    closeBtn.addEventListener('click', closePanel);
+    if (quickContact) quickContact.addEventListener('click', openPanel);
+    if (closeBtn) closeBtn.addEventListener('click', closePanel);
+    if (resetBtn) resetBtn.addEventListener('click', resetConversation);
+    if (backdrop) backdrop.addEventListener('click', closePanel);
 
     sendBtn.addEventListener('click', () => sendUserMsg(inputEl.value));
 
     inputEl.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') sendUserMsg(inputEl.value);
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendUserMsg(inputEl.value);
+      }
     });
 
-    // Close on outside click
+    // Mobile swipe down to close
+    let touchStartY = 0;
+    if (dragHandle) {
+      dragHandle.addEventListener('touchstart', (e) => {
+        touchStartY = e.touches[0].clientY;
+      }, { passive: true });
+
+      dragHandle.addEventListener('touchmove', (e) => {
+        const touchY = e.touches[0].clientY;
+        if (touchY - touchStartY > 60) {
+          closePanel();
+        }
+      }, { passive: true });
+    }
+
+    // Close on outside click (desktop)
     document.addEventListener('click', (e) => {
-      if (isOpen && !panel.contains(e.target) && !document.getElementById('chatFab').contains(e.target)) {
+      if (isOpen && window.innerWidth > 600 && !panel.contains(e.target) && !document.getElementById('chatFab').contains(e.target)) {
         closePanel();
       }
     });
