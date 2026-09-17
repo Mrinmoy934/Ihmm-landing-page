@@ -115,6 +115,7 @@
     <a class="nav-link" href="industries.html">Industries</a>
     <a class="nav-link" href="#faq">Resources</a>
     <div style="height:1px;background:#e2e8f0;margin:8px 0;"></div>
+    <a class="btn-ghost" href="login.html" id="mob-login" style="justify-content:center">Login</a>
     <a class="btn-primary" href="book-demo.html" id="mob-get-started" style="justify-content:center">Book a Demo</a>
   `;
   nav.insertAdjacentElement('afterend', mobileMenu);
