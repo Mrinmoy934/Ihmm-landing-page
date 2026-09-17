@@ -906,15 +906,6 @@
 
   <!-- FAB Launcher -->
   <div class="chat-fab" id="chatFab">
-    <!-- Floating Proactive Teaser -->
-    <div class="chat-teaser" id="chatTeaser" role="tooltip">
-      <span class="chat-teaser-avatar">🤖</span>
-      <div class="chat-teaser-text">
-        <strong>Need compliance help?</strong> Ask our AI assistant about IHM, EU SRR &amp; pricing!
-      </div>
-      <button class="chat-teaser-close" id="chatTeaserClose" aria-label="Dismiss">&times;</button>
-    </div>
-
     <div class="chat-quick-actions" id="chatQuickActions">
       <div class="chat-quick-item" id="quickContact">
         <span class="chat-quick-label">Chat with AI</span>
@@ -953,8 +944,6 @@
     const quickActs    = document.getElementById('chatQuickActions');
     const quickContact = document.getElementById('quickContact');
     const dragHandle   = document.getElementById('chatDragHandle');
-    const teaser       = document.getElementById('chatTeaser');
-    const teaserClose  = document.getElementById('chatTeaserClose');
     const scrollBtn    = document.getElementById('chatScrollBtn');
 
     let isOpen = false;
@@ -1360,19 +1349,6 @@
     if (resetBtn) resetBtn.addEventListener('click', resetConversation);
     if (backdrop) backdrop.addEventListener('click', closePanel);
 
-    // Teaser events
-    if (teaser) {
-      teaser.addEventListener('click', (e) => {
-        if (e.target !== teaserClose) openPanel();
-      });
-    }
-    if (teaserClose) {
-      teaserClose.addEventListener('click', (e) => {
-        e.stopPropagation();
-        teaser.classList.remove('visible');
-      });
-    }
-
     // Input typing helpers & clear button
     inputEl.addEventListener('input', () => {
       if (clearBtn) {
@@ -1427,13 +1403,6 @@
         closePanel();
       }
     });
-
-    // Show floating teaser after 5s on desktop if unopened
-    setTimeout(() => {
-      if (!isOpen && teaser && window.innerWidth > 768) {
-        teaser.classList.add('visible');
-      }
-    }, 5000);
   })();
   </script>
 </body>
