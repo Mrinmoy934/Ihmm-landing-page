@@ -1035,9 +1035,14 @@
         body: JSON.stringify({ history: conversationHistory })
       });
 
-      if (!res.ok) throw new Error('API ' + res.status);
+      const data = await res.json().catch(() => null);
 
-      const data = await res.json();
+      if (!res.ok) {
+        console.error('Chat API error response:', data);
+        const detailMsg = data?.error || ('HTTP ' + res.status);
+        throw new Error(detailMsg);
+      }
+
       conversationHistory.push({ role: 'model', parts: [{ text: data.reply }] });
       return data.reply;
     }

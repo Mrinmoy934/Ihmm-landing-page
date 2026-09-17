@@ -11,10 +11,12 @@ Guidelines:
 - Keep replies concise: 2-4 sentences max. Be friendly, professional, and clear
 - Do NOT reveal you are powered by Google Gemini or any third-party AI model`;
 
-const CANDIDATE_MODELS = [
-  'gemini-2.0-flash',
-  'gemini-1.5-flash',
-  'gemini-1.5-pro'
+const CANDIDATE_CONFIGS = [
+  { version: 'v1beta', model: 'gemini-2.0-flash' },
+  { version: 'v1beta', model: 'gemini-1.5-flash' },
+  { version: 'v1',     model: 'gemini-1.5-flash' },
+  { version: 'v1beta', model: 'gemini-1.5-flash-8b' },
+  { version: 'v1beta', model: 'gemini-1.5-pro' }
 ];
 
 module.exports = async function handler(req, res) {
@@ -42,33 +44,39 @@ module.exports = async function handler(req, res) {
   const rawKey = process.env.GEMINI_API_KEY;
   if (!rawKey) {
     console.error('GEMINI_API_KEY not set in Vercel environment variables');
-    return res.status(500).json({ error: 'Server configuration error — GEMINI_API_KEY missing in Vercel environment variables' });
+    return res.status(500).json({
+      error: 'GEMINI_API_KEY is missing in Vercel environment variables. Please add it under Vercel Project Settings -> Environment Variables and redeploy.'
+    });
   }
-  const apiKey = rawKey.trim();
 
-  let lastError = null;
+  // Strip quotes and whitespace if accidentally pasted with quotes
+  const apiKey = rawKey.trim().replace(/^["']+|["']+$/g, '');
 
-  for (const model of CANDIDATE_MODELS) {
+  let errors = [];
+
+  for (const cfg of CANDIDATE_CONFIGS) {
     try {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+      const url = `https://generativelanguage.googleapis.com/${cfg.version}/models/${cfg.model}:generateContent?key=${apiKey}`;
+      const payload = {
+        system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+        contents: history,
+        generationConfig: { maxOutputTokens: 350, temperature: 0.7 }
+      };
+
       const geminiRes = await fetch(url, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'x-goog-api-key': apiKey
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-          contents: history,
-          generationConfig: { maxOutputTokens: 350, temperature: 0.7 }
-        })
+        body: JSON.stringify(payload)
       });
 
       if (!geminiRes.ok) {
         const errText = await geminiRes.text();
-        console.error(`Gemini API error with model ${model} (${geminiRes.status}):`, errText);
-        lastError = { model, status: geminiRes.status, details: errText };
-        // If 404 (model not found) or 503 (service overloaded), try next model in candidate list
+        console.error(`Gemini error (${cfg.version}/${cfg.model}) [${geminiRes.status}]:`, errText);
+        let parsedErr = errText;
+        try { parsedErr = JSON.parse(errText); } catch (_) {}
+        errors.push({ config: cfg, status: geminiRes.status, response: parsedErr });
         continue;
       }
 
@@ -76,21 +84,20 @@ module.exports = async function handler(req, res) {
       const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
       if (!reply) {
-        console.error(`Empty response from model ${model}:`, JSON.stringify(data));
-        lastError = { model, status: 502, details: 'Empty content in candidate' };
+        errors.push({ config: cfg, status: 502, response: 'Empty candidate text in response', data });
         continue;
       }
 
       return res.status(200).json({ reply });
 
     } catch (err) {
-      console.error(`Exception with model ${model}:`, err.message);
-      lastError = { model, status: 500, details: err.message };
+      console.error(`Fetch exception (${cfg.version}/${cfg.model}):`, err.message);
+      errors.push({ config: cfg, status: 500, message: err.message });
     }
   }
 
   return res.status(502).json({
-    error: 'All Gemini model endpoints failed',
-    lastError
+    error: 'Gemini API request failed on all candidate endpoints',
+    details: errors
   });
 };
