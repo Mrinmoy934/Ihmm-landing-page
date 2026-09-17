@@ -240,6 +240,12 @@ p  { color: var(--ink-soft); line-height: 1.7; }
   white-space: nowrap;
   flex-shrink: 0;
 }
+.logo-img {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
 .logo span { letter-spacing: -0.01em; }
 .logo strong { color: var(--sky); }
 .logo--footer { color: var(--gray-100); }
