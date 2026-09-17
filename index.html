@@ -832,7 +832,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <span>© 2026 EnviGuide IHM · All rights reserved</span>
+        <span>© 2026 IHMM · All rights reserved</span>
         <span class="footer-legal">
           <a href="#">Privacy Policy</a>
           <a href="#">Terms &amp; Conditions</a>
@@ -878,6 +878,12 @@
 
     <div class="chat-messages" id="chatMessages" role="log" aria-live="polite"></div>
 
+    <!-- Floating Scroll-to-Bottom Button -->
+    <button class="chat-scroll-btn" id="chatScrollBtn" aria-label="Scroll to newest messages">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      <span>Latest</span>
+    </button>
+
     <!-- WhatsApp bar -->
     <div class="chat-whatsapp-bar">
       <a href="https://wa.me/919986331158?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20IHMM" target="_blank" rel="noopener" class="chat-wa-link" id="chatWaLink">
@@ -888,7 +894,10 @@
 
     <!-- Input area form -->
     <form class="chat-input-area" id="chatForm" autocomplete="off" action="#">
-      <input type="text" class="chat-input" id="chatInput" placeholder="Ask anything about IHM compliance…" autocomplete="off" maxlength="300" enterkeyhint="send">
+      <div class="chat-input-wrap">
+        <input type="text" class="chat-input" id="chatInput" placeholder="Ask anything about IHM compliance…" autocomplete="off" maxlength="300" enterkeyhint="send">
+        <button type="button" class="chat-input-clear" id="chatClear" aria-label="Clear input">&times;</button>
+      </div>
       <button type="submit" class="chat-send-btn" id="chatSend" aria-label="Send message">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
       </button>
@@ -897,6 +906,15 @@
 
   <!-- FAB Launcher -->
   <div class="chat-fab" id="chatFab">
+    <!-- Floating Proactive Teaser -->
+    <div class="chat-teaser" id="chatTeaser" role="tooltip">
+      <span class="chat-teaser-avatar">🤖</span>
+      <div class="chat-teaser-text">
+        <strong>Need compliance help?</strong> Ask our AI assistant about IHM, EU SRR &amp; pricing!
+      </div>
+      <button class="chat-teaser-close" id="chatTeaserClose" aria-label="Dismiss">&times;</button>
+    </div>
+
     <div class="chat-quick-actions" id="chatQuickActions">
       <div class="chat-quick-item" id="quickContact">
         <span class="chat-quick-label">Chat with AI</span>
@@ -928,28 +946,27 @@
     const resetBtn     = document.getElementById('chatReset');
     const messagesEl   = document.getElementById('chatMessages');
     const inputEl      = document.getElementById('chatInput');
+    const clearBtn     = document.getElementById('chatClear');
     const chatForm     = document.getElementById('chatForm');
     const sendBtn      = document.getElementById('chatSend');
     const badge        = document.getElementById('chatBadge');
     const quickActs    = document.getElementById('chatQuickActions');
     const quickContact = document.getElementById('quickContact');
     const dragHandle   = document.getElementById('chatDragHandle');
+    const teaser       = document.getElementById('chatTeaser');
+    const teaserClose  = document.getElementById('chatTeaserClose');
+    const scrollBtn    = document.getElementById('chatScrollBtn');
 
     let isOpen = false;
     let conversationHistory = [];
 
-    /* ----------- Quick replies ----------- */
-    const QUICK_REPLIES = [
-      'How does IHM work?',
-      'Book a demo',
-      'Pricing plans',
-      'Talk to an expert',
+    const STARTER_PROMPTS = [
+      { icon: '🚢', title: 'What is IHM Part I?', query: 'What is IHM Part I and why is it mandatory?' },
+      { icon: '⚡', title: 'Automate MD/SDoC', query: 'How does IHMM automate supplier MD and SDoC collection?' },
+      { icon: '💰', title: 'Pricing & Plans', query: 'What are your pricing plans for single ships and fleets?' },
+      { icon: '📅', title: 'Book a Live Demo', query: 'I would like to schedule a 20-minute live demo.' }
     ];
 
-    /* ----------- Bot greeting ----------- */
-    const GREET = "👋 Hi there! I'm your **IHMM Virtual Assistant**. I can answer questions about IHM compliance, platform features, pricing, or help you schedule a demo. How can I assist you today?";
-
-    /* ----------- Helpers ----------- */
     function getTime() {
       return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }
@@ -960,7 +977,22 @@
           top: messagesEl.scrollHeight,
           behavior: smooth ? 'smooth' : 'auto'
         });
+        if (scrollBtn) scrollBtn.classList.remove('visible');
       });
+    }
+
+    // Show/hide scroll-to-bottom button when user scrolls up
+    messagesEl.addEventListener('scroll', () => {
+      const distFromBottom = messagesEl.scrollHeight - messagesEl.scrollTop - messagesEl.clientHeight;
+      if (distFromBottom > 150) {
+        scrollBtn.classList.add('visible');
+      } else {
+        scrollBtn.classList.remove('visible');
+      }
+    });
+
+    if (scrollBtn) {
+      scrollBtn.addEventListener('click', () => scrollBottom(true));
     }
 
     /* ----------- Virtual Viewport Keyboard Handling ----------- */
@@ -981,6 +1013,7 @@
     }
     window.addEventListener('resize', syncViewport);
 
+    // Rich Markdown Formatter & Action Button Converter
     function formatMarkdown(text) {
       if (!text) return '';
       let s = text
@@ -988,16 +1021,20 @@
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
 
+      // Convert action markdown links to beautiful pill buttons
+      s = s.replace(/\[(.*?)\]\((https?:\/\/wa\.me[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener" class="chat-action-pill wa">$1</a>');
+      s = s.replace(/\[(.*?)\]\((https?:\/\/[^\s)]+|book-demo\.html)\)/g, '<a href="$2" class="chat-action-pill">$1</a>');
+
       s = s.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
       s = s.replace(/\*(.*?)\*/g, '<em>$1</em>');
       s = s.replace(/`([^`]+)`/g, '<code style="background:#f1f5f9;padding:2px 5px;border-radius:4px;font-size:0.85em;">$1</code>');
-      s = s.replace(/\[(.*?)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+      s = s.replace(/\n•\s*(.*?)(?=\n|$)/g, '<div style="margin-left:8px;padding-left:8px;border-left:2px solid #0099e6;margin-top:4px;">• $1</div>');
       s = s.replace(/\n/g, '<br>');
 
       return s;
     }
 
-    function addMsg(type, content, isHtml = false, showChips = false) {
+    function addMsg(type, content, isHtml = false, followUpChips = []) {
       const wrap = document.createElement('div');
       wrap.className = 'chat-msg ' + type;
 
@@ -1016,15 +1053,37 @@
       bub.innerHTML = isHtml ? content : formatMarkdown(content);
       col.appendChild(bub);
 
-      const time = document.createElement('div');
+      const footer = document.createElement('div');
+      footer.className = 'chat-msg-footer';
+
+      const time = document.createElement('span');
       time.className = 'chat-msg-time';
       time.textContent = getTime();
-      col.appendChild(time);
+      footer.appendChild(time);
 
-      if (showChips && type === 'bot') {
+      if (type === 'bot') {
+        const copyBtn = document.createElement('button');
+        copyBtn.className = 'chat-copy-btn';
+        copyBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy';
+        copyBtn.addEventListener('click', () => {
+          const rawText = bub.innerText;
+          navigator.clipboard.writeText(rawText).then(() => {
+            copyBtn.innerHTML = '✓ Copied!';
+            setTimeout(() => {
+              copyBtn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy';
+            }, 2000);
+          }).catch(() => {});
+        });
+        footer.appendChild(copyBtn);
+      }
+
+      col.appendChild(footer);
+
+      // Add dynamic chips if provided
+      if (followUpChips && followUpChips.length > 0 && type === 'bot') {
         const chips = document.createElement('div');
         chips.className = 'chat-chips';
-        QUICK_REPLIES.forEach(label => {
+        followUpChips.forEach(label => {
           const btn = document.createElement('button');
           btn.type = 'button';
           btn.className = 'chat-chip';
@@ -1041,6 +1100,38 @@
       wrap.appendChild(col);
       messagesEl.appendChild(wrap);
       scrollBottom();
+    }
+
+    function renderWelcomeCard() {
+      messagesEl.innerHTML = '';
+      const card = document.createElement('div');
+      card.className = 'chat-welcome-card';
+      card.innerHTML = `
+        <div class="chat-welcome-title">
+          <span>👋</span> Welcome to IHMM Assistant
+        </div>
+        <div class="chat-welcome-desc">
+          I can help you navigate IHM Part I compliance, automate supplier MD/SDoC collection, check regulations, and provide customized fleet pricing.
+        </div>
+        <div class="chat-starter-grid">
+          ${STARTER_PROMPTS.map(p => `
+            <button type="button" class="chat-starter-btn" data-query="${p.query}">
+              <span class="chat-starter-icon">${p.icon}</span>
+              <span>${p.title}</span>
+            </button>
+          `).join('')}
+        </div>
+      `;
+
+      card.querySelectorAll('.chat-starter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const query = btn.getAttribute('data-query');
+          sendUserMsg(query);
+        });
+      });
+
+      messagesEl.appendChild(card);
+      scrollBottom(false);
     }
 
     function showTyping() {
@@ -1061,57 +1152,56 @@
     const IHM_KNOWLEDGE = [
       {
         keywords: ['how does ihm work', 'what is ihm', 'explain ihm', 'part 1', 'part i', 'inventory of hazardous', 'overview', 'about ihm'],
+        chips: ['Automated MD/SDoC', 'EU SRR Deadlines', 'View Pricing', 'Book Demo'],
         replies: [
-          "**IHM Part I (Inventory of Hazardous Materials)** is a statutory document required on all ships ≥ 500 GT identifying the location and quantity of hazardous materials on board.\n\n**How IHMM simplifies this:**\n• Automatically identifies HazMat in ship equipment & spare parts\n• Reaches out to suppliers to collect Material Declarations (MD) and SDoCs\n• Maintains a live, digital inventory with automated Class-compliant reporting (DNV, LR, ABS, BV).",
-          "An active **IHM Part I** tracks hazardous substances (like Asbestos, PCBs, Ozone Depleting Substances, and Heavy Metals) installed during operations and maintenance.\n\nOur platform connects directly with your procurement records, requests declarations from suppliers automatically, and keeps your vessel 100% inspection-ready for Port State Control (PSC)."
+          "**IHM Part I (Inventory of Hazardous Materials)** is a statutory document required on all ships ≥ 500 GT identifying the location and quantity of hazardous materials on board.\n\n**How IHMM simplifies this:**\n• Automatically identifies HazMat in ship equipment & spare parts\n• Reaches out to suppliers to collect Material Declarations (MD) and SDoCs\n• Maintains a live, digital inventory with automated Class-compliant reporting (DNV, LR, ABS, BV).\n\n[Book a Demo](book-demo.html)",
+          "An active **IHM Part I** tracks hazardous substances (like Asbestos, PCBs, Ozone Depleting Substances, and Heavy Metals) installed during operations and maintenance.\n\nOur platform connects directly with your procurement records, requests declarations from suppliers automatically, and keeps your vessel 100% inspection-ready for Port State Control (PSC).\n\n[Chat on WhatsApp](https://wa.me/919986331158)"
         ]
       },
       {
         keywords: ['pricing', 'price', 'cost', 'plans', 'rate', 'quote', 'subscription', 'per ship', 'fleet discount'],
+        chips: ['Book a 20-min demo', 'Talk on WhatsApp', 'Single ship tier', 'What is IHM?'],
         replies: [
-          "Our pricing is transparent and scaled to your fleet size:\n\n• **Single Vessel / Starter**: Flat monthly/annual subscription per vessel with full MD/SDoC tracking\n• **Fleet Plan (5+ vessels)**: Bulk discounts, centralized fleet dashboard, dedicated compliance manager\n• **Enterprise**: Custom ERP/Procurement API integration & 24/7 priority support.\n\nWould you like to [schedule a quick demo](book-demo.html) or [chat on WhatsApp](https://wa.me/919986331158) for an instant fleet quote?",
-          "IHMM pricing is tailored based on the number of active vessels in your fleet. We offer flexible annual subscriptions with zero setup fees for fleets of 5+ ships.\n\nYou can [book a 20-minute platform demo](book-demo.html) or reach out via WhatsApp at **+91 9986331158** for custom fleet pricing."
+          "Our pricing is transparent and scaled to your fleet size:\n\n• **Single Vessel / Starter**: Flat monthly/annual subscription per vessel with full MD/SDoC tracking\n• **Fleet Plan (5+ vessels)**: Bulk discounts, centralized fleet dashboard, dedicated compliance manager\n• **Enterprise**: Custom ERP/Procurement API integration & 24/7 priority support.\n\n[Schedule a Demo](book-demo.html) · [WhatsApp Quote](https://wa.me/919986331158)",
+          "IHMM pricing is tailored based on the number of active vessels in your fleet. We offer flexible annual subscriptions with zero setup fees for fleets of 5+ ships.\n\nYou can [Book a Demo](book-demo.html) or reach out via WhatsApp at **+91 9986331158** for custom fleet pricing."
         ]
       },
       {
         keywords: ['demo', 'book', 'schedule', 'trial', 'meeting', 'presentation', 'call'],
+        chips: ['Book Demo Calendar', 'Talk on WhatsApp', 'Fleet Pricing', 'MD/SDoC automation'],
         replies: [
-          "We'd love to show you IHMM in action! 🚢\n\nDuring a 20-minute live demo, we will walk you through:\n1. Live fleet compliance scoring & HazMat heatmaps\n2. 1-click automated supplier MD/SDoC collection\n3. Exporting Class-approved IHM audit reports.\n\n👉 [Click here to book your demo slot](book-demo.html) or let us know your preferred date/time!",
-          "You can easily schedule a personalized walkthrough with our maritime compliance specialists. [Click here to choose a time on our calendar](book-demo.html), or message us on WhatsApp at **+91 9986331158** for same-day access."
+          "We'd love to show you IHMM in action! 🚢\n\nDuring a 20-minute live demo, we will walk you through:\n1. Live fleet compliance scoring & HazMat heatmaps\n2. 1-click automated supplier MD/SDoC collection\n3. Exporting Class-approved IHM audit reports.\n\n👉 [Click here to book your demo slot](book-demo.html) or message on WhatsApp!",
+          "You can easily schedule a personalized walkthrough with our maritime compliance specialists. [Book Demo Online](book-demo.html), or message us on WhatsApp at **+91 9986331158** for same-day access."
         ]
       },
       {
         keywords: ['eu srr', 'regulation', 'hong kong', 'hkc', 'imo', 'marpol', 'compliance', 'law', 'mandatory', 'psc', 'port state'],
+        chips: ['Class approval reports', 'Automate MD/SDoC', 'Book a Demo'],
         replies: [
-          "Both **EU SRR (Regulation (EU) No 1257/2013)** and the **IMO Hong Kong Convention (HKC)** mandate an active IHM Part I for ships calling at international ports.\n\n• **Non-compliance risk**: Detentions, fines by Port State Control, and Class certificate suspensions\n• **IHMM Solution**: Automated maintenance of IHM throughout operational lifetime with verified MD/SDoC audit trails.",
+          "Both **EU SRR (Regulation (EU) No 1257/2013)** and the **IMO Hong Kong Convention (HKC)** mandate an active IHM Part I for ships calling at international ports.\n\n• **Non-compliance risk**: Detentions, fines by Port State Control, and Class certificate suspensions\n• **IHMM Solution**: Automated maintenance of IHM throughout operational lifetime with verified MD/SDoC audit trails.\n\n[Book a Demo](book-demo.html)",
           "Under EU Ship Recycling Regulation and IMO HKC, shipowners are legally required to maintain an up-to-date IHM Part I. IHMM guarantees 100% audit readiness with automated hazard threshold cross-referencing and one-click surveyor reports."
         ]
       },
       {
         keywords: ['md', 'sdoc', 'supplier', 'material declaration', 'declaration of conformity', 'asbestos', 'hazmat', 'threshold'],
+        chips: ['How IHM works', 'Class Society PDF', 'Schedule Demo'],
         replies: [
-          "**Material Declarations (MD)** and **Supplier Declarations of Conformity (SDoC)** are required from maritime equipment vendors for any installed materials.\n\nIHMM automates this entire process: we send automated email requests to your suppliers, use AI to validate threshold compliance for Table A & B substances (e.g. Asbestos, PCBs, PFOS, Lead), and automatically log verified items into your ship's IHM.",
+          "**Material Declarations (MD)** and **Supplier Declarations of Conformity (SDoC)** are required from maritime equipment vendors for any installed materials.\n\nIHMM automates this entire process: we send automated email requests to your suppliers, use AI to validate threshold compliance for Table A & B substances (e.g. Asbestos, PCBs, PFOS, Lead), and automatically log verified items into your ship's IHM.\n\n[See Live Demo](book-demo.html)",
           "Collecting MDs and SDoCs manually takes hours of back-and-forth emails. With IHMM, suppliers upload documents via a zero-login portal, where our engine verifies compliance against IMO MEPC.379(80) standards automatically."
         ]
       },
       {
         keywords: ['class', 'dnv', 'lloyd', 'lr', 'abs', 'bureau veritas', 'classnk', 'nk', 'surveyor', 'audit', 'society'],
+        chips: ['Automated MD/SDoC', 'Book Demo', 'WhatsApp Support'],
         replies: [
-          "IHMM generates audit-ready reports pre-formatted according to guidelines from all major IACS Classification Societies, including **DNV, Lloyd's Register (LR), ABS, Bureau Veritas (BV), and ClassNK**.\n\nYou can export certified IHM Part I PDFs and grant secure read-only access to class surveyors during annual or renewal surveys.",
-          "Our platform is built in strict adherence to IACS standards. Surveyors can easily inspect historical change logs, MD/SDoC attachments, and verified HazMat entries directly in the portal."
+          "IHMM generates audit-ready reports pre-formatted according to guidelines from all major IACS Classification Societies, including **DNV, Lloyd's Register (LR), ABS, Bureau Veritas (BV), and ClassNK**.\n\nYou can export certified IHM Part I PDFs and grant secure read-only access to class surveyors during annual or renewal surveys.\n\n[Book a Demo](book-demo.html)"
         ]
       },
       {
         keywords: ['contact', 'whatsapp', 'phone', 'human', 'expert', 'support', 'email', 'reach', 'help desk'],
+        chips: ['Chat on WhatsApp', 'Schedule Demo', 'Pricing Info'],
         replies: [
-          "You can connect directly with our maritime compliance specialists anytime:\n\n📱 **WhatsApp**: [+91 9986331158](https://wa.me/919986331158)\n📅 **Schedule Demo**: [Book a live walkthrough](book-demo.html)\n✉️ **Email**: info@ihmm.com\n\nOur team typically responds within a few minutes during maritime business hours!",
-          "Need direct assistance? Our compliance experts are available via WhatsApp at **+91 9986331158** or you can [book a meeting here](book-demo.html). How can we help with your fleet today?"
-        ]
-      },
-      {
-        keywords: ['features', 'dashboard', 'capabilities', 'tools', 'software', 'platform', 'benefits'],
-        replies: [
-          "**Key Features of the IHMM Platform:**\n\n1. **Automated Supplier Outreach**: Hands-free MD/SDoC collection from marine vendors\n2. **Real-time Fleet Dashboard**: Live compliance health, missing document alerts, and HazMat tracking\n3. **1-Click Class Exports**: Pre-formatted PDF reports for DNV, LR, ABS, BV, ClassNK\n4. **Audit Trail & History**: Complete timestamped logs for Port State Control and Class surveyors.\n\nWould you like to [see a live interactive demo](book-demo.html)?"
+          "You can connect directly with our maritime compliance specialists anytime:\n\n📱 **WhatsApp**: [+91 9986331158](https://wa.me/919986331158)\n📅 **Schedule Demo**: [Book a live walkthrough](book-demo.html)\n✉️ **Email**: info@ihmm.com\n\nOur team typically responds within minutes during maritime business hours!"
         ]
       }
     ];
@@ -1123,18 +1213,20 @@
       for (const item of IHM_KNOWLEDGE) {
         if (item.keywords.some(kw => lower.includes(kw))) {
           const choice = item.replies[(replyIndex++) % item.replies.length];
-          return choice;
+          return { reply: choice, chips: item.chips || [] };
         }
       }
 
-      // Contextual conversational fallbacks
       const generalReplies = [
-        `Thanks for reaching out! Regarding "${userText.slice(0, 50)}", IHMM provides automated IHM Part I maintenance, supplier MD/SDoC tracking, and Class approval reporting.\n\nFeel free to [schedule a personalized demo](book-demo.html) or chat directly with our specialists on [WhatsApp (+91 9986331158)](https://wa.me/919986331158).`,
-        `That's a great question regarding vessel compliance. With IHMM, managing hazardous materials across your fleet is 100% automated and audit-ready.\n\nWould you like to know more about our **automated MD/SDoC collection**, **pricing plans**, or [book a live demo](book-demo.html)?`,
-        `Our maritime compliance engine ensures your vessels remain fully compliant with EU SRR and IMO HKC regulations with zero manual paperwork.\n\nYou can [schedule a quick 20-min demo](book-demo.html) or reach out via WhatsApp at **+91 9986331158** for instant support.`
+        `Thanks for asking! Regarding "${userText.slice(0, 50)}", IHMM provides automated IHM Part I maintenance, supplier MD/SDoC tracking, and Class approval reporting.\n\nFeel free to [schedule a demo](book-demo.html) or chat directly with our specialists on [WhatsApp](https://wa.me/919986331158).`,
+        `That's an important query regarding vessel compliance. With IHMM, managing hazardous materials across your fleet is 100% automated and audit-ready.\n\n[Book a Demo](book-demo.html) · [Chat on WhatsApp](https://wa.me/919986331158)`,
+        `Our maritime compliance engine ensures your vessels remain fully compliant with EU SRR and IMO HKC regulations with zero manual paperwork.\n\n[Book a Demo](book-demo.html) · [Chat on WhatsApp](https://wa.me/919986331158)`
       ];
 
-      return generalReplies[(replyIndex++) % generalReplies.length];
+      return {
+        reply: generalReplies[(replyIndex++) % generalReplies.length],
+        chips: ['How does IHM work?', 'Pricing plans', 'Book a demo', 'Talk to an expert']
+      };
     }
 
     /* ----------- Gemini via /api/chat with Smart Fallback ----------- */
@@ -1160,15 +1252,16 @@
         if (res.ok) {
           const data = await res.json().catch(() => null);
           if (data && data.reply && typeof data.reply === 'string' && data.reply.trim()) {
-            return data.reply.trim();
+            return {
+              reply: data.reply.trim(),
+              chips: ['Book a demo', 'Pricing plans', 'Talk on WhatsApp']
+            };
           }
         }
       } catch (e) {
         clearTimeout(timeoutId);
-        // Fall through to smart local engine
       }
 
-      // Seamless dynamic AI response fallback
       return getLocalAiReply(userText);
     }
 
@@ -1178,27 +1271,28 @@
 
       addMsg('user', trimmed, false);
       inputEl.value = '';
+      if (clearBtn) clearBtn.classList.remove('visible');
       inputEl.disabled = true;
       sendBtn.disabled = true;
       showTyping();
 
       try {
-        const reply = await getBotReply(trimmed);
+        const res = await getBotReply(trimmed);
         removeTyping();
-        addMsg('bot', reply, false);
+        addMsg('bot', res.reply, false, res.chips);
 
         // Record confirmed turns into history
         conversationHistory.push({ role: 'user', parts: [{ text: trimmed }] });
-        conversationHistory.push({ role: 'model', parts: [{ text: reply }] });
+        conversationHistory.push({ role: 'model', parts: [{ text: res.reply }] });
         if (conversationHistory.length > 20) {
           conversationHistory = conversationHistory.slice(-20);
         }
       } catch (err) {
         removeTyping();
         const fallback = getLocalAiReply(trimmed);
-        addMsg('bot', fallback, false);
+        addMsg('bot', fallback.reply, false, fallback.chips);
         conversationHistory.push({ role: 'user', parts: [{ text: trimmed }] });
-        conversationHistory.push({ role: 'model', parts: [{ text: fallback }] });
+        conversationHistory.push({ role: 'model', parts: [{ text: fallback.reply }] });
       } finally {
         inputEl.disabled = false;
         sendBtn.disabled = false;
@@ -1211,10 +1305,7 @@
 
     function resetConversation() {
       conversationHistory = [];
-      messagesEl.innerHTML = '';
-      setTimeout(() => {
-        addMsg('bot', GREET, false, true);
-      }, 150);
+      renderWelcomeCard();
     }
 
     /* ----------- Open / Close ----------- */
@@ -1222,6 +1313,7 @@
       isOpen = true;
       panel.classList.add('visible');
       if (chatFab) chatFab.classList.add('chat-fab-hidden');
+      if (teaser) teaser.classList.remove('visible');
       if (backdrop) backdrop.classList.add('visible');
       quickActs.classList.remove('visible');
       toggleBtn.classList.add('is-open');
@@ -1231,9 +1323,7 @@
       syncViewport();
 
       if (messagesEl.children.length === 0) {
-        setTimeout(() => {
-          addMsg('bot', GREET, false, true);
-        }, 200);
+        renderWelcomeCard();
       }
 
       if (window.innerWidth > 768) {
@@ -1269,6 +1359,38 @@
     if (closeBtn) closeBtn.addEventListener('click', closePanel);
     if (resetBtn) resetBtn.addEventListener('click', resetConversation);
     if (backdrop) backdrop.addEventListener('click', closePanel);
+
+    // Teaser events
+    if (teaser) {
+      teaser.addEventListener('click', (e) => {
+        if (e.target !== teaserClose) openPanel();
+      });
+    }
+    if (teaserClose) {
+      teaserClose.addEventListener('click', (e) => {
+        e.stopPropagation();
+        teaser.classList.remove('visible');
+      });
+    }
+
+    // Input typing helpers & clear button
+    inputEl.addEventListener('input', () => {
+      if (clearBtn) {
+        if (inputEl.value.trim().length > 0) {
+          clearBtn.classList.add('visible');
+        } else {
+          clearBtn.classList.remove('visible');
+        }
+      }
+    });
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        inputEl.value = '';
+        clearBtn.classList.remove('visible');
+        inputEl.focus();
+      });
+    }
 
     if (chatForm) {
       chatForm.addEventListener('submit', (e) => {
@@ -1306,12 +1428,13 @@
       }
     });
 
-    // Auto-show quick actions after 8s
+    // Show floating teaser after 5s on desktop if unopened
     setTimeout(() => {
-      if (!isOpen && quickActs) quickActs.classList.add('visible');
-    }, 8000);
+      if (!isOpen && teaser && window.innerWidth > 768) {
+        teaser.classList.add('visible');
+      }
+    }, 5000);
   })();
   </script>
-
 </body>
 </html>
