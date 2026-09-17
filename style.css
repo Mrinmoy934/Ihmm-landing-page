@@ -681,6 +681,9 @@ p  { color: var(--ink-soft); line-height: 1.7; }
   .hero {
     padding: 44px 0 60px;
   }
+  .hero-video-overlay {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.90) 0%, rgba(255, 255, 255, 0.74) 50%, rgba(255, 255, 255, 0.90) 100%);
+  }
 }
 
 /* Hero content */

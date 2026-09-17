@@ -32,10 +32,41 @@
     });
   }
 
-  /* ---- Ensure background video plays smoothly & pauses when out of view ---- */
+  /* ---- Ensure background video plays smoothly on mobile & pauses when out of view ---- */
+  const allBgVideos = document.querySelectorAll('video');
+  allBgVideos.forEach(video => {
+    video.muted = true;
+    video.defaultMuted = true;
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+
+    const tryPlay = () => {
+      const p = video.play();
+      if (p !== undefined) {
+        p.catch(() => {});
+      }
+    };
+
+    tryPlay();
+    video.addEventListener('loadedmetadata', tryPlay, { once: true });
+    video.addEventListener('canplay', tryPlay, { once: true });
+
+    // Fallback trigger for mobile browsers requiring first user gesture
+    const startMobileVideo = () => {
+      tryPlay();
+      window.removeEventListener('touchstart', startMobileVideo);
+      window.removeEventListener('touchend', startMobileVideo);
+      window.removeEventListener('scroll', startMobileVideo);
+      window.removeEventListener('click', startMobileVideo);
+    };
+    window.addEventListener('touchstart', startMobileVideo, { passive: true, once: true });
+    window.addEventListener('touchend', startMobileVideo, { passive: true, once: true });
+    window.addEventListener('scroll', startMobileVideo, { passive: true, once: true });
+    window.addEventListener('click', startMobileVideo, { passive: true, once: true });
+  });
+
   const heroVideo = document.querySelector('.hero-video');
-  if (heroVideo) {
-    heroVideo.muted = true;
+  if (heroVideo && 'IntersectionObserver' in window) {
     const videoObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -44,9 +75,16 @@
           heroVideo.pause();
         }
       });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.05 });
     videoObserver.observe(heroVideo);
   }
+
+  // Resume playback when tab is active
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && heroVideo) {
+      heroVideo.play().catch(() => {});
+    }
+  });
 
   /* ---- Demo Page Slide-Up Text Animation Trigger ---- */
   const demoSection = document.querySelector('.demo-hero-section');
