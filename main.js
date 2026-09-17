@@ -20,17 +20,7 @@
     }
   });
 
-  /* ---- Hero Page-Load / Refresh Animation Trigger ---- */
-  const heroSection = document.getElementById('hero');
-  if (heroSection) {
-    // Double-RAF ensures at least one layout/paint cycle happens between
-    // the initial opacity:0 state and the animation trigger class being added
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        heroSection.classList.add('hero-animate');
-      });
-    });
-  }
+
 
   /* ---- Ensure background video plays smoothly on mobile & pauses when out of view ---- */
   const allBgVideos = document.querySelectorAll('video');
@@ -282,18 +272,11 @@
     }
   });
 
-  /* ---- Feature Tabs + Auto-Advance Rail ---- */
+  /* ---- Feature Tabs (Static Click Interaction) ---- */
   const featureTabs    = document.querySelectorAll('[data-tab]');
   const featurePanels  = document.querySelectorAll('.tab-content');
-  const railFill       = document.getElementById('tabs-rail-fill');
-  const TAB_DURATION   = 6000; // ms per tab
-  const tabOrder       = ['hazmat', 'po', 'mdsdc', 'supplier', 'reports'];
-  let currentTabIndex  = 0;
-  let autoAdvanceTimer = null;
 
-  function activateTab(targetKey, restartAuto = true) {
-    currentTabIndex = tabOrder.indexOf(targetKey);
-
+  function activateTab(targetKey) {
     // Update tab buttons
     featureTabs.forEach(t => {
       const isActive = t.dataset.tab === targetKey;
@@ -301,43 +284,17 @@
       t.setAttribute('aria-selected', isActive ? 'true' : 'false');
     });
 
-    // Update panels with fade-in
+    // Update panels statically
     featurePanels.forEach(panel => {
       const match = panel.id === `tab-${targetKey}-panel`;
       if (match) {
         panel.classList.remove('hidden');
-        panel.style.opacity = '0';
-        panel.style.transform = 'translateY(12px)';
-        requestAnimationFrame(() => {
-          panel.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
-          panel.style.opacity = '1';
-          panel.style.transform = 'translateY(0)';
-        });
+        panel.style.display = 'block';
       } else {
         panel.classList.add('hidden');
-        panel.style.opacity = '';
-        panel.style.transform = '';
-        panel.style.transition = '';
+        panel.style.display = 'none';
       }
     });
-
-    // Restart progress rail animation
-    if (railFill) {
-      railFill.classList.remove('animating');
-      void railFill.offsetWidth; // force reflow to restart
-      railFill.classList.add('animating');
-    }
-
-    // Restart auto-advance timer
-    if (restartAuto) {
-      clearTimeout(autoAdvanceTimer);
-      autoAdvanceTimer = setTimeout(advanceTab, TAB_DURATION);
-    }
-  }
-
-  function advanceTab() {
-    currentTabIndex = (currentTabIndex + 1) % tabOrder.length;
-    activateTab(tabOrder[currentTabIndex]);
   }
 
   // Wire click handlers
@@ -345,8 +302,8 @@
     tab.addEventListener('click', () => activateTab(tab.dataset.tab));
   });
 
-  // Start auto-advance from first tab
-  activateTab(tabOrder[0]);
+  // Activate first tab by default
+  activateTab('hazmat');
 
 
 
@@ -369,64 +326,12 @@
     });
   });
 
-  /* ---- Scroll reveal (Optimized IntersectionObserver) ---- */
-  const scrollRevealTargets = document.querySelectorAll(
-    '.hero-badge, .hero-title, .hero-subtitle, .hero-actions, .hero-mockup-wrap, ' +
-    '.section-header, .feature-tabs-nav, .tab-panel, .feature-row .split-copy, .feature-row .split-visual, ' +
-    '.feature-card, .step-card, .quote-card, .faq-item, .stat-item, .cta-inner, .footer-col, .ind-copy, .ind-visual-wrap, .ind-check-card, .ind-stats-box, [data-reveal]'
-  );
-
-  scrollRevealTargets.forEach((el) => {
-    if (!el.classList.contains('reveal') && 
-        !el.classList.contains('reveal-left') && 
-        !el.classList.contains('reveal-right') && 
-        !el.classList.contains('reveal-zoom')) {
-      el.classList.add('reveal');
-    }
-  });
-
-  const scrollObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        scrollObserver.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.05,
-    rootMargin: '0px 0px 80px 0px'
-  });
-
-  scrollRevealTargets.forEach(el => scrollObserver.observe(el));
-
-  /* ---- Counter animation ---- */
+  /* ---- Stat numbers display statically ---- */
   const statNums = document.querySelectorAll('.stat-num[data-target]');
-
-  const counterObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        animateCounter(entry.target);
-        counterObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.5 });
-
-  statNums.forEach(el => counterObserver.observe(el));
-
-  function animateCounter(el) {
-    const target   = parseInt(el.dataset.target, 10);
-    const duration = 1800;
-    const start    = performance.now();
-
-    function update(now) {
-      const elapsed  = now - start;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased    = 1 - Math.pow(1 - progress, 3); // ease out cubic
-      el.textContent = Math.round(eased * target);
-      if (progress < 1) requestAnimationFrame(update);
-    }
-    requestAnimationFrame(update);
-  }
+  statNums.forEach(el => {
+    const target = parseInt(el.dataset.target, 10);
+    if (!isNaN(target)) el.textContent = target;
+  });
 
   /* ---- Smooth anchor scroll ---- */
   document.querySelectorAll('a[href^="#"]').forEach(link => {
@@ -445,85 +350,18 @@
 
 
 
-  /* ---- Live Snapshot Component (Ring Chart + Counter + Ticker) ---- */
+  /* ---- Live Snapshot (Static Values) ---- */
   const pctEl = document.getElementById('pctNum');
   const vesselsEl = document.getElementById('statVessels');
   const itemsEl = document.getElementById('statItems');
   const reportsEl = document.getElementById('statReports');
   const tickerEl = document.getElementById('tickerText');
-  const ringFg = document.getElementById('ringFg');
 
-  if (pctEl && vesselsEl && itemsEl && reportsEl && tickerEl) {
-    const CYCLE_MS = 6000;
-    const COUNT_MS = 1800;
-    const targets = { pct: 92, vessels: 512, items: 18400, reports: 1240 };
-    const messages = [
-      'Mapping hazmat by deck & area…',
-      'Screening purchase orders for suspected hazmat…',
-      'Collecting MD/SDoC from suppliers…',
-      'Routing documents through the supplier portal…',
-      'Generating a class-ready compliance report…'
-    ];
-    let msgIndex = 0;
-
-    function easeOutQuad(t) { return t * (2 - t); }
-
-    function countUp(el, target, formatter) {
-      const start = performance.now();
-      function tick(now) {
-        const progress = Math.min((now - start) / COUNT_MS, 1);
-        const eased = easeOutQuad(progress);
-        const value = Math.round(target * eased);
-        el.textContent = formatter ? formatter(value) : value;
-        if (progress < 1) requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
-    }
-
-    function withComma(n) { return n.toLocaleString('en-US'); }
-
-    function runCycle() {
-      countUp(pctEl, targets.pct);
-      countUp(vesselsEl, targets.vessels, withComma);
-      countUp(itemsEl, targets.items, withComma);
-      countUp(reportsEl, targets.reports, withComma);
-    }
-
-    function rotateTicker() {
-      tickerEl.style.opacity = '0';
-      setTimeout(() => {
-        msgIndex = (msgIndex + 1) % messages.length;
-        tickerEl.textContent = messages[msgIndex];
-        tickerEl.style.opacity = '1';
-      }, 300);
-    }
-
-    let cycleInterval = null;
-    let tickerInterval = null;
-
-    const snapshotSection = document.querySelector('.live-snapshot') || pctEl.closest('section') || pctEl.parentElement;
-    if (snapshotSection) {
-      const snapObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            runCycle();
-            if (!cycleInterval) cycleInterval = setInterval(runCycle, CYCLE_MS);
-            if (!tickerInterval) tickerInterval = setInterval(rotateTicker, (CYCLE_MS / messages.length) * 1.2);
-          } else {
-            clearInterval(cycleInterval);
-            clearInterval(tickerInterval);
-            cycleInterval = null;
-            tickerInterval = null;
-          }
-        });
-      }, { threshold: 0.1 });
-      snapObserver.observe(snapshotSection);
-    } else {
-      runCycle();
-      setInterval(runCycle, CYCLE_MS);
-      setInterval(rotateTicker, (CYCLE_MS / messages.length) * 1.2);
-    }
-  }
+  if (pctEl) pctEl.textContent = '92';
+  if (vesselsEl) vesselsEl.textContent = '512';
+  if (itemsEl) itemsEl.textContent = '18,400';
+  if (reportsEl) reportsEl.textContent = '1,240';
+  if (tickerEl) tickerEl.textContent = 'Generating class-ready compliance reports for DNV, LR, ABS & BV.';
 
   // Toast Helper
   function showToast(msg, duration = 3000) {
