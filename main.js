@@ -122,7 +122,7 @@
 
   // Close if viewport grows beyond mobile breakpoint
   window.addEventListener('resize', () => {
-    if (window.innerWidth > 820 && mobileMenu.classList.contains('open')) {
+    if (window.innerWidth > 1024 && mobileMenu.classList.contains('open')) {
       closeMenu();
     }
   }, { passive: true });

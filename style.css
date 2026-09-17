@@ -213,6 +213,7 @@ p  { color: var(--ink-soft); line-height: 1.7; }
   position: sticky;
   top: 0;
   z-index: 1000;
+  width: 100%;
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
@@ -223,11 +224,13 @@ p  { color: var(--ink-soft); line-height: 1.7; }
 .nav-inner {
   display: flex;
   align-items: center;
-  gap: 32px;
+  justify-content: space-between;
+  width: 100%;
   height: 76px;
   max-width: 1160px;
   margin: 0 auto;
   padding: 0 24px;
+  box-sizing: border-box;
 }
 
 .logo {
@@ -266,7 +269,8 @@ p  { color: var(--ink-soft); line-height: 1.7; }
   display: flex;
   align-items: center;
   gap: 4px;
-  flex: 1;
+  margin-left: 28px;
+  margin-right: auto;
 }
 .nav-item { position: relative; }
 .nav-link {
@@ -290,7 +294,6 @@ p  { color: var(--ink-soft); line-height: 1.7; }
 /* Nav buttons that trigger dropdowns: cursor=default because clicking does nothing */
 .nav-item.has-dropdown > .nav-link { cursor: default; }
 .chevron { transition: transform 0.22s ease; flex-shrink: 0; color: var(--gray-400); }
-
 
 .nav-actions { display: flex; align-items: center; gap: 10px; margin-left: auto; }
 
@@ -480,24 +483,131 @@ p  { color: var(--ink-soft); line-height: 1.7; }
 }
 
 
-/* Mobile menu — hidden by default everywhere */
-.mobile-menu { display: none; }
-.mobile-menu.open { display: flex !important; flex-direction: column; gap: 4px; }
+/* Responsive Mobile Menu */
+.mobile-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: fixed;
+  top: 76px;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--gray-200);
+  padding: 16px 20px 24px;
+  box-shadow: 0 16px 36px rgba(7, 28, 55, 0.12);
+  transform: translateY(-8px);
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.22s ease, transform 0.24s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.22s;
+  z-index: 999;
+  max-height: calc(100dvh - 80px);
+  overflow-y: auto;
+}
+
+.mobile-menu.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.mobile-menu .nav-link {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--gray-800);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  transition: background 0.15s, color 0.15s;
+}
+
+.mobile-menu .nav-link:hover {
+  background: var(--gray-100);
+  color: var(--royal);
+}
+
+.mobile-menu .btn-ghost,
+.mobile-menu .btn-primary {
+  width: 100%;
+  justify-content: center;
+  padding: 12px 20px;
+  font-size: 0.92rem;
+  border-radius: 999px;
+  margin-top: 4px;
+}
 
 .hamburger {
   display: none;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 5px;
   padding: 8px;
   border-radius: var(--radius-sm);
   transition: var(--transition);
   flex-shrink: 0;
+  cursor: pointer;
+  background: none;
+  border: none;
+  margin-left: auto;
 }
 .hamburger:hover { background: var(--gray-100); }
 .hamburger span { display: block; width: 22px; height: 2px; background: var(--gray-700); border-radius: 2px; transition: var(--transition); }
 .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .hamburger.open span:nth-child(2) { opacity: 0; }
 .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Navigation Responsive Breakpoints */
+@media (max-width: 1024px) {
+  .nav-inner {
+    height: 68px;
+    padding: 0 20px;
+    justify-content: space-between !important;
+    width: 100% !important;
+  }
+  .nav-links,
+  .nav-actions {
+    display: none !important;
+  }
+  .hamburger {
+    display: flex !important;
+    margin-left: auto !important;
+    position: relative;
+    z-index: 1001;
+  }
+  .logo-img {
+    height: 44px;
+  }
+  .mobile-menu {
+    top: 68px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-inner {
+    height: 60px;
+    padding: 0 16px;
+    justify-content: space-between !important;
+    width: 100% !important;
+  }
+  .logo-img {
+    height: 38px;
+  }
+  .hamburger {
+    padding: 6px;
+    margin-left: auto !important;
+  }
+  .mobile-menu {
+    top: 60px;
+    padding: 14px 16px 20px;
+  }
+}
 
 /* ---------- Hero ---------- */
 .hero {
