@@ -66,6 +66,7 @@ html {
   overflow-x: hidden;
   max-width: 100%;
   width: 100%;
+  box-sizing: border-box;
 }
 
 body {
@@ -78,9 +79,12 @@ body {
   max-width: 100%;
   width: 100%;
   position: relative;
+  box-sizing: border-box;
 }
 
-section, .hero, .feature-tabs, .feature-row, .feature-grid, .how-it-works, .testimonials, .faq, .cta-band, .footer, .live-snapshot {
+section, header, footer, nav, main, article, aside,
+.hero, .feature-tabs, .feature-row, .feature-grid,
+.how-it-works, .testimonials, .faq, .cta-band, .footer, .live-snapshot {
   overflow-x: clip;
   max-width: 100%;
   width: 100%;
@@ -89,7 +93,7 @@ section, .hero, .feature-tabs, .feature-row, .feature-grid, .how-it-works, .test
 
 a { text-decoration: none; color: inherit; }
 ul { list-style: none; }
-img { display: block; max-width: 100%; }
+img, svg, video, canvas { display: block; max-width: 100%; }
 button, input, select, textarea { font-family: var(--font); }
 input, select, textarea {
   color: #000000;
@@ -105,8 +109,17 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
 .container {
   width: 100%;
   max-width: 1160px;
-  margin: 0 auto;
-  padding: 0 24px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+  box-sizing: border-box;
+}
+
+/* Prevent text overflow blowouts in Android Chrome flex/grid containers */
+h1, h2, h3, h4, h5, h6, p, span, a, li, button {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 /* ---------- Typography ---------- */
@@ -1811,10 +1824,13 @@ p  { color: var(--ink-soft); line-height: 1.7; }
   justify-content: center;
   gap: 12px;
   margin-top: 8px;
+  flex-wrap: wrap;
+  text-align: center;
+  max-width: 100%;
 }
 
 .stars { color: var(--blue-mid); font-size: 1.1rem; letter-spacing: 3px; }
-.rating-text { color: var(--ink); font-size: 0.92rem; font-weight: 700; }
+.rating-text { color: var(--ink); font-size: 0.92rem; font-weight: 700; max-width: 100%; overflow-wrap: break-word; }
 
 .quotes-grid {
   display: grid;
@@ -2059,10 +2075,18 @@ p  { color: var(--ink-soft); line-height: 1.7; }
 
   .hero { padding: 56px 0 40px; }
   .hero-inner { max-width: 100%; margin-left: 0; }
+  .hero-glow { display: none !important; }
 
-  .split { grid-template-columns: 1fr; gap: 36px; }
+  .split { grid-template-columns: 1fr; gap: 36px; min-width: 0; }
   .split--reverse .split-visual { order: -1; }
   .split--reverse .split-copy   { order: 0; }
+
+  .split-visual, .split-copy, .grid3, .steps-grid, .stats-grid, .quotes-grid, .footer-grid,
+  .feature-card, .step-card, .quote-card, .stat, .hero-content {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
 
   .quotes-grid { grid-template-columns: 1fr; }
   .feature-tabs { padding: 64px 0; }
@@ -2110,6 +2134,7 @@ p  { color: var(--ink-soft); line-height: 1.7; }
   .footer-grid { grid-template-columns: 1fr; }
   .hero-cta { flex-direction: column; }
   .hero-cta .btn-primary, .hero-cta .btn-outline { width: 100%; justify-content: center; }
+  .rating-row { flex-direction: column; gap: 6px; }
 }
 
 /* ============================================================
