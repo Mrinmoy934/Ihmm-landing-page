@@ -1137,42 +1137,51 @@
       if (t) t.remove();
     }
 
-    /* ----------- Dynamic Local IHM AI Engine (Offline / Fallback) ----------- */
+    /* ----------- Comprehensive Static IHM Knowledge Engine ----------- */
     const IHM_KNOWLEDGE = [
       {
-        keywords: ['how does ihm work', 'what is ihm', 'explain ihm', 'part 1', 'part i', 'inventory of hazardous', 'overview', 'about ihm'],
+        keywords: ['hi', 'hello', 'hey', 'greetings', 'good morning', 'good afternoon', 'good evening', 'who are you', 'help'],
+        chips: ['What is IHM Part I?', 'Automate MD/SDoC', 'Pricing & Plans', 'Book a Demo'],
+        replies: [
+          "Hello! 👋 I am the **IHMM Virtual Assistant**.\n\nI can help you with:\n• **IHM Part I compliance** under EU SRR & IMO HKC\n• **Automating supplier MD & SDoC collection**\n• **Class approval reports** (DNV, LR, ABS, BV, ClassNK)\n• **Fleet pricing & live product demos**\n\nHow can I assist your fleet today?",
+          "Hi there! Welcome to **IHMM**. 🚢\n\nWe provide end-to-end digital compliance for the Inventory of Hazardous Materials. Ask me any question or pick a topic below to get started!",
+          "Hello! Glad to connect. How can I help you with your vessel IHM compliance, supplier chasing, or demo booking today?"
+        ]
+      },
+      {
+        keywords: ['how does ihm work', 'what is ihm', 'explain ihm', 'part 1', 'part i', 'inventory of hazardous', 'overview', 'about ihm', 'what is ihmm'],
         chips: ['Automated MD/SDoC', 'EU SRR Deadlines', 'View Pricing', 'Book Demo'],
         replies: [
-          "**IHM Part I (Inventory of Hazardous Materials)** is a statutory document required on all ships ≥ 500 GT identifying the location and quantity of hazardous materials on board.\n\n**How IHMM simplifies this:**\n• Automatically identifies HazMat in ship equipment & spare parts\n• Reaches out to suppliers to collect Material Declarations (MD) and SDoCs\n• Maintains a live, digital inventory with automated Class-compliant reporting (DNV, LR, ABS, BV).\n\n[Book a Demo](book-demo.html)",
+          "**IHM Part I (Inventory of Hazardous Materials)** is a statutory document required on all operational ships ≥ 500 GT identifying the location and quantity of hazardous materials on board.\n\n**How IHMM simplifies this:**\n• Automatically identifies HazMat in ship equipment & spare parts\n• Reaches out to suppliers to collect Material Declarations (MD) and SDoCs\n• Maintains a live, digital inventory with automated Class-compliant reporting (DNV, LR, ABS, BV).\n\n[Book a Demo](book-demo.html)",
           "An active **IHM Part I** tracks hazardous substances (like Asbestos, PCBs, Ozone Depleting Substances, and Heavy Metals) installed during operations and maintenance.\n\nOur platform connects directly with your procurement records, requests declarations from suppliers automatically, and keeps your vessel 100% inspection-ready for Port State Control (PSC).\n\n[Chat on WhatsApp](https://wa.me/919986331158)"
         ]
       },
       {
-        keywords: ['pricing', 'price', 'cost', 'plans', 'rate', 'quote', 'subscription', 'per ship', 'fleet discount'],
-        chips: ['Book a 20-min demo', 'Talk on WhatsApp', 'Single ship tier', 'What is IHM?'],
+        keywords: ['pricing', 'price', 'cost', 'plans', 'rate', 'quote', 'subscription', 'per ship', 'fleet discount', 'tier'],
+        chips: ['Book a 20-min demo', 'Talk on WhatsApp', 'What is IHM?'],
         replies: [
-          "Our pricing is transparent and scaled to your fleet size:\n\n• **Single Vessel / Starter**: Flat monthly/annual subscription per vessel with full MD/SDoC tracking\n• **Fleet Plan (5+ vessels)**: Bulk discounts, centralized fleet dashboard, dedicated compliance manager\n• **Enterprise**: Custom ERP/Procurement API integration & 24/7 priority support.\n\n[Schedule a Demo](book-demo.html) · [WhatsApp Quote](https://wa.me/919986331158)",
+          "Our pricing is transparent and scaled to your fleet size:\n\n• **Single Vessel / Starter**: Flat annual subscription per vessel with full MD/SDoC tracking\n• **Fleet Plan (5+ vessels)**: Volume discounts, centralized fleet dashboard, and dedicated compliance onboarding\n• **Enterprise**: Custom ERP/Procurement API integration (Amos, ShipNet, Sertica, etc.) & 24/7 priority SLA.\n\n[Schedule a Demo](book-demo.html) · [WhatsApp Quote](https://wa.me/919986331158)",
           "IHMM pricing is tailored based on the number of active vessels in your fleet. We offer flexible annual subscriptions with zero setup fees for fleets of 5+ ships.\n\nYou can [Book a Demo](book-demo.html) or reach out via WhatsApp at **+91 9986331158** for custom fleet pricing."
         ]
       },
       {
-        keywords: ['demo', 'book', 'schedule', 'trial', 'meeting', 'presentation', 'call'],
-        chips: ['Book Demo Calendar', 'Talk on WhatsApp', 'Fleet Pricing', 'MD/SDoC automation'],
+        keywords: ['demo', 'book', 'schedule', 'trial', 'meeting', 'presentation', 'call', 'walkthrough'],
+        chips: ['Book Demo Online', 'Talk on WhatsApp', 'Fleet Pricing', 'MD/SDoC automation'],
         replies: [
           "We'd love to show you IHMM in action! 🚢\n\nDuring a 20-minute live demo, we will walk you through:\n1. Live fleet compliance scoring & HazMat heatmaps\n2. 1-click automated supplier MD/SDoC collection\n3. Exporting Class-approved IHM audit reports.\n\n👉 [Click here to book your demo slot](book-demo.html) or message on WhatsApp!",
-          "You can easily schedule a personalized walkthrough with our maritime compliance specialists. [Book Demo Online](book-demo.html), or message us on WhatsApp at **+91 9986331158** for same-day access."
+          "You can easily schedule a personalized walkthrough with our maritime compliance specialists. [Book Demo Online](book-demo.html), or message us on WhatsApp at **+91 9986331158** for immediate assistance."
         ]
       },
       {
-        keywords: ['eu srr', 'regulation', 'hong kong', 'hkc', 'imo', 'marpol', 'compliance', 'law', 'mandatory', 'psc', 'port state'],
+        keywords: ['eu srr', 'regulation', 'hong kong', 'hkc', 'imo', 'marpol', 'compliance', 'law', 'mandatory', 'psc', 'port state', 'detention'],
         chips: ['Class approval reports', 'Automate MD/SDoC', 'Book a Demo'],
         replies: [
           "Both **EU SRR (Regulation (EU) No 1257/2013)** and the **IMO Hong Kong Convention (HKC)** mandate an active IHM Part I for ships calling at international ports.\n\n• **Non-compliance risk**: Detentions, fines by Port State Control, and Class certificate suspensions\n• **IHMM Solution**: Automated maintenance of IHM throughout operational lifetime with verified MD/SDoC audit trails.\n\n[Book a Demo](book-demo.html)",
-          "Under EU Ship Recycling Regulation and IMO HKC, shipowners are legally required to maintain an up-to-date IHM Part I. IHMM guarantees 100% audit readiness with automated hazard threshold cross-referencing and one-click surveyor reports."
+          "Under the EU Ship Recycling Regulation and IMO HKC, shipowners are legally required to maintain an up-to-date IHM Part I. IHMM guarantees 100% audit readiness with automated hazard threshold cross-referencing and one-click surveyor reports."
         ]
       },
       {
-        keywords: ['md', 'sdoc', 'supplier', 'material declaration', 'declaration of conformity', 'asbestos', 'hazmat', 'threshold'],
+        keywords: ['md', 'sdoc', 'supplier', 'material declaration', 'declaration of conformity', 'asbestos', 'hazmat', 'threshold', 'chasing'],
         chips: ['How IHM works', 'Class Society PDF', 'Schedule Demo'],
         replies: [
           "**Material Declarations (MD)** and **Supplier Declarations of Conformity (SDoC)** are required from maritime equipment vendors for any installed materials.\n\nIHMM automates this entire process: we send automated email requests to your suppliers, use AI to validate threshold compliance for Table A & B substances (e.g. Asbestos, PCBs, PFOS, Lead), and automatically log verified items into your ship's IHM.\n\n[See Live Demo](book-demo.html)",
@@ -1180,14 +1189,28 @@
         ]
       },
       {
-        keywords: ['class', 'dnv', 'lloyd', 'lr', 'abs', 'bureau veritas', 'classnk', 'nk', 'surveyor', 'audit', 'society'],
+        keywords: ['asbestos', 'pcb', 'hazmat', 'table a', 'table b', 'pfos', 'lead', 'mercury', 'cadmium', 'hazardous material', 'substances'],
+        chips: ['Automated MD/SDoC', 'Class approvals', 'Book Demo'],
+        replies: [
+          "IHMM tracks all hazardous substances listed in **IMO HKC** and **EU SRR**:\n\n• **Table A (Prohibited)**: Asbestos, PCBs, Ozone Depleting Substances (ODS), Anti-fouling organotin compounds.\n• **Table B (Regulated / Thresholds)**: Cadmium, Hexavalent Chromium, Lead, Mercury, PBDEs, PFOS, Radioactivity.\n\nOur system automatically checks supplier declarations against statutory threshold limits and flags any anomalies.\n\n[Book a Demo](book-demo.html)"
+        ]
+      },
+      {
+        keywords: ['class', 'dnv', 'lloyd', 'lr', 'abs', 'bureau veritas', 'bv', 'classnk', 'nk', 'rina', 'surveyor', 'audit', 'society', 'iacs'],
         chips: ['Automated MD/SDoC', 'Book Demo', 'WhatsApp Support'],
         replies: [
           "IHMM generates audit-ready reports pre-formatted according to guidelines from all major IACS Classification Societies, including **DNV, Lloyd's Register (LR), ABS, Bureau Veritas (BV), and ClassNK**.\n\nYou can export certified IHM Part I PDFs and grant secure read-only access to class surveyors during annual or renewal surveys.\n\n[Book a Demo](book-demo.html)"
         ]
       },
       {
-        keywords: ['contact', 'whatsapp', 'phone', 'human', 'expert', 'support', 'email', 'reach', 'help desk'],
+        keywords: ['erp', 'integration', 'amos', 'shipnet', 'sertica', 'bassnet', 'veson', 'danaos', 'procurement', 'api', 'software'],
+        chips: ['Schedule Demo', 'Fleet Pricing', 'Talk on WhatsApp'],
+        replies: [
+          "IHMM seamlessly integrates with leading maritime ERP and procurement systems (e.g., **AMOS, ShipNet, Sertica, BASSnet, Veson IMOS, and Danaos**).\n\nWhenever purchase orders or spares are created in your ERP, IHMM automatically triggers supplier MD/SDoC collection workflows.\n\n[Book a Technical Demo](book-demo.html)"
+        ]
+      },
+      {
+        keywords: ['contact', 'whatsapp', 'phone', 'human', 'expert', 'support', 'email', 'reach', 'help desk', 'call'],
         chips: ['Chat on WhatsApp', 'Schedule Demo', 'Pricing Info'],
         replies: [
           "You can connect directly with our maritime compliance specialists anytime:\n\n📱 **WhatsApp**: [+91 9986331158](https://wa.me/919986331158)\n📅 **Schedule Demo**: [Book a live walkthrough](book-demo.html)\n✉️ **Email**: info@ihmm.com\n\nOur team typically responds within minutes during maritime business hours!"
@@ -1196,7 +1219,7 @@
     ];
 
     let replyIndex = 0;
-    function getLocalAiReply(userText) {
+    function getStaticAiReply(userText) {
       const lower = userText.toLowerCase();
 
       for (const item of IHM_KNOWLEDGE) {
@@ -1207,51 +1230,23 @@
       }
 
       const generalReplies = [
-        `Thanks for asking! Regarding "${userText.slice(0, 50)}", IHMM provides automated IHM Part I maintenance, supplier MD/SDoC tracking, and Class approval reporting.\n\nFeel free to [schedule a demo](book-demo.html) or chat directly with our specialists on [WhatsApp](https://wa.me/919986331158).`,
-        `That's an important query regarding vessel compliance. With IHMM, managing hazardous materials across your fleet is 100% automated and audit-ready.\n\n[Book a Demo](book-demo.html) · [Chat on WhatsApp](https://wa.me/919986331158)`,
-        `Our maritime compliance engine ensures your vessels remain fully compliant with EU SRR and IMO HKC regulations with zero manual paperwork.\n\n[Book a Demo](book-demo.html) · [Chat on WhatsApp](https://wa.me/919986331158)`
+        `Regarding "${userText.slice(0, 45)}", **IHMM** provides automated IHM Part I maintenance, supplier MD/SDoC tracking, and Class approval reporting.\n\nFeel free to [schedule a demo](book-demo.html) or chat directly with our specialists on [WhatsApp](https://wa.me/919986331158).`,
+        `That's a key requirement for vessel compliance. With IHMM, managing hazardous materials across your fleet is 100% automated and audit-ready for Port State Control.\n\n[Book a Demo](book-demo.html) · [Chat on WhatsApp](https://wa.me/919986331158)`,
+        `Our maritime compliance engine ensures your vessels remain fully compliant with EU SRR (1257/2013) and IMO HKC with zero manual paperwork.\n\n[Book a Demo](book-demo.html) · [Chat on WhatsApp](https://wa.me/919986331158)`
       ];
 
       return {
         reply: generalReplies[(replyIndex++) % generalReplies.length],
-        chips: ['How does IHM work?', 'Pricing plans', 'Book a demo', 'Talk to an expert']
+        chips: ['What is IHM Part I?', 'Automate MD/SDoC', 'Pricing & Plans', 'Book a Demo']
       };
     }
 
-    /* ----------- Gemini via /api/chat with Smart Fallback ----------- */
+    /* ----------- Static Chatbot Response Handler ----------- */
     async function getBotReply(userText) {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 8000);
-
-      try {
-        const payloadHistory = [
-          ...conversationHistory,
-          { role: 'user', parts: [{ text: userText }] }
-        ];
-
-        const res = await fetch('/api/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ history: payloadHistory }),
-          signal: controller.signal
-        });
-
-        clearTimeout(timeoutId);
-
-        if (res.ok) {
-          const data = await res.json().catch(() => null);
-          if (data && data.reply && typeof data.reply === 'string' && data.reply.trim()) {
-            return {
-              reply: data.reply.trim(),
-              chips: ['Book a demo', 'Pricing plans', 'Talk on WhatsApp']
-            };
-          }
-        }
-      } catch (e) {
-        clearTimeout(timeoutId);
-      }
-
-      return getLocalAiReply(userText);
+      // Natural typing simulation delay (350ms - 600ms)
+      const delay = Math.floor(Math.random() * 250) + 350;
+      await new Promise(resolve => setTimeout(resolve, delay));
+      return getStaticAiReply(userText);
     }
 
     async function sendUserMsg(text) {
@@ -1278,7 +1273,7 @@
         }
       } catch (err) {
         removeTyping();
-        const fallback = getLocalAiReply(trimmed);
+        const fallback = getStaticAiReply(trimmed);
         addMsg('bot', fallback.reply, false, fallback.chips);
         conversationHistory.push({ role: 'user', parts: [{ text: trimmed }] });
         conversationHistory.push({ role: 'model', parts: [{ text: fallback.reply }] });
@@ -1302,7 +1297,6 @@
       isOpen = true;
       panel.classList.add('visible');
       if (chatFab) chatFab.classList.add('chat-fab-hidden');
-      if (teaser) teaser.classList.remove('visible');
       if (backdrop) backdrop.classList.add('visible');
       quickActs.classList.remove('visible');
       toggleBtn.classList.add('is-open');
