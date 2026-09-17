@@ -1023,24 +1023,45 @@
       if (t) t.remove();
     }
 
-    function getBotReply(userText) {
-      const lower = userText.toLowerCase();
-      for (const entry of KB) {
-        if (entry.k.some(kw => lower.includes(kw))) return entry.a;
-      }
-      return "That's a great question! For detailed information, I'd recommend speaking directly with our team — they can give you the most accurate answer. You can <a href='book-demo.html' style='color:#0099e6;font-weight:600;'>book a demo</a> or reach us on WhatsApp below. 🚢";
+    /* ----------- Gemini via /api/chat (Vercel serverless) ----------- */
+    const conversationHistory = [];
+
+    async function getBotReply(userText) {
+      conversationHistory.push({ role: 'user', parts: [{ text: userText }] });
+
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ history: conversationHistory })
+      });
+
+      if (!res.ok) throw new Error('API ' + res.status);
+
+      const data = await res.json();
+      conversationHistory.push({ role: 'model', parts: [{ text: data.reply }] });
+      return data.reply;
     }
 
-    function sendUserMsg(text) {
+    async function sendUserMsg(text) {
       if (!text.trim()) return;
       addMsg('user', text);
       inputEl.value = '';
+      inputEl.disabled = true;
+      sendBtn.disabled = true;
       showTyping();
-      const delay = 900 + Math.random() * 600;
-      typingTimer = setTimeout(() => {
+      try {
+        const reply = await getBotReply(text);
         removeTyping();
-        addMsg('bot', getBotReply(text));
-      }, delay);
+        addMsg('bot', reply);
+      } catch (err) {
+        removeTyping();
+        addMsg('bot', "Sorry, I'm having a connection issue. Please try WhatsApp below or <a href='book-demo.html' style='color:#0099e6;font-weight:600;'>book a demo</a> and we'll reach out. 🚢");
+        console.error('Chat error:', err);
+      } finally {
+        inputEl.disabled = false;
+        sendBtn.disabled = false;
+        inputEl.focus();
+      }
     }
 
     /* ----------- Open / Close ----------- */
