@@ -11,12 +11,11 @@ Guidelines:
 - Keep replies concise: 2-4 sentences max. Be friendly, professional, and clear
 - Do NOT reveal you are powered by Google Gemini or any third-party AI model`;
 
-const CANDIDATE_CONFIGS = [
-  { version: 'v1beta', model: 'gemini-2.0-flash' },
-  { version: 'v1beta', model: 'gemini-1.5-flash' },
-  { version: 'v1',     model: 'gemini-1.5-flash' },
-  { version: 'v1beta', model: 'gemini-1.5-flash-8b' },
-  { version: 'v1beta', model: 'gemini-1.5-pro' }
+const CANDIDATE_MODELS = [
+  'gemini-3.6-flash',
+  'gemini-3.5-flash',
+  'gemini-3.7-flash',
+  'gemini-3.8-flash'
 ];
 
 module.exports = async function handler(req, res) {
@@ -45,18 +44,17 @@ module.exports = async function handler(req, res) {
   if (!rawKey) {
     console.error('GEMINI_API_KEY not set in Vercel environment variables');
     return res.status(500).json({
-      error: 'GEMINI_API_KEY is missing in Vercel environment variables. Please add it under Vercel Project Settings -> Environment Variables and redeploy.'
+      error: 'GEMINI_API_KEY missing in Vercel environment variables. Please add it in Vercel Settings.'
     });
   }
 
-  // Strip quotes and whitespace if accidentally pasted with quotes
   const apiKey = rawKey.trim().replace(/^["']+|["']+$/g, '');
 
-  let errors = [];
+  let lastError = null;
 
-  for (const cfg of CANDIDATE_CONFIGS) {
+  for (const model of CANDIDATE_MODELS) {
     try {
-      const url = `https://generativelanguage.googleapis.com/${cfg.version}/models/${cfg.model}:generateContent?key=${apiKey}`;
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
       const payload = {
         system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
         contents: history,
@@ -73,10 +71,8 @@ module.exports = async function handler(req, res) {
 
       if (!geminiRes.ok) {
         const errText = await geminiRes.text();
-        console.error(`Gemini error (${cfg.version}/${cfg.model}) [${geminiRes.status}]:`, errText);
-        let parsedErr = errText;
-        try { parsedErr = JSON.parse(errText); } catch (_) {}
-        errors.push({ config: cfg, status: geminiRes.status, response: parsedErr });
+        console.error(`Gemini error with model ${model} (${geminiRes.status}):`, errText);
+        lastError = { model, status: geminiRes.status, details: errText };
         continue;
       }
 
@@ -84,20 +80,21 @@ module.exports = async function handler(req, res) {
       const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
       if (!reply) {
-        errors.push({ config: cfg, status: 502, response: 'Empty candidate text in response', data });
+        console.error(`Empty response from model ${model}:`, JSON.stringify(data));
+        lastError = { model, status: 502, details: 'Empty content in candidate' };
         continue;
       }
 
       return res.status(200).json({ reply });
 
     } catch (err) {
-      console.error(`Fetch exception (${cfg.version}/${cfg.model}):`, err.message);
-      errors.push({ config: cfg, status: 500, message: err.message });
+      console.error(`Exception with model ${model}:`, err.message);
+      lastError = { model, status: 500, details: err.message };
     }
   }
 
   return res.status(502).json({
-    error: 'Gemini API request failed on all candidate endpoints',
-    details: errors
+    error: 'All Gemini model endpoints failed',
+    lastError
   });
 };
