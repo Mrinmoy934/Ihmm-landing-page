@@ -6,7 +6,7 @@
     },
     {
       "source": "/login",
-      "destination": "/login.html"
+      "destination": "https://ihm-enviguide.vercel.app/login"
     },
     {
       "source": "/dashboard",
@@ -59,6 +59,22 @@
     {
       "source": "/menu/:path*",
       "destination": "https://ihm-enviguide.vercel.app/menu/:path*"
+    },
+    {
+      "source": "/master-data/:path*",
+      "destination": "https://ihm-enviguide.vercel.app/master-data/:path*"
+    },
+    {
+      "source": "/master-data",
+      "destination": "https://ihm-enviguide.vercel.app/master-data"
+    },
+    {
+      "source": "/inventory/:path*",
+      "destination": "https://ihm-enviguide.vercel.app/inventory/:path*"
+    },
+    {
+      "source": "/inventory",
+      "destination": "https://ihm-enviguide.vercel.app/inventory"
     },
     {
       "source": "/upload/:path*",
