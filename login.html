@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EnviGuide IHM — Portal Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-black: #000000;
+      --acc-blue: #2563eb;
+      --muted-slate: #64748b;
+      --border-v2: #f1f5f9;
+      --bg-v2: #ffffff;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-v2);
+    }
+    .login-viewport {
+      display: flex;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+    }
+    /* Left Panel: Moody Slideshow */
+    .visual-side {
+      position: relative;
+      flex: 1.1;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+    .slide-v2 {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+      transform: scale(1.2);
+    }
+    .slide-v2.active {
+      opacity: 0.7;
+      transform: scale(1.05);
+      transition: opacity 2s ease-in-out, transform 10s ease-out;
+    }
+    .visual-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.6) 100%);
+      z-index: 5;
+    }
+    .visual-caption {
+      position: absolute;
+      bottom: 30px;
+      left: 30px;
+      z-index: 10;
+    }
+    .tiny-label {
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0.8;
+    }
+    /* Right Panel: Clean Auth Portal */
+    .form-side {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+      background: var(--bg-v2);
+      position: relative;
+    }
+    .auth-content {
+      width: 100%;
+      max-width: 380px;
+      animation: authFadeUp 0.6s ease-out;
+    }
+    @keyframes authFadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .auth-header-v2 {
+      margin-bottom: 24px;
+    }
+    .brand-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+      padding: 8px 18px;
+      border-radius: 14px;
+      width: fit-content;
+      box-shadow: 0 8px 20px rgba(14, 165, 233, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+    .auth-header-v2 h2 {
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--primary-black);
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+    .auth-header-v2 p {
+      font-size: 13px;
+      color: var(--muted-slate);
+    }
+    .premium-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .form-group-v2 {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group-v2 label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--muted-slate);
+    }
+    .input-row-v2 {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .icon-v2 {
+      position: absolute;
+      left: 14px;
+      color: var(--muted-slate);
+      opacity: 0.6;
+    }
+    .input-row-v2 input {
+      width: 100%;
+      height: 48px;
+      padding: 0 44px;
+      border: 1.5px solid #f1f5f9;
+      border-radius: 10px;
+      background: #fdfdfd;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      color: #0f172a;
+    }
+    .input-row-v2 input:focus {
+      outline: none;
+      background: white;
+      border-color: var(--primary-black);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    }
+    .eye-btn {
+      position: absolute;
+      right: 14px;
+      background: none;
+      border: none;
+      color: var(--muted-slate);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+    }
+    .form-utils-v2 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+    }
+    .remember-v2 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      color: var(--muted-slate);
+      user-select: none;
+    }
+    .remember-v2 input {
+      accent-color: #0f172a;
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    .forgot-v2 {
+      color: var(--primary-black);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .btn-blocker {
+      height: 52px;
+      background: var(--primary-black);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+    .btn-blocker:hover {
+      background: #27272a;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+    .btn-blocker:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .auth-footer-v2 {
+      position: absolute;
+      bottom: 24px;
+      font-size: 11px;
+      color: var(--muted-slate);
+      text-align: center;
+    }
+    .alert-box {
+      font-size: 0.85rem;
+      margin-bottom: 0.5rem;
+      text-align: center;
+      padding: 8px 12px;
+      border-radius: 6px;
+      display: none;
+    }
+    .alert-box.error {
+      background: #fef2f2;
+      color: #ef4444;
+      border: 1px solid #fee2e2;
+    }
+    .alert-box.info {
+      background: #eff6ff;
+      color: #3b82f6;
+      border: 1px solid #dbeafe;
+    }
+    @media (max-width: 900px) {
+      .visual-side { display: none; }
+      .form-side { flex: 1; padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-viewport">
+    <!-- Left Panel: Moody Slideshow -->
+    <div class="visual-side">
+      <div class="slide-v2 active" id="slide-0" style="background-image: url('login-slide-1.png');"></div>
+      <div class="slide-v2" id="slide-1" style="background-image: url('login-slide-2.png');"></div>
+      <div class="slide-v2" id="slide-2" style="background-image: url('login-slide-3.png');"></div>
+      <div class="visual-overlay"></div>
+      <div class="visual-caption">
+        <span class="tiny-label">IHM Management</span>
+      </div>
+    </div>
+
+    <!-- Right Panel: Clean Auth Portal -->
+    <div class="form-side">
+      <div class="auth-content">
+        <div class="auth-header-v2">
+          <div class="brand-pill">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1 .6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M19.38 20A11.6 11.6 0 0 0 21 14l-9-4-9 4c0 2.9.94 5.34 2.81 7.76"/><path d="M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6"/><path d="M12 10v4"/><path d="M12 2v3"/></svg>
+            <span>EnviGuide IHM</span>
+          </div>
+          <h2>Welcome Back</h2>
+          <p>Access your secure maritime dashboard</p>
+        </div>
+
+        <div id="msg-box" class="alert-box"></div>
+
+        <form id="login-form" class="premium-form">
+          <div class="form-group-v2">
+            <label for="email-input">Portal Email / Username</label>
+            <div class="input-row-v2">
+              <svg class="icon-v2" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              <input
+                id="email-input"
+                type="text"
+                placeholder="email@company.com or username"
+                required
+                autocomplete="username"
+              />
+            </div>
+          </div>
+
+          <div class="form-group-v2">
+            <label for="password-input">Access Key</label>
+            <div class="input-row-v2">
+              <svg class="icon-v2" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <input
+                id="password-input"
+                type="password"
+                placeholder="********"
+                required
+                autocomplete="current-password"
+              />
+              <button
+                type="button"
+                id="eye-toggle"
+                class="eye-btn"
+                aria-label="Toggle password visibility"
+              >
+                <svg id="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-utils-v2">
+            <label class="remember-v2">
+              <input type="checkbox" id="remember-me" />
+              <span>Remember me</span>
+            </label>
+            <a href="#" id="forgot-link" class="forgot-v2">Forgot Password?</a>
+          </div>
+
+          <button type="submit" id="submit-btn" class="btn-blocker">
+            Sign In
+          </button>
+        </form>
+      </div>
+
+      <footer class="auth-footer-v2">
+        <p>&copy; 2026 EnviGuide IHM &bull; ISO 27001 Certified</p>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    // Slideshow transition
+    (function () {
+      let current = 0;
+      const slides = [
+        document.getElementById('slide-0'),
+        document.getElementById('slide-1'),
+        document.getElementById('slide-2')
+      ];
+      setInterval(() => {
+        slides[current].classList.remove('active');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('active');
+      }, 6000);
+    })();
+
+    // Password visibility toggle
+    const eyeToggle = document.getElementById('eye-toggle');
+    const passwordInput = document.getElementById('password-input');
+    eyeToggle.addEventListener('click', () => {
+      const isPass = passwordInput.type === 'password';
+      passwordInput.type = isPass ? 'text' : 'password';
+    });
+
+    // Forgot password info
+    const forgotLink = document.getElementById('forgot-link');
+    const msgBox = document.getElementById('msg-box');
+    forgotLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      msgBox.className = 'alert-box info';
+      msgBox.textContent = 'Please reach out to the Enviguide team for password assistance.';
+      msgBox.style.display = 'block';
+    });
+
+    // Check if already authenticated
+    const existingToken = localStorage.getItem('ihm_token') || sessionStorage.getItem('ihm_token');
+    if (existingToken) {
+      window.location.href = '/dashboard';
+    }
+
+    // Form submit logic via same-origin /api/v1 proxy
+    const form = document.getElementById('login-form');
+    const submitBtn = document.getElementById('submit-btn');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      msgBox.style.display = 'none';
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Signing in...';
+
+      const email = document.getElementById('email-input').value.trim();
+      const password = passwordInput.value;
+      const rememberMe = document.getElementById('remember-me').checked;
+
+      let apiUrl = '/api/v1/auth/login';
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        const resData = await response.json();
+
+        if (response.ok && resData.success && resData.data && resData.data.token) {
+          const { token, user } = resData.data;
+
+          const authUser = {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            roleName: user.roleName || null,
+            category: user.category,
+            isAdmin: user.role === 'admin' || user.role === 'superadmin',
+            permissions: user.permissions || [],
+            token: token,
+            vesselId: user.vesselId,
+            shipManager: user.shipManager,
+            shipOwner: user.shipOwner
+          };
+
+          if (rememberMe) {
+            localStorage.setItem('ihm_token', token);
+            localStorage.setItem('ihm_user', JSON.stringify(authUser));
+          } else {
+            sessionStorage.setItem('ihm_token', token);
+            sessionStorage.setItem('ihm_user', JSON.stringify(authUser));
+          }
+
+          localStorage.setItem('auth_token', token);
+          localStorage.setItem('auth_user', JSON.stringify(authUser));
+
+          window.location.href = '/dashboard';
+        } else {
+          const errMessage = (resData.error && resData.error.message) || resData.message || 'Invalid credentials';
+          msgBox.className = 'alert-box error';
+          msgBox.textContent = errMessage;
+          msgBox.style.display = 'block';
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Sign In';
+        }
+      } catch (err) {
+        msgBox.className = 'alert-box error';
+        msgBox.textContent = 'Authentication error. Please verify your connection.';
+        msgBox.style.display = 'block';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Sign In';
+      }
+    });
+  </script>
+</body>
+</html>

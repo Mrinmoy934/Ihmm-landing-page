@@ -1,4 +1,74 @@
 {
+  "rewrites": [
+    {
+      "source": "/api/v1/:path*",
+      "destination": "https://enviguide.duckdns.org/api/v1/:path*"
+    },
+    {
+      "source": "/login",
+      "destination": "/login.html"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "https://ihm-enviguide.vercel.app/dashboard"
+    },
+    {
+      "source": "/vessels/:path*",
+      "destination": "https://ihm-enviguide.vercel.app/vessels/:path*"
+    },
+    {
+      "source": "/vessels",
+      "destination": "https://ihm-enviguide.vercel.app/vessels"
+    },
+    {
+      "source": "/decks",
+      "destination": "https://ihm-enviguide.vercel.app/decks"
+    },
+    {
+      "source": "/viewer",
+      "destination": "https://ihm-enviguide.vercel.app/viewer"
+    },
+    {
+      "source": "/mapping",
+      "destination": "https://ihm-enviguide.vercel.app/mapping"
+    },
+    {
+      "source": "/materials",
+      "destination": "https://ihm-enviguide.vercel.app/materials"
+    },
+    {
+      "source": "/purchase-orders",
+      "destination": "https://ihm-enviguide.vercel.app/purchase-orders"
+    },
+    {
+      "source": "/administration/:path*",
+      "destination": "https://ihm-enviguide.vercel.app/administration/:path*"
+    },
+    {
+      "source": "/administration",
+      "destination": "https://ihm-enviguide.vercel.app/administration"
+    },
+    {
+      "source": "/security/:path*",
+      "destination": "https://ihm-enviguide.vercel.app/security/:path*"
+    },
+    {
+      "source": "/security",
+      "destination": "https://ihm-enviguide.vercel.app/security"
+    },
+    {
+      "source": "/menu/:path*",
+      "destination": "https://ihm-enviguide.vercel.app/menu/:path*"
+    },
+    {
+      "source": "/upload/:path*",
+      "destination": "https://ihm-enviguide.vercel.app/upload/:path*"
+    },
+    {
+      "source": "/assets/:path*",
+      "destination": "https://ihm-enviguide.vercel.app/assets/:path*"
+    }
+  ],
   "functions": {
     "api/chat.js": {
       "maxDuration": 15
@@ -8,21 +78,36 @@
     {
       "source": "/api/(.*)",
       "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Access-Control-Allow-Methods", "value": "POST, OPTIONS" },
-        { "key": "Access-Control-Allow-Headers", "value": "Content-Type" }
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "POST, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type"
+        }
       ]
     },
     {
       "source": "/(.*\\.(?:webm|mp4|webp|png|jpg|jpeg|svg|ico|woff2|woff))",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/(.*\\.(?:css|js))",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
       ]
     }
   ]
