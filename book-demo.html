@@ -10,21 +10,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
-    /* Full page viewport split layout for Book a Demo */
+    /* Full page split layout: Static Left Video + Scrollable Right Form */
     html, body {
       height: 100%;
       overflow: hidden;
       background: #f8fafc;
     }
+
     .demo-hero-section {
       height: calc(100vh - 72px);
       overflow: hidden;
       display: flex;
-      align-items: center;
+      align-items: stretch;
       justify-content: center;
       padding: 0;
       background: #f8fafc;
     }
+
     .demo-wire-card {
       width: 100%;
       height: 100%;
@@ -35,20 +37,24 @@
       border: none;
       box-shadow: none;
     }
+
     .demo-grid {
       display: grid;
-      grid-template-columns: 60% 40%;
+      grid-template-columns: 55% 45%;
       height: calc(100vh - 72px);
       overflow: hidden;
     }
-    /* Left Visual Panel - Fixed & Static to Page */
+
+    /* Left Visual Panel - 100% Static & Fixed in place */
     .visual-panel {
       background: #071c37;
-      position: sticky;
-      top: 0;
-      height: calc(100vh - 72px);
+      position: relative;
+      height: 100%;
+      width: 100%;
       overflow: hidden;
+      user-select: none;
     }
+
     .visual-panel video {
       position: absolute;
       top: 50%;
@@ -63,24 +69,47 @@
       pointer-events: none;
     }
 
-    /* Right Form Side - Scrollable inside fixed viewport */
+    /* Right Form Side - Scrollable from Top to Bottom */
     .demo-form-card {
-      padding: 28px 64px 36px;
+      padding: 36px 48px 60px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       background: var(--white);
       border: none;
       box-shadow: none;
       border-radius: 0;
       height: calc(100vh - 72px);
       overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: #cbd5e1 #f8fafc;
     }
+
+    .demo-form-card::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .demo-form-card::-webkit-scrollbar-track {
+      background: #f8fafc;
+    }
+
+    .demo-form-card::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    .demo-form-card::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
     .form-inner-wrap {
-      max-width: 440px;
+      max-width: 460px;
       margin: 0 auto;
       width: 100%;
     }
+
     .demo-form-card h2 {
       font-size: 1.7rem;
       font-weight: 800;
@@ -88,15 +117,18 @@
       margin: 0 0 6px;
       letter-spacing: -0.02em;
     }
+
     .demo-form-card p.demo-subtitle {
       color: #475569;
       font-size: 0.88rem;
       margin-bottom: 20px;
       line-height: 1.45;
     }
+
     .form-group {
       margin-bottom: 14px;
     }
+
     .form-label {
       display: block;
       font-size: 0.76rem;
@@ -106,6 +138,7 @@
       color: #1e293b;
       margin-bottom: 5px;
     }
+
     .form-control {
       width: 100%;
       height: 40px;
@@ -118,12 +151,14 @@
       transition: all 0.2s ease;
       font-family: inherit;
     }
+
     .form-control:focus {
       outline: none;
       border-color: #0099e6;
       background: #fff;
       box-shadow: 0 0 0 3px rgba(0, 153, 230, 0.15);
     }
+
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
