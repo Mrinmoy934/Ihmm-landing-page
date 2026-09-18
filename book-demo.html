@@ -10,52 +10,45 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <style>
-    /* Clean Enterprise Layout for Book a Demo */
+    /* Full page viewport split layout for Book a Demo */
     html, body {
-      min-height: 100%;
-      background: #071c37;
-      overflow-x: hidden;
-      overflow-y: auto;
+      height: 100%;
+      overflow: hidden;
+      background: #f8fafc;
     }
-    
     .demo-hero-section {
-      min-height: calc(100vh - 72px);
+      height: calc(100vh - 72px);
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 40px 24px 60px;
-      background: #071c37;
+      padding: 0;
+      background: #f8fafc;
     }
-
     .demo-wire-card {
       width: 100%;
-      max-width: 1180px;
-      margin: 0 auto;
+      height: 100%;
+      margin: 0;
       background: var(--white);
-      border-radius: 20px;
+      border-radius: 0;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+      border: none;
+      box-shadow: none;
     }
-
     .demo-grid {
       display: grid;
-      grid-template-columns: 1fr 1.15fr;
-      min-height: 640px;
+      grid-template-columns: 60% 40%;
+      height: calc(100vh - 72px);
+      overflow: hidden;
     }
-
     /* Left Visual Panel - Fixed & Static to Page */
     .visual-panel {
-      background: #051329;
-      position: relative;
-      height: 100%;
-      min-height: 400px;
+      background: #071c37;
+      position: sticky;
+      top: 0;
+      height: calc(100vh - 72px);
       overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
-
     .visual-panel video {
       position: absolute;
       top: 50%;
@@ -70,93 +63,79 @@
       pointer-events: none;
     }
 
-    /* Right Form Side - Clean Form Layout */
+    /* Right Form Side - Scrollable inside fixed viewport */
     .demo-form-card {
-      padding: 36px 44px;
+      padding: 28px 64px 36px;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
+      justify-content: center;
       background: var(--white);
-      height: 100%;
-      overflow: visible;
+      border: none;
+      box-shadow: none;
+      border-radius: 0;
+      height: calc(100vh - 72px);
+      overflow-y: auto;
     }
-
     .form-inner-wrap {
-      max-width: 480px;
+      max-width: 440px;
       margin: 0 auto;
       width: 100%;
     }
-
     .demo-form-card h2 {
-      font-size: 1.65rem;
+      font-size: 1.7rem;
       font-weight: 800;
       color: #071c37;
       margin: 0 0 6px;
       letter-spacing: -0.02em;
     }
-
     .demo-form-card p.demo-subtitle {
       color: #475569;
-      font-size: 0.86rem;
-      margin-bottom: 18px;
+      font-size: 0.88rem;
+      margin-bottom: 20px;
       line-height: 1.45;
     }
-
     .form-group {
-      margin-bottom: 11px;
+      margin-bottom: 14px;
     }
-
     .form-label {
       display: block;
-      font-size: 0.74rem;
+      font-size: 0.76rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.04em;
       color: #1e293b;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
     }
-
     .form-control {
       width: 100%;
-      height: 38px;
+      height: 40px;
       border: 1.5px solid #cbd5e1;
       background: #f8fafc;
       border-radius: 8px;
-      padding: 0 13px;
-      font-size: 0.85rem;
+      padding: 0 14px;
+      font-size: 0.86rem;
       color: #0f172a;
       transition: all 0.2s ease;
       font-family: inherit;
     }
-
     .form-control:focus {
       outline: none;
       border-color: #0099e6;
       background: #fff;
       box-shadow: 0 0 0 3px rgba(0, 153, 230, 0.15);
     }
-
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
     }
 
-    @media (max-width: 960px) {
-      .demo-hero-section {
-        padding: 20px 12px 40px;
-      }
-      .demo-grid {
-        grid-template-columns: 1fr;
-        min-height: auto;
-      }
-      .visual-panel {
-        height: 240px;
-        min-height: 240px;
-      }
-      .demo-form-card {
-        padding: 28px 20px 36px;
-      }
+    @media (max-width: 900px) {
+      html, body { overflow: auto; height: auto; }
+      .demo-hero-section, .demo-grid, .demo-form-card { height: auto; overflow: visible; }
+      .demo-grid { grid-template-columns: 1fr; }
+      .visual-panel { display: block; position: relative; height: 260px; width: 100%; }
+      .demo-form-card { padding: 32px 24px; }
     }
   </style>
 </head>
