@@ -1,5 +1,5 @@
 /* ============================================================
-   EnviGuide IHM — Landing Page JavaScript
+   OceanLedger IHMM — Landing Page JavaScript
    ============================================================ */
 
 (function () {
