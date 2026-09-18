@@ -6,7 +6,7 @@
     },
     {
       "source": "/login",
-      "destination": "https://ihm-enviguide.vercel.app/login"
+      "destination": "/login.html"
     },
     {
       "source": "/dashboard",
