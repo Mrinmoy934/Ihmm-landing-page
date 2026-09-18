@@ -2798,30 +2798,65 @@ p {
 /* ---------- CTA Band ---------- */
 .cta-band {
   position: relative;
-  padding: 64px 40px;
-  background: var(--white);
-  border: 1px solid var(--line);
+  padding: 80px 40px;
+  background: #071c37;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 24px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 20px 50px rgba(7, 28, 55, 0.18);
   overflow: hidden;
   text-align: center;
-  color: var(--ink);
+  color: #ffffff;
+}
+
+.cta-video-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cta-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.cta-video-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(7, 28, 55, 0.88) 0%, rgba(11, 17, 32, 0.94) 100%);
+  z-index: 1;
 }
 
 .cta-inner {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  max-width: 760px;
+  margin: 0 auto;
 }
 
 .cta-band h2 {
-  color: var(--navy);
+  color: #ffffff;
   margin-bottom: 14px;
+  font-size: 2.2rem;
+  letter-spacing: -0.02em;
 }
 
 .cta-band p {
-  color: var(--ink-soft);
+  color: #cbd5e1;
   font-size: 1.05rem;
   margin-bottom: 0;
+  line-height: 1.6;
 }
 
 .cta-actions {

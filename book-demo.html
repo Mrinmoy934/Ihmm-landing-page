@@ -134,7 +134,7 @@
       html, body { overflow: auto; height: auto; }
       .demo-hero-section, .demo-grid, .demo-form-card { height: auto; overflow: visible; }
       .demo-grid { grid-template-columns: 1fr; }
-      .visual-panel { display: none; }
+      .visual-panel { display: block; position: relative; height: 260px; width: 100%; }
       .demo-form-card { padding: 32px 24px; }
     }
   </style>
@@ -169,9 +169,12 @@
       <div class="demo-grid">
         <!-- LEFT: VISUAL PANEL WITH VIDEO -->
         <div class="visual-panel">
-          <video autoplay loop muted playsinline preload="auto">
+          <video id="demoVideo" autoplay loop muted playsinline webkit-playsinline preload="auto" disablePictureInPicture disableremoteplayback>
             <source src="video.bookdemo.mp4" type="video/mp4">
+            <source src="video.mp4" type="video/mp4">
+            <source src="video.webm" type="video/webm">
           </video>
+          <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7, 28, 55, 0.15) 0%, rgba(7, 28, 55, 0.55) 100%); pointer-events: none;"></div>
         </div>
 
         <!-- RIGHT: DEMO FORM CARD -->
@@ -281,5 +284,21 @@
   </section>
 
   <script src="main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const vid = document.getElementById('demoVideo');
+      if (vid) {
+        vid.muted = true;
+        const playPromise = vid.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            const startPlay = () => { vid.play(); };
+            document.addEventListener('click', startPlay, { once: true });
+            document.addEventListener('touchstart', startPlay, { once: true });
+          });
+        }
+      }
+    });
+  </script>
 </body>
 </html>
