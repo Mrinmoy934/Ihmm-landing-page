@@ -97,6 +97,22 @@
   </div>
 
   <script>
+    // Smart local dev detection
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const iframe = document.getElementById('ihm-frame');
+    
+    if (isLocal) {
+      // Test if local Vite server is running
+      fetch('http://localhost:5173/', { mode: 'no-cors' })
+        .then(() => {
+          if (iframe) iframe.src = 'http://localhost:5173/';
+        })
+        .catch(() => {
+          // Fallback to production Vercel
+          if (iframe) iframe.src = 'https://ihm-enviguide.vercel.app/';
+        });
+    }
+
     // Hide loader after maximum 3s regardless
     setTimeout(() => {
       const loader = document.getElementById('loader');
