@@ -1593,6 +1593,14 @@ p {
 }
 
 /* ===== 1. HAZMAT MAPPING ===== */
+.anim-stage-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  border-radius: inherit;
+}
 .anim-scan-line {
   position: absolute;
   top: 0;
