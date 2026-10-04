@@ -139,7 +139,7 @@ export default function Sidebar() {
     // existed before this feature shipped.
     const visibleMenu = useMemo<MenuItem[]>(() => {
         if (!user) return menuItems;
-        
+
         const role = (user.roleName || user.role || '').toLowerCase();
         const isOwnerOrManager = role === 'owner' || role === 'ship_owner' || role === 'ship_manager' || role.includes('owner') || role.includes('manager');
         const isVessel = role === 'vessel' || role.includes('vessel');
@@ -150,10 +150,10 @@ export default function Sidebar() {
                 if (item.path === '/dashboard') {
                     out.push({ ...item, label: 'Dashboard' });
                 } else if (item.path === '/vessels') {
-                    out.push({ 
-                        path: '/vessels/ship', 
-                        icon: item.icon, 
-                        label: 'Vessel' 
+                    out.push({
+                        path: '/vessels/ship',
+                        icon: item.icon,
+                        label: 'Vessel'
                     });
                 } else if (item.path === '/contact') {
                     out.push(item);
