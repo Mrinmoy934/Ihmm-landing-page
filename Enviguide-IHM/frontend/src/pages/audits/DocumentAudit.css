@@ -1,0 +1,1388 @@
+.doc-audit-container {
+    display: flex;
+    height: 100vh;
+    background: #F1F5F9;
+    /* Background color of the whole page */
+    overflow: hidden;
+}
+
+.doc-audit-main {
+    flex: 1;
+    margin-left: var(--sidebar-width, 240px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    background: #F8FAFC;
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body:has(.sidebar.collapsed) .doc-audit-main {
+    margin-left: var(--sidebar-collapsed-width, 80px);
+}
+
+.doc-audit-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-top: 72px;
+    /* Platform Header Height. No bottom padding — the legacy
+       progress footer was removed when the page was rewritten. */
+    overflow-y: auto;
+    position: relative;
+}
+
+/* Success Toast Notification */
+.audit-success-toast {
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0F172A;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    z-index: 2000;
+    min-width: 500px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: slideDownToast 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideDownToast {
+    from {
+        transform: translate(-50%, -100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
+
+.toast-content-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.toast-icon-green {
+    width: 40px;
+    height: 40px;
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toast-text-area h3 {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0;
+    color: #FFFFFF;
+}
+
+.toast-text-area p {
+    font-size: 12px;
+    color: #94A3B8;
+    margin: 4px 0 0 0;
+}
+
+.undo-action-btn {
+    background: none;
+    border: none;
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    letter-spacing: 1px;
+    padding: 8px 12px;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.undo-action-btn:hover {
+    color: #00A3FF;
+}
+
+.status-pill-v3.accepted {
+    background: #DCFCE7;
+    color: #15803D;
+    border: 1px solid #BBF7D0;
+}
+
+/* Sub-Header (Navy Blue area) - Compacted */
+.audit-sub-header {
+    background: #0F172A;
+    padding: 10px 40px 14px 40px;
+    /* Further reduced height */
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.doc-breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #94A3B8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.doc-breadcrumbs .separator {
+    color: #475569;
+}
+
+.doc-breadcrumbs .active {
+    color: #0088CC;
+}
+
+.audit-header-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-title-section {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.header-title-section h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin: 0;
+}
+
+.imo-badge {
+    height: 32px;
+    padding-left: 24px;
+    border-left: 2px solid #334155;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #94A3B8;
+    letter-spacing: 0.5px;
+}
+
+.imo-badge span {
+    color: #FFFFFF;
+    margin-left: 8px;
+}
+
+.verify-all-documents-btn {
+    background: #00A3FF;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    /* Compacted padding */
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(0, 163, 255, 0.2);
+}
+
+.verify-all-documents-btn.verified {
+    background: #10B981;
+    cursor: default;
+    box-shadow: none;
+}
+
+.verify-all-documents-btn:hover:not(:disabled) {
+    background: #0088CC;
+    transform: translateY(-1px);
+}
+
+/* Scroll Area — sizes to its own content. Outer .doc-audit-content
+   handles vertical scrolling now, so the table card no longer
+   stretches to fill the viewport (which left a big grey gap below
+   short tables). */
+.audit-scroll-area {
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Metrics Cards */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.metric-card {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.metric-label {
+    font-size: 10px;
+    font-weight: 800;
+    color: #94A3B8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.metric-number {
+    font-size: 32px;
+    font-weight: 700;
+    color: #0F172A;
+}
+
+.metric-number.highlight {
+    color: #00A3FF;
+}
+
+.metric-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.metric-icon-box.cart {
+    background: #F8FAFC;
+    color: #64748B;
+}
+
+.metric-icon-box.doc {
+    background: #FFF7ED;
+    color: #F97316;
+}
+
+.metric-icon-box.sdoc {
+    background: #FEFCE8;
+    color: #EAB308;
+}
+
+.metric-icon-box.msg {
+    background: #F0F9FF;
+    color: #00A3FF;
+}
+
+/* Table Card */
+.audit-table-card {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.card-header {
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-header h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0F172A;
+    margin: 0;
+}
+
+.search-wrapper {
+    position: relative;
+    width: 320px;
+}
+
+.search-wrapper svg {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94A3B8;
+}
+
+.search-wrapper input {
+    width: 100%;
+    padding: 10px 16px 10px 44px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    font-size: 13px;
+    color: #0F172A;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.audit-table {
+    width: 100%;
+    min-width: 1200px;
+    border-collapse: collapse;
+}
+
+.audit-table th {
+    background: #F8FAFC;
+    padding: 16px 24px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-bottom: 1px solid #E2E8F0;
+    white-space: nowrap;
+}
+
+.audit-table td {
+    padding: 20px 24px;
+    border-bottom: 1px solid #F1F5F9;
+    font-size: 14px;
+    color: #334155;
+    vertical-align: middle;
+}
+
+/* Sticky ACTION column — same treatment as MD SDoC Audit Pending so the
+   manager can always reach Accept / Request Clarification regardless of
+   horizontal scroll position. The header keeps the F8FAFC bg, body cells
+   use white to mask scrolling content, and a subtle left-edge shadow
+   marks the pin. */
+.audit-table th:last-child,
+.audit-table td:last-child {
+    position: sticky;
+    right: 0;
+    z-index: 2;
+    box-shadow: -4px 0 8px -6px rgba(15, 23, 42, 0.18);
+    min-width: 280px;
+    width: 280px;
+    text-align: center;
+}
+
+.audit-table th:last-child {
+    background: #F8FAFC;
+}
+
+.audit-table td:last-child {
+    background: white;
+}
+
+/* Per-row action buttons — class-based so they're insulated from any
+   global .accept-btn / .clar-btn rules elsewhere in the codebase. */
+.audit-table .da-accept-btn,
+.audit-table .da-clarify-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: auto !important;
+    width: auto !important;
+    flex: none !important;
+    padding: 7px 14px !important;
+    border-radius: 8px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 1.2;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.audit-table .da-accept-btn {
+    background: #10B981 !important;
+    color: white !important;
+    border: 1px solid #10B981 !important;
+}
+
+.audit-table .da-accept-btn:hover:not(:disabled) {
+    background: #0EA371 !important;
+    border-color: #0EA371 !important;
+}
+
+.audit-table .da-accept-btn:disabled {
+    background: #F1F5F9 !important;
+    color: #94A3B8 !important;
+    border-color: #E2E8F0 !important;
+    cursor: not-allowed;
+}
+
+.audit-table .da-clarify-btn {
+    background: white !important;
+    color: #0369A1 !important;
+    border: 1px solid #00B0FA !important;
+}
+
+.audit-table .da-clarify-btn:hover {
+    background: #00B0FA !important;
+    color: white !important;
+}
+
+/* Reviewed badge, used in place of the Accept button once approved. */
+.audit-table .da-reviewed-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 12px;
+    background: #ECFDF5;
+    color: #065F46;
+    border: 1px solid #A7F3D0;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.audit-table .da-action-cell {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.po-ident {
+    color: #00A3FF;
+    font-weight: 700;
+    min-width: 140px;
+}
+
+.supplier-name {
+    font-weight: 600;
+    color: #1E293B;
+    min-width: 220px;
+}
+
+.doc-badge-v3 {
+    padding: 6px 14px;
+    background: #F1F5F9;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    color: #64748B;
+}
+
+.file-link-v3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #00A3FF;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.pdf-icon-v3 {
+    color: #EF4444;
+}
+
+.not-available {
+    color: #CBD5E1;
+    font-weight: 500;
+}
+
+.status-pill-v3 {
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.status-pill-v3.awaiting-clarification {
+    background: #E0F2FE;
+    color: #0369A1;
+}
+
+.status-pill-v3.resolved {
+    background: #F0FDF4;
+    color: #166534;
+}
+
+.status-pill-v3.not-started {
+    background: #F1F5F9;
+    color: #64748B;
+}
+
+.decision-cell-v3 {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+}
+
+.decision-icon-v3 {
+    background: none;
+    border: none;
+    padding: 6px;
+    color: #CBD5E1;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.decision-icon-v3:hover {
+    color: #94A3B8;
+}
+
+.decision-icon-v3.check.completed {
+    color: #10B981;
+}
+
+.decision-icon-v3.flag:hover {
+    color: #F97316;
+}
+
+.decision-icon-v3.message:hover {
+    color: #00A3FF;
+}
+
+/* Footer Progress Bar Fixed */
+.audit-progress-footer-fixed {
+    position: fixed;
+    bottom: 0;
+    left: var(--sidebar-width, 240px);
+    right: 0;
+    height: 80px;
+    background: white;
+    border-top: 1px solid #E2E8F0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    z-index: 1000;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body:has(.sidebar.collapsed) .audit-progress-footer-fixed {
+    left: var(--sidebar-collapsed-width, 80px);
+}
+
+.progress-info-v3 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    max-width: 480px;
+}
+
+.label-v3 {
+    font-size: 11px;
+    font-weight: 800;
+    color: #64748B;
+}
+
+.bar-bg-v3 {
+    flex: 1;
+    height: 10px;
+    background: #F1F5F9;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.bar-fill-v3 {
+    height: 100%;
+    background: #00A3FF;
+    border-radius: 5px;
+}
+
+.percent-v3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0F172A;
+}
+
+.metrics-info-v3 {
+    display: flex;
+    gap: 48px;
+    padding: 0 48px;
+    border-left: 1px solid #F1F5F9;
+    border-right: 1px solid #F1F5F9;
+}
+
+.metric-v3 {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.val-v3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #0F172A;
+}
+
+.val-v3.orange {
+    color: #F97316;
+}
+
+.footer-actions-v3 {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.discard-btn-v3 {
+    background: none;
+    border: none;
+    font-size: 12px;
+    font-weight: 800;
+    color: #94A3B8;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.submit-report-btn-v3 {
+    background: #0F172A;
+    color: white;
+    padding: 14px 32px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s;
+}
+
+.submit-report-btn-v3.submitted {
+    background: #64748B;
+    cursor: default;
+    box-shadow: none;
+}
+
+.submit-report-btn-v3:hover {
+    background: #1E293B;
+    transform: translateY(-1px);
+}
+
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background: white;
+    border-top: 1px solid #F1F5F9;
+}
+
+.pagination-info {
+    font-size: 13px;
+    color: #64748B;
+}
+
+.pagination-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.page-btn {
+    min-width: 36px;
+    height: 36px;
+    padding: 0 12px;
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748B;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.page-btn:hover {
+    background: #F8FAFB;
+    border-color: #CBD5E1;
+}
+
+.page-btn.active {
+    background: #00A3FF;
+    border-color: #00A3FF;
+    color: white;
+}
+
+.pagination-dots {
+    display: flex;
+    align-items: center;
+    color: #94A3B8;
+    padding: 0 4px;
+}
+
+/* Document Viewer Modal */
+.doc-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.doc-modal-container {
+    width: 90%;
+    max-width: 1000px;
+    height: 90vh;
+    background: #F1F5F9;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.doc-modal-header {
+    background: white;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.header-doc-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.pdf-icon-box {
+    width: 40px;
+    height: 40px;
+    background: #FEF2F2;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #FEE2E2;
+}
+
+.doc-meta h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1E293B;
+    margin: 0;
+}
+
+.doc-meta p {
+    font-size: 12px;
+    color: #64748B;
+    margin: 0;
+}
+
+.close-modal-btn {
+    background: #F1F5F9;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748B;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.close-modal-btn:hover {
+    background: #E2E8F0;
+    color: #0F172A;
+}
+
+.doc-modal-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    background: #F8FAFC;
+}
+
+.md-document-page {
+    width: 100%;
+    max-width: 800px;
+    background: white;
+    padding: 60px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+.document-inner-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px solid #0F172A;
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+}
+
+.main-title h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #0F172A;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+.main-title p {
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748B;
+    margin: 8px 0 0 0;
+}
+
+.doc-number {
+    text-align: right;
+}
+
+.doc-number span {
+    font-size: 11px;
+    font-weight: 700;
+    color: #94A3B8;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.doc-number strong {
+    font-size: 14px;
+    color: #1E293B;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 48px;
+}
+
+.info-section h4 {
+    font-size: 11px;
+    font-weight: 800;
+    color: #00A3FF;
+    border-bottom: 1px solid #E2E8F0;
+    padding-bottom: 8px;
+    margin: 0 0 16px 0;
+    letter-spacing: 0.5px;
+}
+
+.info-content strong {
+    display: block;
+    font-size: 16px;
+    color: #1E293B;
+    margin-bottom: 8px;
+}
+
+.info-content p {
+    font-size: 14px;
+    color: #475569;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.md-table-section h5 {
+    font-size: 11px;
+    font-weight: 800;
+    color: #00A3FF;
+    margin: 0 0 16px 0;
+    letter-spacing: 0.5px;
+}
+
+.md-inner-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 40px;
+}
+
+.md-inner-table th {
+    text-align: left;
+    padding: 12px;
+    background: #F8FAFC;
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748B;
+    border: 1px solid #E2E8F0;
+}
+
+.md-inner-table td {
+    padding: 12px;
+    font-size: 13px;
+    color: #334155;
+    border: 1px solid #E2E8F0;
+}
+
+.status-no {
+    color: #10B981;
+    font-weight: 700;
+}
+
+.status-pending {
+    color: #F59E0B;
+    font-weight: 700;
+}
+
+.italic {
+    font-style: italic;
+    color: #94A3B8;
+}
+
+.declaration-section h5 {
+    font-size: 11px;
+    font-weight: 800;
+    color: #00A3FF;
+    margin: 0 0 12px 0;
+    letter-spacing: 0.5px;
+}
+
+.declaration-section p {
+    font-size: 13px;
+    color: #64748B;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.doc-modal-footer {
+    background: white;
+    padding: 20px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #E2E8F0;
+}
+
+.footer-left {
+    display: flex;
+    gap: 16px;
+}
+
+.btn-accept {
+    background: #10B981;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-accept:hover {
+    background: #059669;
+}
+
+.btn-clarification {
+    background: white;
+    color: #00A3FF;
+    border: 1.5px solid #00A3FF;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.btn-clarification:hover {
+    background: #F0F9FF;
+}
+
+.btn-download {
+    background: #F1F5F9;
+    color: #475569;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.btn-download:hover {
+    background: #E2E8F0;
+}
+
+/* Clarification Modal Styles */
+.clarification-modal-container {
+    width: 90%;
+    max-width: 850px;
+    height: 90vh;
+    background: white;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.mail-icon-box {
+    width: 40px;
+    height: 40px;
+    background: #F0F9FF;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #E0F2FE;
+}
+
+.clarification-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 32px;
+    background: white;
+}
+
+.mail-field {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #F1F5F9;
+    gap: 16px;
+}
+
+.field-label {
+    width: 80px;
+    font-size: 11px;
+    font-weight: 800;
+    color: #94A3B8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.field-value-pill.editable {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    flex: 1;
+}
+
+.mail-input-premium {
+    flex: 1;
+    background: transparent;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1E293B;
+    outline: none;
+    padding: 4px 0;
+}
+
+.mail-input-premium.subject {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.mail-toolbar {
+    margin-top: 24px;
+    padding: 8px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.toolbar-group.right {
+    margin-left: auto;
+}
+
+.toolbar-divider {
+    width: 1px;
+    height: 20px;
+    background: #E2E8F0;
+    margin: 0 8px;
+}
+
+.tool-btn {
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748B;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.tool-btn:hover {
+    background: #E2E8F0;
+    color: #0F172A;
+}
+
+.mail-editor-area {
+    margin-top: 24px;
+    padding: 0 8px;
+}
+
+.mail-editor-area p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #475569;
+    margin-bottom: 20px;
+}
+
+.mail-input-premium {
+    flex: 1;
+    background: transparent;
+    border: none;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1E293B;
+    outline: none;
+    padding: 0;
+}
+
+.mail-input-premium.subject {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.field-value-pill.editable {
+    padding: 6px 16px;
+}
+
+.supplier-ref-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #94A3B8;
+    background: #F1F5F9;
+    padding: 2px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.mail-textarea-premium {
+    width: 100%;
+    min-height: 300px;
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #475569;
+    outline: none;
+    resize: none;
+    font-family: inherit;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.upload-docs-center-btn {
+    display: block;
+    width: fit-content;
+    margin: 40px auto;
+    padding: 12px 32px;
+    background: linear-gradient(135deg, #00A3FF 0%, #0088CC 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    user-select: none;
+    box-shadow: 0 4px 15px rgba(0, 163, 255, 0.2);
+}
+
+.signature-area {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid #F1F5F9;
+}
+
+.btn-send-request {
+    background: linear-gradient(135deg, #00A3FF 0%, #0088CC 100%);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 163, 255, 0.2);
+}
+
+.btn-send-request:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 163, 255, 0.3);
+}
+
+.btn-discard {
+    background: transparent;
+    border: none;
+    color: #64748B;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 0 16px;
+    cursor: pointer;
+}
+
+.auto-save-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.save-text {
+    text-align: right;
+}
+
+.save-text span {
+    font-size: 9px;
+    font-weight: 800;
+    color: #94A3B8;
+    letter-spacing: 1px;
+}
+
+.save-text p {
+    font-size: 11px;
+    color: #64748B;
+    margin: 0;
+}
+
+/* Discard Confirmation Styles */
+.confirm-overlay-v3 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20000;
+}
+
+.discard-confirm-card {
+    width: 440px;
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+    animation: scaleUpConfirm 0.2s ease-out;
+}
+
+@keyframes scaleUpConfirm {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.confirm-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.warn-icon {
+    width: 36px;
+    height: 36px;
+    background: #FFFBEB;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.discard-confirm-card h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1E293B;
+    margin: 0;
+}
+
+.confirm-body p {
+    font-size: 14px;
+    color: #64748B;
+    line-height: 1.5;
+    margin: 0 0 24px 0;
+}
+
+.confirm-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.btn-cancel-discard {
+    background: white;
+    border: 1px solid #E2E8F0;
+    color: #64748B;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-confirm-discard {
+    background: #00A3FF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-confirm-discard:hover {
+    background: #0088CC;
+}

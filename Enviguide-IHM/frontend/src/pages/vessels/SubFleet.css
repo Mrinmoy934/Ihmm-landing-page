@@ -1,0 +1,470 @@
+/* Sub-Fleet Styles Standardized with Premium Fleet Layout */
+.pending-audits-content {
+    padding: 24px 40px !important;
+    gap: 0 !important;
+    height: calc(100vh - 72px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Header Section matching Fleet.css */
+.md-header {
+    height: auto;
+    padding-bottom: 20px;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border-bottom: 2px solid #E2E8F0;
+    margin-bottom: 24px;
+    flex-shrink: 0;
+}
+
+.md-title-area h1 {
+    font-size: 26px !important;
+    font-weight: 800 !important;
+    color: #1e293b !important;
+    margin: 0 0 4px 0 !important;
+}
+
+.md-title-area p {
+    color: #64748b;
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Top Bar - Search and Add Button Redesign */
+.audits-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+    flex-shrink: 0;
+    height: 44px; /* Slightly more compact for premium feel */
+}
+
+.search-box {
+    flex: 1;
+    height: 100%;
+    max-width: 480px;
+    background: #ffffff;
+    border-radius: 100px; /* Pill shape */
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    border: 1.5px solid #E2E8F0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.search-box:focus-within {
+    border-color: #00B0FA;
+    box-shadow: 0 4px 12px rgba(0, 176, 250, 0.12);
+    transform: translateY(-1px);
+}
+
+.search-icon {
+    color: #94A3B8;
+    margin-right: 14px;
+    flex-shrink: 0;
+    transition: color 0.2s;
+}
+
+.search-box:focus-within .search-icon {
+    color: #00B0FA;
+}
+
+.search-box input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #1E293B;
+    font-weight: 500;
+    background: transparent;
+    height: 100%;
+    padding-bottom: 1px; /* Optical center alignment */
+}
+
+.search-box input::placeholder {
+    color: #94A3B8;
+    font-weight: 400;
+}
+
+.top-bar-right {
+    height: 100%;
+}
+
+.add-fleet-btn {
+    height: 100%;
+    padding: 0 28px;
+    background: #00B0FA;
+    color: white;
+    border: none;
+    border-radius: 100px; /* Pill shape matching search */
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 176, 250, 0.3);
+    white-space: nowrap;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.add-fleet-btn:hover {
+    background: #0099e0;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 176, 250, 0.4);
+}
+
+.add-fleet-btn:active {
+    transform: translateY(0);
+}
+
+.add-fleet-btn:hover {
+    background: #0099e0;
+    transform: translateY(-1px);
+}
+
+/* Table Container — scrollable area */
+.table-container {
+    flex: 1;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 0; /* critical: lets flex children shrink properly */
+}
+
+.table-scroll-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.audits-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+/* Base cell styles */
+.audits-table th,
+.audits-table td {
+    padding: 0 16px;
+    text-align: left;
+    vertical-align: middle;
+    overflow: hidden;
+}
+
+/* Action column — wide enough for 3 icons at 30px + 2 gaps at 6px = 102px; give 120px */
+.sf-th-action,
+.sf-action-column {
+    width: 120px;
+    padding: 0 12px;
+}
+
+/* Data columns: split remaining width evenly across 4 columns */
+.audits-table th:not(.sf-th-action),
+.audits-table td:not(.sf-action-column) {
+    width: calc((100% - 120px) / 4);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.audits-table th {
+    height: 48px;
+    background: #F8FAFC;
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 2px solid #f1f5f9;
+}
+
+.audits-table td {
+    height: 64px;
+    color: #1e293b;
+    font-size: 14px;
+    font-weight: 600;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.audits-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.audits-table tbody tr:hover {
+    background-color: #f8fafc !important;
+}
+
+/* Action icon buttons — properly centered inside the cell */
+.sf-action-column {
+    overflow: hidden;
+}
+
+.sf-action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sf-action-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    flex-shrink: 0;
+    padding: 0;
+}
+
+.sf-edit-btn { background: #F1F5F9; color: #475569; }
+.sf-edit-btn:hover { background: #E2E8F0; color: #1E293B; transform: scale(1.08); }
+
+.sf-send-btn { background: #EFF6FF; color: #3B82F6; }
+.sf-send-btn:hover { background: #DBEAFE; color: #1D4ED8; transform: scale(1.08); }
+
+.sf-delete-btn { background: #FEF2F2; color: #EF4444; }
+.sf-delete-btn:hover { background: #EF4444; color: white; transform: scale(1.08); }
+
+/* Table footer */
+.table-footer {
+    padding: 10px 20px;
+    border-top: 1px solid #f1f5f9;
+    background: #fcfdfe;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.total-count {
+    font-size: 12px;
+    color: #94a3b8;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Archived Section */
+.archived-section {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #E2E8F0;
+    flex-shrink: 0;
+}
+
+.archived-section h3 {
+    font-size: 13px;
+    font-weight: 800;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0;
+}
+
+/* Modal Backdrop Blur */
+.modal-backdrop-blur {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
+}
+
+/* Small, Design-Accurate Send for Review Modal */
+.send-review-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 460px;
+    z-index: 10001;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    animation: modalScaleIn 0.2s ease-out;
+}
+
+@keyframes modalScaleIn {
+    from {
+        transform: translate(-50%, -48%) scale(0.96);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+.send-review-header {
+    background: #0F2033;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.send-review-header h2 {
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+.close-btn-white {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    display: flex;
+    padding: 2px;
+    transition: color 0.2s;
+}
+
+.close-btn-white:hover {
+    color: white;
+}
+
+.send-review-body {
+    padding: 24px 24px;
+    text-align: left;
+}
+
+.send-review-body h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1E293B;
+    margin: 0 0 12px 0;
+}
+
+.send-review-body p {
+    font-size: 13px;
+    color: #64748B;
+    line-height: 1.5;
+    margin: 0 0 16px 0;
+}
+
+.send-review-body label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #475569;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.send-review-body input,
+.send-review-body select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #CBD5E1;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+    background: white;
+}
+
+.send-review-body input:focus,
+.send-review-body select:focus {
+    border-color: #0088CC;
+}
+
+.send-review-footer {
+    padding: 16px 24px 24px 24px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 24px;
+    background: #f8fafc;
+    border-top: 1px solid #f1f5f9;
+}
+
+.btn-text-cancel {
+    background: none;
+    border: none;
+    color: #94A3B8;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-text-cancel:hover {
+    color: #64748B;
+}
+
+.btn-primary-send {
+    background: #0088CC;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(0, 136, 204, 0.2);
+    transition: all 0.22s;
+}
+
+.btn-primary-send:hover {
+    background: #0077B3;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 136, 204, 0.3);
+}
+
+.danger-modal .send-review-header {
+    background: #EF4444;
+}
+
+.btn-danger-send {
+    background: #EF4444;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+    transition: all 0.22s;
+}
+
+.btn-danger-send:hover {
+    background: #DC2626;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.3);
+}
+

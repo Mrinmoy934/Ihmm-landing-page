@@ -1,0 +1,207 @@
+/* DecksView Premium Enhancements */
+.plan-item-row {
+    background: #FFFFFF;
+    border: 1px solid #EAECF0;
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: 0 2px 4px rgba(16, 24, 40, 0.05);
+}
+
+.plan-item-row:hover {
+    border-color: #00B0FA;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(16, 24, 40, 0.1);
+}
+
+.plan-text-meta .plan-filename {
+    font-size: 15px;
+    font-weight: 700;
+    color: #101828;
+}
+
+.plan-text-meta .plan-date {
+    font-size: 12px;
+    color: #667085;
+    margin-top: 2px;
+}
+
+.open-full-viewer-btn-premium {
+    background: #101828;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.open-full-viewer-btn-premium:hover {
+    background: #00B0FA;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 176, 250, 0.3);
+}
+
+.plan-action-btn-refined {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1.5px solid #e2e8f0;
+    background: white;
+    color: #00B0FA;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.plan-action-btn-refined:hover {
+    background: #f1f5f9;
+    color: #00B0FA;
+    border-color: #00B0FA;
+    transform: translateY(-2px);
+}
+
+.plan-action-btn-refined.delete {
+    color: #ef4444;
+    border-color: #fee2e2;
+}
+
+.plan-action-btn-refined.delete:hover {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #ef4444;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+}
+
+.deck-row-card {
+    background: white;
+    border: 1px solid #EAECF0;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.deck-row-card:hover {
+    border-color: #00B0FA;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+.deck-row-header {
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+}
+
+
+
+.deck-info-primary {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.deck-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.deck-name-txt {
+    font-size: 16px;
+    font-weight: 700;
+    color: #101828;
+}
+
+.deck-id-tag {
+    background: #F2F4F7;
+    color: #475467;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+}
+
+.deck-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: #667085;
+    font-weight: 500;
+}
+
+.meta-dot {
+    width: 4px;
+    height: 4px;
+    background: #D0D5DD;
+    border-radius: 50%;
+}
+
+.deck-row-actions-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.deck-action-icn-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid #EAECF0;
+    background: white;
+    color: #667085;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.deck-action-icn-btn:hover {
+    background: #F9FAFB;
+    color: #00B0FA;
+    border-color: #00B0FA;
+}
+
+.open-deck-viewer-pill {
+    background: #F0F9FF;
+    color: #00B0FA;
+    border: 1px solid #B9E6FE;
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.open-deck-viewer-pill:hover {
+    background: #00B0FA;
+    color: white;
+    border-color: #00B0FA;
+}
+
+.expand-arrow {
+    color: #98A2B3;
+    transition: transform 0.3s ease;
+}
+
+.expand-arrow.active {
+    transform: rotate(180deg);
+    color: #101828;
+}

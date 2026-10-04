@@ -1,0 +1,508 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model audit_line_items {
+  id                String          @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  audit_id          String          @db.Uuid
+  vessel_id         String?         @db.Uuid
+  row_index         Int
+  name              String?         @db.VarChar(255)
+  vessel_name       String?         @db.VarChar(255)
+  po_number         String?         @db.VarChar(100)
+  imo_number        String?         @db.VarChar(20)
+  po_sent_date      String?         @db.VarChar(50)
+  md_requested_date String?         @db.VarChar(50)
+  item_description  String?
+  is_suspected      String          @default("No") @db.VarChar(10)
+  impa_code         String?         @db.VarChar(50)
+  issa_code         String?         @db.VarChar(50)
+  equipment_code    String?         @db.VarChar(100)
+  equipment_name    String?         @db.VarChar(255)
+  maker             String?         @db.VarChar(255)
+  model             String?         @db.VarChar(255)
+  part_number       String?         @db.VarChar(100)
+  unit              String?         @db.VarChar(50)
+  quantity          String?         @db.VarChar(50)
+  vendor_remark     String?
+  vendor_email      String?         @db.VarChar(255)
+  vendor_name       String?         @db.VarChar(255)
+  extra_data        Json            @default("{}")
+  created_at        DateTime        @default(now()) @db.Timestamptz(6)
+  audit_summaries   audit_summaries @relation(fields: [audit_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  vessels           vessels?        @relation(fields: [vessel_id], references: [id], onUpdate: NoAction)
+
+  @@index([audit_id], map: "idx_audit_lines_audit")
+  @@index([po_number], map: "idx_audit_lines_po")
+  @@index([vessel_id], map: "idx_audit_lines_vessel")
+}
+
+model audit_summaries {
+  id                      String             @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  vessel_id               String             @db.Uuid
+  imo_number              String             @db.VarChar(7)
+  vessel_name             String             @db.VarChar(255)
+  total_po                Int                @default(0)
+  total_items             Int                @default(0)
+  duplicate_po            Int                @default(0)
+  duplicate_supplier_code Int                @default(0)
+  duplicate_product       Int                @default(0)
+  status                  String?            @default("In Progress") @db.VarChar(50)
+  review_assigned_to      String?            @db.VarChar(255)
+  reviewed_by             String?            @db.VarChar(255)
+  reviewed_at             DateTime?          @db.Timestamptz(6)
+  last_activity           DateTime           @default(now()) @db.Timestamptz(6)
+  created_at              DateTime           @default(now()) @db.Timestamptz(6)
+  updated_at              DateTime           @default(now()) @db.Timestamptz(6)
+  uploaded_file_path      String?            @db.VarChar(500)
+  uploaded_file_name      String?            @db.VarChar(255)
+  audit_line_items        audit_line_items[]
+  vessels                 vessels            @relation(fields: [vessel_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([status], map: "idx_audit_summaries_status")
+  @@index([vessel_id], map: "idx_audit_summaries_vessel")
+}
+
+model clarification_items {
+  id                     String                 @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  clarification_id       String                 @db.Uuid
+  item_index             Int
+  mds_status             String                 @default("pending") @db.VarChar(20)
+  mds_file_path          String?                @db.VarChar(500)
+  mds_file_name          String?                @db.VarChar(255)
+  mds_received_at        DateTime?              @db.Timestamptz(6)
+  reminder_count         Int                    @default(0)
+  hm_status              String?                @db.VarChar(20)
+  notes                  String?
+  created_at             DateTime               @default(now()) @db.Timestamptz(6)
+  updated_at             DateTime               @default(now()) @db.Timestamptz(6)
+  uploaded_by_email      String?                @db.VarChar(255)
+  uploaded_by_ip         String?                @db.VarChar(64)
+  sdoc_status            String                 @default("pending") @db.VarChar(20)
+  sdoc_file_path         String?                @db.VarChar(500)
+  sdoc_file_name         String?                @db.VarChar(255)
+  sdoc_received_at       DateTime?              @db.Timestamptz(6)
+  reviewed_at            DateTime?              @db.Timestamptz(6)
+  reviewed_by            String?                @db.VarChar(255)
+  clarification_requests clarification_requests @relation(fields: [clarification_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@unique([clarification_id, item_index])
+  @@index([clarification_id], map: "idx_clarif_items_clar")
+  @@index([mds_status], map: "idx_clarif_items_status")
+}
+
+model clarification_requests {
+  id                      String                @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  vessel_id               String?               @db.Uuid
+  imo_number              String                @db.VarChar(20)
+  vessel_name             String?               @db.VarChar(255)
+  recipient_emails        String
+  cc_emails               String?
+  subject                 String                @db.VarChar(500)
+  body                    String
+  suspected_items         Json                  @default("[]")
+  status                  String                @default("sent") @db.VarChar(20)
+  error_message           String?
+  sent_by                 String?               @db.Uuid
+  created_at              DateTime              @default(now()) @db.Timestamptz(6)
+  public_token            String?               @unique @db.VarChar(64)
+  public_token_expires_at DateTime?             @db.Timestamptz(6)
+  supplier_company        String?               @db.VarChar(255)
+  supplier_contact_name   String?               @db.VarChar(255)
+  supplier_comments       String?
+  prepared_date           String?               @db.VarChar(50)
+  submitted_at            DateTime?             @db.Timestamptz(6)
+  submitted_by_ip         String?               @db.VarChar(64)
+  clarification_items     clarification_items[]
+  users                   users?                @relation(fields: [sent_by], references: [id], onUpdate: NoAction)
+  vessels                 vessels?              @relation(fields: [vessel_id], references: [id], onUpdate: NoAction)
+
+  @@index([public_token], map: "idx_clarif_public_token")
+  @@index([imo_number], map: "idx_clarification_imo")
+  @@index([vessel_id], map: "idx_clarification_vessel")
+}
+
+model contact_messages {
+  id         String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  full_name  String   @db.VarChar(255)
+  company    String?  @db.VarChar(255)
+  email      String   @db.VarChar(255)
+  phone      String?  @db.VarChar(50)
+  message    String
+  status     String   @default("new") @db.VarChar(20)
+  handled_by String?  @db.Uuid
+  created_at DateTime @default(now()) @db.Timestamptz(6)
+  updated_at DateTime @default(now()) @db.Timestamptz(6)
+  users      users?   @relation(fields: [handled_by], references: [id], onUpdate: NoAction)
+
+  @@index([status], map: "idx_contact_status")
+}
+
+model deck_areas {
+  id         String      @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  ga_plan_id String      @db.Uuid
+  name       String      @db.VarChar(255)
+  x          Float
+  y          Float
+  width      Float
+  height     Float
+  thumbnail  String?
+  sort_order Int         @default(0)
+  created_at DateTime    @default(now()) @db.Timestamptz(6)
+  updated_at DateTime    @default(now()) @db.Timestamptz(6)
+  ga_plans   ga_plans    @relation(fields: [ga_plan_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  decks      decks[]
+  materials  materials[]
+
+  @@unique([ga_plan_id, name])
+  @@index([ga_plan_id], map: "idx_deck_areas_ga_plan")
+}
+
+model decks {
+  id           String      @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  vessel_id    String      @db.Uuid
+  ga_plan_id   String?     @db.Uuid
+  deck_area_id String?     @db.Uuid
+  name         String      @db.VarChar(255)
+  level        Int         @default(0)
+  ga_plan_url  String?     @db.VarChar(500)
+  thumbnail    String?
+  status       String      @default("active") @db.VarChar(20)
+  created_at   DateTime    @default(now()) @db.Timestamptz(6)
+  updated_at   DateTime    @default(now()) @db.Timestamptz(6)
+  deck_areas   deck_areas? @relation(fields: [deck_area_id], references: [id], onUpdate: NoAction)
+  ga_plans     ga_plans?   @relation(fields: [ga_plan_id], references: [id], onUpdate: NoAction)
+  vessels      vessels     @relation(fields: [vessel_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  materials    materials[]
+
+  @@index([vessel_id], map: "idx_decks_vessel")
+}
+
+model documents {
+  id            String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  vessel_id     String   @db.Uuid
+  name          String   @db.VarChar(255)
+  document_type String   @db.VarChar(100)
+  category      String?  @default("general") @db.VarChar(100)
+  status        String   @default("pending") @db.VarChar(20)
+  file_name     String   @db.VarChar(255)
+  file_path     String   @db.VarChar(500)
+  file_size     Int
+  mime_type     String   @db.VarChar(100)
+  uploaded_by   String?  @db.VarChar(255)
+  description   String?
+  created_at    DateTime @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime @default(now()) @db.Timestamptz(6)
+  vessels       vessels  @relation(fields: [vessel_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([document_type], map: "idx_documents_type")
+  @@index([vessel_id], map: "idx_documents_vessel")
+}
+
+model equipment_master {
+  id                String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name              String   @db.VarChar(255)
+  model_code        String?  @db.VarChar(100)
+  manufacturer      String?  @db.VarChar(255)
+  system_type       String?  @db.VarChar(100)
+  next_service_date String?  @db.VarChar(50)
+  description       String?
+  status            String   @default("Active") @db.VarChar(20)
+  created_at        DateTime @default(now()) @db.Timestamptz(6)
+  updated_at        DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([name], map: "idx_equipment_name")
+}
+
+model ga_plans {
+  id         String       @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  vessel_id  String       @db.Uuid
+  name       String       @db.VarChar(255)
+  file_name  String       @db.VarChar(255)
+  file_path  String       @db.VarChar(500)
+  file_size  Int
+  mime_type  String       @db.VarChar(100)
+  created_at DateTime     @default(now()) @db.Timestamptz(6)
+  updated_at DateTime     @default(now()) @db.Timestamptz(6)
+  deck_areas deck_areas[]
+  decks      decks[]
+  vessels    vessels      @relation(fields: [vessel_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([vessel_id], map: "idx_ga_plans_vessel")
+}
+
+model materials {
+  id               String             @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  vessel_id        String             @db.Uuid
+  deck_id          String?            @db.Uuid
+  deck_area_id     String?            @db.Uuid
+  name             String             @db.VarChar(255)
+  ihm_part         String             @db.VarChar(50)
+  category         String             @default("warning") @db.VarChar(20)
+  hazard_type      String?            @db.VarChar(255)
+  equipment_class  String?            @db.VarChar(255)
+  hm_status        String?            @default("CHM") @db.VarChar(20)
+  quantity         String?            @db.VarChar(50)
+  unit             String?            @db.VarChar(50)
+  no_of_pieces     String?            @db.VarChar(50)
+  total_quantity   String?            @db.VarChar(50)
+  compartment      String?            @db.VarChar(255)
+  equipment        String?            @db.VarChar(255)
+  position         String?            @db.VarChar(255)
+  component        String?            @db.VarChar(255)
+  material_name    String?            @db.VarChar(255)
+  ship_po          String?            @db.VarChar(100)
+  movement_type    String?            @db.VarChar(100)
+  manufacturer     String?            @db.VarChar(255)
+  ihm_part_number  String?            @db.VarChar(100)
+  description      String?
+  remarks          String?
+  avoid_updation   Boolean            @default(false)
+  pin_x            Float?
+  pin_y            Float?
+  created_at       DateTime           @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime           @default(now()) @db.Timestamptz(6)
+  deck_areas       deck_areas?        @relation(fields: [deck_area_id], references: [id], onUpdate: NoAction)
+  decks            decks?             @relation(fields: [deck_id], references: [id], onUpdate: NoAction)
+  vessels          vessels            @relation(fields: [vessel_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  md_sdoc_requests md_sdoc_requests[]
+
+  @@index([deck_id], map: "idx_materials_deck")
+  @@index([vessel_id], map: "idx_materials_vessel")
+}
+
+model md_sdoc_requests {
+  id               String           @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  vessel_id        String           @db.Uuid
+  po_id            String?          @db.Uuid
+  material_id      String?          @db.Uuid
+  supplier_name    String           @db.VarChar(255)
+  supplier_code    String?          @db.VarChar(100)
+  item_name        String           @db.VarChar(255)
+  ihm_part         String?          @db.VarChar(50)
+  hazard_type      String?          @db.VarChar(255)
+  status           String           @default("Pending") @db.VarChar(50)
+  reminder_count   Int              @default(0)
+  last_reminder_at DateTime?        @db.Timestamptz(6)
+  received_at      DateTime?        @db.Timestamptz(6)
+  notes            String?
+  created_at       DateTime         @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime         @default(now()) @db.Timestamptz(6)
+  materials        materials?       @relation(fields: [material_id], references: [id], onUpdate: NoAction)
+  purchase_orders  purchase_orders? @relation(fields: [po_id], references: [id], onUpdate: NoAction)
+  vessels          vessels          @relation(fields: [vessel_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([status], map: "idx_md_sdoc_status")
+  @@index([vessel_id], map: "idx_md_sdoc_vessel")
+}
+
+model menu_items {
+  id          String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  title       String   @db.VarChar(255)
+  description String?
+  path        String   @db.VarChar(255)
+  icon        String?  @db.VarChar(100)
+  sort_order  Int      @default(0)
+  archived    Boolean  @default(false)
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([archived], map: "idx_menu_items_archived")
+}
+
+model permission_nodes {
+  id                     String             @id @db.VarChar(100)
+  label                  String             @db.VarChar(255)
+  parent_id              String?            @db.VarChar(100)
+  sort_order             Int                @default(0)
+  created_at             DateTime           @default(now()) @db.Timestamptz(6)
+  permission_nodes       permission_nodes?  @relation("permission_nodesTopermission_nodes", fields: [parent_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  other_permission_nodes permission_nodes[] @relation("permission_nodesTopermission_nodes")
+  role_permissions       role_permissions[]
+  user_permissions       user_permissions[]
+}
+
+model purchase_orders {
+  id               String             @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  vessel_id        String             @db.Uuid
+  po_number        String             @db.VarChar(100)
+  supplier_name    String             @db.VarChar(255)
+  supplier_code    String?            @db.VarChar(100)
+  status           String             @default("pending") @db.VarChar(50)
+  total_items      Int                @default(0)
+  total_amount     Decimal?           @db.Decimal(14, 2)
+  currency         String?            @default("USD") @db.VarChar(10)
+  po_date          String?            @db.VarChar(50)
+  description      String?
+  file_name        String?            @db.VarChar(255)
+  file_path        String?            @db.VarChar(500)
+  created_at       DateTime           @default(now()) @db.Timestamptz(6)
+  updated_at       DateTime           @default(now()) @db.Timestamptz(6)
+  md_sdoc_requests md_sdoc_requests[]
+  vessels          vessels            @relation(fields: [vessel_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([supplier_name], map: "idx_purchase_orders_supplier")
+  @@index([vessel_id], map: "idx_purchase_orders_vessel")
+}
+
+model reports {
+  id            String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  vessel_id     String    @db.Uuid
+  report_type   String    @db.VarChar(50)
+  period_label  String?   @db.VarChar(64)
+  period_start  DateTime? @db.Date
+  period_end    DateTime? @db.Date
+  status        String    @default("generating") @db.VarChar(20)
+  file_name     String?   @db.VarChar(255)
+  file_path     String?   @db.VarChar(500)
+  file_size     Int?
+  generated_by  String?   @db.VarChar(255)
+  error_message String?
+  created_at    DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime  @default(now()) @db.Timestamptz(6)
+  vessels       vessels   @relation(fields: [vessel_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([period_start, period_end], map: "idx_reports_period")
+  @@index([report_type], map: "idx_reports_type")
+  @@index([vessel_id], map: "idx_reports_vessel")
+}
+
+model role_permissions {
+  role_name        String           @db.VarChar(100)
+  node_id          String           @db.VarChar(100)
+  granted_at       DateTime         @default(now()) @db.Timestamptz(6)
+  permission_nodes permission_nodes @relation(fields: [node_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([role_name, node_id])
+  @@index([role_name], map: "idx_role_perm_role")
+}
+
+model suppliers {
+  id            String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name          String   @db.VarChar(255)
+  category      String?  @db.VarChar(255)
+  location      String?  @db.VarChar(255)
+  contact_email String?  @db.VarChar(255)
+  phone         String?  @db.VarChar(50)
+  rating        String?  @db.VarChar(10)
+  status        String   @default("Active") @db.VarChar(20)
+  notes         String?
+  created_at    DateTime @default(now()) @db.Timestamptz(6)
+  updated_at    DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([name], map: "idx_suppliers_name")
+}
+
+model suspected_keywords {
+  id          String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  keyword     String   @unique @db.VarChar(255)
+  hazard_type String?  @db.VarChar(255)
+  severity    String   @default("Medium") @db.VarChar(20)
+  status      String   @default("Active") @db.VarChar(20)
+  notes       String?
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([keyword], map: "idx_suspected_keyword")
+}
+
+model user_categories {
+  id          String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name        String   @unique @db.VarChar(255)
+  description String?
+  status      String   @default("Active") @db.VarChar(20)
+  archived    Boolean  @default(false)
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime @default(now()) @db.Timestamptz(6)
+}
+
+model user_permissions {
+  user_id          String           @db.Uuid
+  node_id          String           @db.VarChar(100)
+  granted_at       DateTime         @default(now()) @db.Timestamptz(6)
+  permission_nodes permission_nodes @relation(fields: [node_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  users            users            @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([user_id, node_id])
+  @@index([user_id], map: "idx_user_perm_user")
+}
+
+model users {
+  id                     String                   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  email                  String                   @unique @db.VarChar(255)
+  name                   String                   @db.VarChar(255)
+  phone                  String?                  @db.VarChar(50)
+  country                String?                  @db.VarChar(100)
+  status                 String                   @default("active") @db.VarChar(20)
+  category               String                   @default("viewer") @db.VarChar(50)
+  password               String                   @db.VarChar(255)
+  last_activity          DateTime?                @db.Timestamptz(6)
+  created_at             DateTime                 @default(now()) @db.Timestamptz(6)
+  updated_at             DateTime                 @default(now()) @db.Timestamptz(6)
+  company_name           String?                  @db.VarChar(255)
+  avatar                 String?                  @db.VarChar(500)
+  system_message         String?
+  payment_status         String?                  @default("unpaid") @db.VarChar(20)
+  is_limited_ships       Boolean?                 @default(false)
+  role_name              String?                  @db.VarChar(100)
+  origin                 String?                  @default("Direct") @db.VarChar(50)
+  clarification_requests clarification_requests[]
+  contact_messages       contact_messages[]
+  user_permissions       user_permissions[]
+  vessels                vessels[]
+}
+
+model vessels {
+  id                     String                   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name                   String                   @db.VarChar(255)
+  imo_number             String                   @unique @db.VarChar(7)
+  created_by_id          String                   @db.Uuid
+  vessel_type            String?                  @db.VarChar(100)
+  registration_number    String?                  @db.VarChar(100)
+  signal_letters         String?                  @db.VarChar(20)
+  gross_tonnage          String?                  @db.VarChar(50)
+  deadweight_tonnage     String?                  @db.VarChar(50)
+  teu_units              String?                  @db.VarChar(50)
+  registered_owner       String?                  @db.VarChar(255)
+  ship_owner             String?                  @db.VarChar(255)
+  ship_manager           String?                  @db.VarChar(255)
+  fleet                  String?                  @db.VarChar(100)
+  sub_fleet              String?                  @db.VarChar(100)
+  vessel_class           String?                  @db.VarChar(100)
+  vessel_ihm_class       String?                  @db.VarChar(100)
+  class_id_no            String?                  @db.VarChar(100)
+  ihm_class              String?                  @db.VarChar(100)
+  flag_state             String?                  @db.VarChar(100)
+  port_of_registry       String?                  @db.VarChar(255)
+  name_of_yard           String?                  @db.VarChar(255)
+  shipyard_location      String?                  @db.VarChar(255)
+  builders_unique_id     String?                  @db.VarChar(100)
+  keel_laid_date         String?                  @db.VarChar(50)
+  delivery_date          String?                  @db.VarChar(50)
+  ihm_method             String?                  @db.VarChar(20)
+  md_standard            String?                  @db.VarChar(20)
+  ihm_reference          String?                  @db.VarChar(255)
+  soc_reference          String?                  @db.VarChar(255)
+  soc_expiry_date        String?                  @db.VarChar(50)
+  compliance_status      String?                  @default("compliant") @db.VarChar(50)
+  image                  String?                  @db.VarChar(500)
+  created_at             DateTime                 @default(now()) @db.Timestamptz(6)
+  updated_at             DateTime                 @default(now()) @db.Timestamptz(6)
+  audit_line_items       audit_line_items[]
+  audit_summaries        audit_summaries[]
+  clarification_requests clarification_requests[]
+  decks                  decks[]
+  documents              documents[]
+  ga_plans               ga_plans[]
+  materials              materials[]
+  md_sdoc_requests       md_sdoc_requests[]
+  purchase_orders        purchase_orders[]
+  reports                reports[]
+  users                  users                    @relation(fields: [created_by_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([created_by_id], map: "idx_vessels_created_by")
+}

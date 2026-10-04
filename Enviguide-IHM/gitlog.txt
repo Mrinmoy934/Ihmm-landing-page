@@ -1,0 +1,10 @@
+9558998 refactor: split project into frontend/ and backend/ workspaces
+fcf1264 refactor: clean up unused files and scaffold scalable backend-ready structure
+a09a7fb style: redesign User Role Rights page for high-end minimalist maritime look, added footer
+e4acd1b style: redesign User Profile for high-end minimalist maritime look, added footer
+0b927ca style: make contact page non-scrolling and update CTA button to blue
+dc8ddf5 fix: increase top padding on contact page to ensure badge is clear of header shadow
+9110bff fix: adjust top padding on contact page to prevent overlap with fixed header
+c200a7e feat: complete redesign of Contact Us page with premium minimalist maritime theme, refined fields, and footer
+4fd1357 style: redesign sub-fleet search bar and action button for premium look
+21b0c42 chore: add postman workspace configurations

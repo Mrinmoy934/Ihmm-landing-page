@@ -1,0 +1,438 @@
+/* Fleet Styles Standardized */
+.pending-audits-container {
+    display: flex;
+    min-height: 100vh;
+    background: #f8fafc;
+    width: 100%;
+}
+
+.pending-audits-main {
+    flex: 1;
+    margin-left: var(--sidebar-width, 240px);
+    display: flex;
+    flex-direction: column;
+    padding-top: 72px;
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1), width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body:has(.sidebar.collapsed) .pending-audits-main {
+    margin-left: var(--sidebar-collapsed-width, 80px);
+    width: calc(100% - var(--sidebar-collapsed-width, 80px));
+}
+
+.pending-audits-content {
+    flex: 1;
+    padding: 24px 40px 40px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.md-header {
+    height: auto;
+    padding-bottom: 20px;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    border-bottom: 2px solid #E2E8F0;
+}
+
+.md-title-area h1 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #1e293b;
+    margin: 0 0 4px 0;
+}
+
+.md-title-area p {
+    color: #64748b;
+    font-size: 14px;
+    margin: 0;
+}
+
+.audits-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.search-box {
+    flex: 1;
+    height: 48px;
+    max-width: 500px;
+    background: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07);
+    border: 1px solid #E2E8F0;
+}
+
+.search-icon {
+    color: #94a3b8;
+    margin-right: 12px;
+}
+
+.search-box input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #1e293b;
+    font-weight: 500;
+}
+
+.add-fleet-btn {
+    height: 48px;
+    padding: 0 24px;
+    background: var(--primary-blue);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
+    white-space: nowrap;
+}
+
+.add-fleet-btn:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+}
+
+.table-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f1f5f9;
+    overflow: hidden;
+}
+
+.audits-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Roomy Action Column and Equal Data Columns */
+.th-action,
+.action-column {
+    width: 180px;
+    min-width: 180px;
+}
+
+.audits-table th:not(.th-action),
+.audits-table td:not(.action-column) {
+    width: calc((100% - 180px) / 3);
+}
+
+.audits-table th {
+    height: 44px;
+    padding: 0 16px;
+    text-align: left;
+    background: #ffffff;
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.audits-table tr:hover {
+    background: #f8fafc;
+}
+
+.audits-table td {
+    height: 52px;
+    padding: 0 16px;
+    color: #475569;
+    font-size: 14px;
+    font-weight: 500;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.vessel-name {
+    color: #1e293b !important;
+    font-weight: 700 !important;
+}
+
+/* Standardized Compact Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 6px;
+    justify-content: flex-start;
+}
+
+.action-btn {
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+/* Edit/NA Style */
+.edit-btn {
+    background: #F1F5F9;
+    color: #64748B;
+}
+
+.edit-btn:hover {
+    background: #E2E8F0;
+    color: #1E293B;
+}
+
+/* Send Style */
+.send-btn {
+    background: transparent;
+    color: #0ea5e9;
+}
+
+.send-btn:hover {
+    background: #f0f9ff;
+    color: #0284c7;
+}
+
+/* Delete Style */
+.delete-btn {
+    background: #FEF2F2;
+    color: #EF4444;
+}
+
+.delete-btn:hover {
+    background: #EF4444;
+    color: white;
+}
+
+.pagination {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pagination-info {
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.pagination-buttons {
+    display: flex;
+    gap: 6px;
+}
+
+.page-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 1px solid #E2E8F0;
+    background: white;
+    color: #64748b;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.page-btn.active {
+    background: var(--primary-blue);
+    color: white;
+    border-color: var(--primary-blue);
+}
+
+/* Modal Backdrop Blur */
+.modal-backdrop-blur {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(8px);
+    z-index: 10000;
+}
+
+/* Small, Design-Accurate Send for Review Modal */
+.send-review-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 460px;
+    z-index: 10001;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    animation: modalScaleIn 0.2s ease-out;
+}
+
+@keyframes modalScaleIn {
+    from {
+        transform: translate(-50%, -48%) scale(0.96);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+}
+
+.send-review-header {
+    background: #0F2033;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.send-review-header h2 {
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+.close-btn-white {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    display: flex;
+    padding: 2px;
+    transition: color 0.2s;
+}
+
+.close-btn-white:hover {
+    color: white;
+}
+
+.send-review-body {
+    padding: 24px 24px;
+    text-align: left;
+}
+
+.send-review-body h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1E293B;
+    margin: 0 0 12px 0;
+}
+
+.send-review-body p {
+    font-size: 13px;
+    color: #64748B;
+    line-height: 1.5;
+    margin: 0 0 16px 0;
+}
+
+.send-review-body label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #475569;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.send-review-body input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #CBD5E1;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.send-review-body input:focus {
+    border-color: #0088CC;
+}
+
+.send-review-footer {
+    padding: 16px 24px 24px 24px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 24px;
+    background: #f8fafc;
+    border-top: 1px solid #f1f5f9;
+}
+
+.btn-text-cancel {
+    background: none;
+    border: none;
+    color: #94A3B8;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-text-cancel:hover {
+    color: #64748B;
+}
+
+.btn-primary-send {
+    background: #0088CC;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(0, 136, 204, 0.2);
+    transition: all 0.22s;
+}
+
+.btn-primary-send:hover {
+    background: #0077B3;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 136, 204, 0.3);
+}
+
+.danger-modal .send-review-header {
+    background: #EF4444;
+}
+
+.btn-danger-send {
+    background: #EF4444;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+    transition: all 0.22s;
+}
+
+.btn-danger-send:hover {
+    background: #DC2626;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.3);
+}

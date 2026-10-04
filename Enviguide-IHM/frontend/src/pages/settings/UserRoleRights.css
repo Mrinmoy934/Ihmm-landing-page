@@ -1,0 +1,340 @@
+.user-role-rights-container {
+    display: flex;
+    background-color: #ffffff;
+    height: 100vh;
+    color: #0F172A;
+    overflow: hidden;
+}
+
+.user-role-rights-main {
+    flex: 1;
+    margin-left: var(--sidebar-width, 240px);
+    width: calc(100% - var(--sidebar-width, 240px));
+    display: flex;
+    flex-direction: column;
+}
+
+.user-role-rights-wrapper {
+    flex: 1;
+    padding: 40px 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+/* COMPACT HEADER */
+.user-role-rights-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 40px;
+    margin-top: 20px;
+}
+
+.header-info h1 {
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    margin-bottom: 8px;
+    color: #0F172A;
+}
+
+.header-info p {
+    font-size: 15px;
+    color: #64748B;
+}
+
+.header-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* Buttons - Consistent with Profile/Contact.
+ * Scoped to .urr-action-btn so it doesn't collide with the table-row
+ * .action-btn used on Fleet / PendingAudits pages. */
+.urr-action-btn {
+    padding: 12px 28px;
+    border-radius: 100px;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+}
+
+.urr-action-btn.cancel {
+    background: transparent;
+    color: #64748B;
+    border: 1.5px solid #E2E8F0;
+}
+
+.urr-action-btn.cancel:hover {
+    background: #F8FAFC;
+    color: #0F172A;
+    border-color: #CBD5E1;
+}
+
+.urr-action-btn.save {
+    background: #00B1FF;
+    color: white;
+    box-shadow: 0 8px 20px rgba(0, 177, 255, 0.2);
+}
+
+.urr-action-btn.save:hover {
+    background: #0099e0;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(0, 177, 255, 0.3);
+}
+
+/* MINIMAL GRID */
+.user-role-rights-grid {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 32px;
+    align-items: start;
+}
+
+.card-standard {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 32px;
+    border: 1.5px solid #F1F5F9;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
+}
+
+/* LEFT SIDE - ROLE SELECTOR */
+.selector-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 800;
+    color: #94A3B8;
+    margin-bottom: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+/* REUSED DROPDOWN STYLES */
+.premium-user-dropdown {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    background: #F8FAFC;
+    border: 1.5px solid #F1F5F9;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.premium-user-dropdown:hover, .premium-user-dropdown.active {
+    border-color: #00B1FF;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(0, 177, 255, 0.08);
+}
+
+.user-name-val-top {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0F172A;
+    display: block;
+}
+
+.user-role-val-mini {
+    font-size: 11px;
+    color: #94A3B8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+}
+
+.user-dropdown-menu-absolute {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+    border: 1px solid #F1F5F9;
+    z-index: 100;
+    overflow: hidden;
+    animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.user-dropdown-item-premium {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.user-dropdown-item-premium:hover {
+    background: #F1F5F9;
+}
+
+.item-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1E293B;
+}
+
+.role-description-card {
+    background: #F8FAFC;
+    padding: 24px;
+    border-radius: 16px;
+    margin-top: 32px;
+}
+
+.role-status-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: #0F172A;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+}
+
+.role-status-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #00B1FF;
+    margin-bottom: 12px;
+}
+
+.role-status-desc {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #64748B;
+}
+
+/* RIGHT SIDE - TREE */
+.tree-header h3 {
+    font-size: 14px;
+    font-weight: 800;
+    color: #0F172A;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0;
+}
+
+.select-all-btn {
+    padding: 6px 16px;
+    border: 1.5px solid #F1F5F9;
+    background: white;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 800;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.select-all-btn:hover {
+    border-color: #00B1FF;
+    color: #00B1FF;
+}
+
+/* THE TREE */
+.tree-scroll-container {
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 12px;
+}
+
+.tree-scroll-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.tree-scroll-container::-webkit-scrollbar-thumb {
+    background: #F1F5F9;
+    border-radius: 10px;
+}
+
+.permission-node-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    gap: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.permission-node-row:hover {
+    background: #F8FAFC;
+    transform: translateX(4px);
+}
+
+.checkbox-visual {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #E2E8F0;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    flex-shrink: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.checkbox-visual.checked {
+    background: #00B1FF;
+    border-color: #00B1FF;
+    color: white;
+}
+
+.checkbox-visual.semi {
+    border-color: #00B1FF;
+    color: #00B1FF;
+    box-shadow: 0 0 0 4px rgba(0, 177, 255, 0.1);
+}
+
+.node-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1E293B;
+}
+
+.master-all-row {
+    background: #F8FAFC;
+    border-radius: 12px;
+    margin-bottom: 24px;
+}
+
+.master-all-row .node-label {
+    font-weight: 800;
+    color: #0F172A;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.level-0 .node-label {
+    font-weight: 700;
+    color: #0F172A;
+}
+
+.node-children {
+    margin-left: 28px;
+    border-left: 1.5px dashed #F1F5F9;
+}

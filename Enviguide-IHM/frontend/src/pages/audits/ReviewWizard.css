@@ -1,0 +1,1409 @@
+/* ============================================================
+   Review Wizard — Premium Platform Theme
+   Clean, flat rewrite — no nesting, no duplicates
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+/* ── OVERLAY ───────────────────────────────────────────────── */
+.review-wizard-overlay {
+    position: fixed;
+    inset: 0;
+    background: #F8FAFC;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Manrope', system-ui, sans-serif;
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(100vh);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── HEADER (3-COLUMN GRID) ────────────────────────────────── */
+.wizard-header {
+    background: white;
+    padding: 12px 40px;
+    border-bottom: 1px solid #E2E8F0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    flex-shrink: 0;
+}
+
+/* Step 1 → left */
+.wizard-header .step-item:nth-child(1) {
+    justify-self: start;
+}
+
+/* Step 2 → center */
+.wizard-header .step-item:nth-child(2) {
+    justify-self: center;
+}
+
+/* Step 3 → right */
+.wizard-header .step-item:nth-child(3) {
+    justify-self: end;
+}
+
+/* ── STEP ITEMS ────────────────────────────────────────────── */
+.step-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #94A3B8;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    transition: color 0.2s;
+}
+
+.step-item.active {
+    color: #0F172A;
+}
+
+.step-number {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: #F1F5F9;
+    color: #64748B;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+    transition: all 0.2s;
+}
+
+.step-item.active .step-number {
+    background: #00B0FA;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 176, 250, 0.35);
+}
+
+/* ── CONTENT AREA ──────────────────────────────────────────── */
+.wizard-content {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── TITLE ROW ─────────────────────────────────────────────── */
+.wizard-title-row {
+    padding: 10px 40px 8px;
+    background: #F8FAFC;
+    border-bottom: 1px solid #E2E8F0;
+    flex-shrink: 0;
+}
+
+.wizard-title-row h1 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #0F172A;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+/* ── TOOLBAR (Toggles left, Buttons left too) ──────────────── */
+.toolbar-container {
+    background: white;
+    border-bottom: 1px solid #E2E8F0;
+    padding: 8px 40px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+/* Column toggles on the left */
+.col-toggles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    flex: 1;
+}
+
+.col-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 9px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #475569;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s;
+}
+
+.col-toggle:hover {
+    background: #F1F5F9;
+    border-color: #CBD5E1;
+    color: #0F172A;
+}
+
+/* Custom styled checkbox — larger, white tick on blue */
+.col-toggle input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    min-width: 14px;
+    border: 2px solid #CBD5E1;
+    border-radius: 5px;
+    background: white;
+    cursor: pointer;
+    margin: 0;
+    position: relative;
+    transition: all 0.15s;
+    vertical-align: middle;
+}
+
+.col-toggle input[type="checkbox"]:checked {
+    background: #00B0FA;
+    border-color: #00B0FA;
+}
+
+.col-toggle input[type="checkbox"]:checked::after {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 0px;
+    width: 4px;
+    height: 7px;
+    border: 2px solid white;
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg);
+}
+
+.col-toggle input[type="checkbox"]:hover:not(:checked) {
+    border-color: #00B0FA;
+    background: #F0F9FF;
+}
+
+/* Bulk actions — sits in toolbar on the far right */
+.bulk-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-shrink: 0;
+    /* col-toggles has flex:1, so bulk-actions naturally goes to the right */
+}
+
+.bulk-btn {
+    padding: 5px 6px;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'Manrope', system-ui, sans-serif;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.15s;
+}
+
+.bulk-btn.accept {
+    background: #ECFDF5;
+    color: #059669;
+    border-color: #6EE7B7;
+}
+
+.bulk-btn.accept:hover {
+    background: #D1FAE5;
+    border-color: #34D399;
+}
+
+.bulk-btn.reject {
+    background: #FEF2F2;
+    color: #DC2626;
+    border-color: #FECACA;
+}
+
+.bulk-btn.reject:hover {
+    background: #FEE2E2;
+    border-color: #FCA5A5;
+}
+
+.bulk-btn.delete {
+    background: #FFF7ED;
+    color: #EA580C;
+    border-color: #FED7AA;
+}
+
+.bulk-btn.delete:hover {
+    background: #FFEDD5;
+    border-color: #FB923C;
+}
+
+/* ── MAIN LAYOUT (Table + Sidebar) ────────────────────────── */
+.main-layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    background: #F8FAFC;
+    gap: 0;
+}
+
+/* ── TABLE SECTION ─────────────────────────────────────────── */
+.table-section {
+    flex: 1;
+    overflow: auto;
+    background: white;
+    position: relative;
+    border-right: 1px solid #E2E8F0;
+}
+
+.wizard-table {
+    width: max-content;
+    min-width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+}
+
+.wizard-table th {
+    background: white;
+    padding: 13px 16px;
+    text-align: left;
+    border-bottom: 2px solid #E2E8F0;
+    font-size: 11px;
+    font-weight: 800;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    white-space: nowrap;
+    user-select: none;
+    min-width: 120px;
+    /* overflow must remain visible so the absolute-positioned
+       filter dropdown can escape the cell boundary */
+    overflow: visible;
+}
+
+.wizard-table tr:hover td {
+    background: rgba(0, 176, 250, 0.02);
+}
+
+.wizard-table tr.row-selected td {
+    background: rgba(0, 176, 250, 0.05) !important;
+}
+
+.wizard-table tr.row-selected:hover td {
+    background: rgba(0, 176, 250, 0.08) !important;
+}
+
+.wizard-table td {
+    padding: 0;
+    border-bottom: 1px solid #F1F5F9;
+    border-right: 1px solid #F1F5F9;
+    height: 38px;
+    position: relative;
+    transition: background 0.1s;
+    overflow: hidden;
+}
+
+.cell-inner {
+    padding: 6px 12px;
+    height: 100%;
+    min-height: 38px;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    color: #475569;
+    font-weight: 500;
+    transition: all 0.2s;
+    user-select: none;
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.cell-inner.static-text {
+    font-weight: 700;
+    color: var(--text);
+    text-overflow: ellipsis;
+}
+
+/* Suspected Toggle Button copied and adjusted for wizard table */
+.suspected-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.suspected-toggle:hover {
+    background: #F1F5F9;
+}
+
+.suspected-toggle span {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--slate);
+    width: 30px;
+}
+
+.suspected-toggle.is-suspected span {
+    color: var(--danger);
+}
+
+.toggle-track {
+    width: 44px;
+    height: 24px;
+    border-radius: 100px;
+    background: var(--border);
+    position: relative;
+    transition: all 0.3s ease;
+    border: 1px solid #CBD5E1;
+}
+
+.toggle-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.suspected-toggle.is-suspected .toggle-track {
+    background: var(--danger);
+    border-color: var(--danger);
+}
+
+.suspected-toggle.is-suspected .toggle-thumb {
+    left: calc(100% - 20px);
+}
+
+/* Selection */
+.cell-inner.selected {
+    background: rgba(0, 176, 250, 0.07);
+}
+
+.cell-inner.sel-top {
+    border-top: 2px solid #00B0FA;
+}
+
+.cell-inner.sel-bottom {
+    border-bottom: 2px solid #00B0FA;
+}
+
+.cell-inner.sel-left {
+    border-left: 2px solid #00B0FA;
+}
+
+.cell-inner.sel-right {
+    border-right: 2px solid #00B0FA;
+}
+
+.cell-inner.sel-handle::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    width: 8px;
+    height: 8px;
+    background: #00B0FA;
+    border: 2px solid white;
+    z-index: 20;
+    cursor: crosshair;
+}
+
+.cell-input {
+    width: 100%;
+    height: 100%;
+    border: 2px solid #00B0FA;
+    outline: none;
+    padding: 0 10px;
+    font-size: 13px;
+    font-family: inherit;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 30;
+    box-shadow: 0 4px 12px rgba(0, 176, 250, 0.15);
+    background: white;
+}
+
+/* Column Resizer */
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    overflow: hidden;
+    /* clips the text without affecting the dropdown */
+}
+
+.header-content span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+    min-width: 0;
+}
+
+.resizer {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 5px;
+    cursor: col-resize;
+    user-select: none;
+}
+
+.resizer:hover {
+    background: #00B0FA;
+}
+
+/* ── FILTER TRIGGER BUTTON ─────────────────────────────────── */
+.filter-trigger {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 4px;
+    color: #94A3B8;
+    display: flex;
+    align-items: center;
+    transition: all 0.15s;
+    flex-shrink: 0;
+}
+
+.filter-trigger:hover {
+    background: #EFF6FF;
+    color: #00B0FA;
+}
+
+/* ── COLUMN MENU DROPDOWN ──────────────────────────────────── */
+.column-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    width: 180px;
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px -8px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06);
+    z-index: 1000;
+    overflow: hidden;
+    animation: fadeIn 0.15s ease-out;
+}
+
+.menu-item {
+    padding: 6px 10px;
+    font-size: 12px;
+    color: #475569;
+    cursor: pointer;
+    transition: background 0.1s;
+    font-family: 'Manrope', system-ui, sans-serif;
+    font-weight: 500;
+}
+
+.menu-item:hover {
+    background: #F8FAFC;
+    color: #0F172A;
+}
+
+.menu-divider {
+    height: 1px;
+    background: #E2E8F0;
+    margin: 4px 0;
+}
+
+/* ── FILTER SECTION (inside column menu) ───────────────────── */
+.menu-filter-section {
+    padding: 10px;
+    background: #FAFAFA;
+}
+
+.menu-filter-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+}
+
+.menu-search-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: 'Manrope', system-ui, sans-serif;
+    background: white;
+    outline: none;
+    transition: border-color 0.15s;
+    box-sizing: border-box;
+}
+
+.menu-search-input:focus {
+    border-color: #00B0FA;
+    box-shadow: 0 0 0 3px rgba(0, 176, 250, 0.1);
+}
+
+.menu-value-list {
+    max-height: 130px;
+    overflow-y: auto;
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.menu-value-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #334155;
+    cursor: pointer;
+    transition: background 0.1s;
+    user-select: none;
+}
+
+.menu-value-item:hover {
+    background: #F0F9FF;
+    color: #0F172A;
+}
+
+.menu-value-item input {
+    accent-color: #00B0FA;
+    cursor: pointer;
+    margin: 0;
+    width: 12px;
+    height: 12px;
+}
+
+.menu-footer {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.menu-btn {
+    flex: 1;
+    padding: 6px 0;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'Manrope', system-ui, sans-serif;
+    border-radius: 7px;
+    border: 1px solid #E2E8F0;
+    background: white;
+    color: #64748B;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.menu-btn:hover {
+    background: #F1F5F9;
+    color: #0F172A;
+}
+
+.menu-btn.ok {
+    background: #00B0FA;
+    color: white;
+    border-color: #00B0FA;
+}
+
+.menu-btn.ok:hover {
+    background: #0099E0;
+}
+
+/* ── SUMMARY SIDEBAR ───────────────────────────────────────── */
+.summary-sidebar {
+    width: 300px;
+    flex-shrink: 0;
+    background: #F8FAFC;
+    border-left: 1px solid #E2E8F0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    /* prevents sidebar itself from scrolling */
+}
+
+.summary-header {
+    padding: 18px 20px;
+    font-size: 13px;
+    font-weight: 800;
+    color: #0F172A;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid #E2E8F0;
+    background: white;
+    flex-shrink: 0;
+}
+
+.summary-body {
+    flex: 1;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+}
+
+.summary-group {
+    background: white;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
+}
+
+.summary-group h4 {
+    margin: 0 0 10px 0;
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+.summary-empty {
+    padding: 10px 12px;
+    background: #F8FAFC;
+    border-radius: 7px;
+    color: #94A3B8;
+    font-size: 12px;
+    font-style: italic;
+    text-align: center;
+}
+
+/* ── FOOTER ────────────────────────────────────────────────── */
+.wizard-footer {
+    background: white;
+    padding: 16px 40px;
+    border-top: 1px solid #E2E8F0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.footer-stats {
+    display: flex;
+    gap: 28px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748B;
+}
+
+.footer-stats strong {
+    color: #0F172A;
+    font-weight: 800;
+}
+
+.footer-btns {
+    display: flex;
+    gap: 12px;
+}
+
+.footer-btn {
+    padding: 11px 28px;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: 'Manrope', system-ui, sans-serif;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.footer-btn.discard {
+    background: white;
+    border: 1px solid #E2E8F0;
+    color: #64748B;
+}
+
+.footer-btn.discard:hover {
+    background: #F1F5F9;
+    color: #0F172A;
+}
+
+.footer-btn.next {
+    background: #00B0FA;
+    border: 1px solid #00B0FA;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 176, 250, 0.3);
+}
+
+.footer-btn.next:hover {
+    background: #0099E0;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(0, 176, 250, 0.4);
+}
+
+/* Is Suspected — pill-style select, color-coded by value */
+.suspicious-select {
+    width: 100%;
+    max-width: 96px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    padding: 6px 28px 6px 16px;
+    outline: none;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px;
+    transition: transform 0.15s, box-shadow 0.2s, background-color 0.2s;
+}
+
+/* Neutral "No" (safe) — soft green */
+.suspicious-select.is-no {
+    background-color: #ECFDF5;
+    color: #047857;
+    border-color: #A7F3D0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M3 5l2.5 2.5L9 3.5' stroke='%23047857' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+}
+
+.suspicious-select.is-no:hover {
+    background-color: #D1FAE5;
+    border-color: #6EE7B7;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(4, 120, 87, 0.12);
+}
+
+/* "Yes" (suspected) — soft red */
+.suspicious-select.is-yes {
+    background-color: #FEF2F2;
+    color: #B91C1C;
+    border-color: #FCA5A5;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M6 2v5M6 9.2v.3' stroke='%23B91C1C' stroke-width='1.8' fill='none' stroke-linecap='round'/></svg>");
+}
+
+.suspicious-select.is-yes:hover {
+    background-color: #FEE2E2;
+    border-color: #F87171;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(185, 28, 28, 0.15);
+}
+
+.suspicious-select:focus {
+    box-shadow: 0 0 0 3px rgba(0, 176, 250, 0.15);
+}
+
+/* Native options — limited styling capability, but works in Chrome / Firefox */
+.suspicious-select option {
+    background: white;
+    color: #1E293B;
+    font-weight: 600;
+    padding: 8px 12px;
+}
+
+.suspicious-select option[value="Yes"] {
+    color: #B91C1C;
+    font-weight: 700;
+}
+
+.suspicious-select option[value="No"] {
+    color: #047857;
+    font-weight: 700;
+}
+
+.summary-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.summary-list-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: #F8FAFC;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #475569;
+    font-weight: 600;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.dot.danger {
+    background: #F04438;
+    box-shadow: 0 0 0 3px rgba(240, 68, 56, 0.1);
+}
+
+.item-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ── GMAIL STYLE MAIL MODAL ────────────────────────────────── */
+.gmail-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 20000;
+    display: flex;
+    align-items: flex-end;
+    /* Gmail style - bottom right */
+    justify-content: flex-end;
+    padding: 0 40px 0 0;
+    animation: fadeIn 0.3s ease;
+}
+
+.gmail-compose {
+    background: white;
+    width: 550px;
+    height: 600px;
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    animation: slideUpCompose 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid #ccc;
+    font-family: 'Roboto', 'Arial', sans-serif;
+}
+
+@keyframes slideUpCompose {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+.gmail-header {
+    background: #f2f6fc;
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.gmail-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f1f1f;
+}
+
+.gmail-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #444746;
+}
+
+.gmail-header-actions svg {
+    cursor: pointer;
+    transition: background 0.2s;
+    border-radius: 4px;
+    padding: 2px;
+}
+
+.gmail-header-actions svg:hover {
+    background: #e1e4e8;
+}
+
+.gmail-row {
+    display: flex;
+    align-items: center;
+    padding: 4px 16px;
+    border-bottom: 1px solid #e1e1e1;
+    min-height: 44px;
+}
+
+.gmail-label {
+    width: 62px;
+    font-size: 14px;
+    color: #444746;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+/* ── Gmail-style To chips row ── */
+.gmail-to-row {
+    align-items: flex-start;
+    min-height: 48px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    flex-wrap: nowrap;
+    cursor: text;
+}
+
+.gmail-chips-area {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    min-height: 32px;
+}
+
+/* Each recipient chip */
+.recipient-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    background: #e8f0fe;
+    border-radius: 100px;
+    padding: 0;
+    overflow: hidden;
+    max-width: 240px;
+    height: 30px;
+    border: 1px solid #c5d4f6;
+}
+
+.recipient-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 13px;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+    text-transform: uppercase;
+}
+
+.recipient-label {
+    font-size: 13px;
+    color: #1f1f1f;
+    padding: 0 8px 0 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 160px;
+}
+
+.recipient-remove {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #5f6368;
+    font-size: 18px;
+    line-height: 1;
+    padding: 0 8px 0 0;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.recipient-remove:hover {
+    color: #ea4335;
+}
+
+/* Invisible input inside chips area */
+.chips-input {
+    flex: 1;
+    min-width: 80px;
+    padding: 4px 0 !important;
+}
+
+/* Cc / Bcc toggle buttons */
+.gmail-cc-bcc-btns {
+    display: flex;
+    gap: 4px;
+    flex-shrink: 0;
+    align-self: flex-start;
+    padding-top: 5px;
+}
+
+.cc-bcc-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: #444746;
+    padding: 4px 6px;
+    border-radius: 4px;
+    transition: background 0.15s;
+}
+
+.cc-bcc-btn:hover {
+    background: #f1f3f4;
+    color: #1a73e8;
+}
+
+.gmail-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    padding: 8px 0;
+    font-family: inherit;
+    color: #1f1f1f;
+}
+
+.gmail-input::placeholder {
+    color: #70757a;
+}
+
+.gmail-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    overflow-y: auto;
+    background: white;
+}
+
+.gmail-content {
+    flex: 1;
+    border: none;
+    outline: none;
+    resize: none;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #1f1f1f;
+    font-family: inherit;
+    min-height: 200px;
+}
+
+.gmail-infobox {
+    margin-top: 24px;
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #f29900;
+}
+
+.infobox-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #1f1f1f;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.infobox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.infobox-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: #444746;
+    padding: 6px 10px;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #e1e1e1;
+}
+
+.gmail-footer {
+    padding: 12px 16px;
+    border-top: 1px solid #e8eaed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.footer-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.gmail-send-btn {
+    background: #1a73e8;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .3), 0 1px 3px 1px rgba(60, 64, 67, .15);
+    transition: all 0.2s;
+}
+
+.gmail-send-btn:hover {
+    background: #1967d2;
+    box-shadow: 0 1px 3px 0 rgba(60, 64, 67, .3), 0 4px 8px 3px rgba(60, 64, 67, .15);
+    transform: translateY(-1px);
+}
+
+/* Bigger tappable icon buttons */
+.gmail-tool-icons {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    color: #444746;
+}
+
+.tool-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #444746;
+    transition: background 0.15s;
+    flex-shrink: 0;
+}
+
+.tool-icon-btn:hover {
+    background: #f1f3f4;
+    color: #1a73e8;
+}
+
+.tool-icon-btn.trash-icon:hover {
+    background: #fce8e6;
+    color: #d93025;
+}
+
+.footer-right {
+    color: #444746;
+}
+
+/* ── UPLOAD CTA inside body ── */
+.gmail-upload-cta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0 4px 0;
+    border-top: 1px dashed #e0e0e0;
+    margin-top: 16px;
+}
+
+.upload-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    background: #f8f9fa;
+    border: 1.5px solid #dadce0;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #3c4043;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.upload-cta-btn:hover {
+    background: #e8f0fe;
+    border-color: #1a73e8;
+    color: #1a73e8;
+    box-shadow: 0 1px 4px rgba(26, 115, 232, 0.2);
+}
+
+.upload-hint {
+    font-size: 11px;
+    color: #80868b;
+    white-space: nowrap;
+}
+
+/* ── Attached file chips ── */
+.gmail-attachments {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 4px 0;
+}
+
+.attach-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px 5px 10px;
+    background: #e8f0fe;
+    border: 1px solid #c5d4f6;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #1a73e8;
+    max-width: 220px;
+}
+
+.attach-chip span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 160px;
+}
+
+.chip-remove {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #5f6368;
+    font-size: 15px;
+    line-height: 1;
+    padding: 0 2px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.chip-remove:hover {
+    color: #d93025;
+}
+
+/* ── Success Toast Notification ── */
+.audit-success-toast {
+    position: fixed;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0F172A;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    z-index: 11000;
+    min-width: 500px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: slideDownToast 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideDownToast {
+    from {
+        transform: translate(-50%, -100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
+
+.toast-content-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.toast-icon-green {
+    width: 40px;
+    height: 40px;
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toast-text-area h3 {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 0;
+    color: #FFFFFF;
+}
+
+.toast-text-area p {
+    font-size: 12px;
+    color: #94A3B8;
+    margin: 4px 0 0 0;
+}
+
+.undo-action-btn {
+    background: none;
+    border: none;
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    letter-spacing: 1px;
+    padding: 8px 12px;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.undo-action-btn:hover {
+    color: #00A3FF;
+}
+
+/* Spinner used on the Send button while the clarification email is in flight. */
+@keyframes rw-spin {
+    to { transform: rotate(360deg); }
+}
+
+.rw-spin {
+    animation: rw-spin 0.8s linear infinite;
+}

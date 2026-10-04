@@ -1,0 +1,19 @@
+{
+  "name": "ihm-enviguide-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "IHM EnviGuide Platform — Enterprise Monorepo",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev -w frontend\" \"npm run dev -w backend\"",
+    "build": "cd frontend && npm install && npm run build",
+    "install:all": "npm install",
+    "lint": "npm run lint -w frontend && npm run lint -w backend"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

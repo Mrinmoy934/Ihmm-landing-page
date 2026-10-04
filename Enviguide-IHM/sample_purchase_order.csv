@@ -1,0 +1,6 @@
+Vessel Name,PO Number,Item Description,PO Sent Date,IMPA Code,ISSA Code,Equipment Code,Equipment Name,Maker,Model,Part Number,Unit,Quantity,Vendor Remark,Vendor Email,Vendor Name,MD Requested Date
+Mysore Express,PO-2026-001,Main Engine Fuel Injector Valve,2026-06-01,751201,471201,ME-FI-01,Main Engine,MAN B&W,50MC,INJ-7721,PCS,4,Urgent delivery requested,sales@manparts.com,MAN PrimeServ,2026-06-02
+Mysore Express,PO-2026-002,Lubricating Oil Filter Element,2026-06-02,174251,473522,LO-FL-02,Lub Oil System,Boll & Kirch,1.03.450,BK-9921,PCS,12,Standard spares,orders@bollfilter.de,Boll Filter GmbH,2026-06-03
+Mysore Express,PO-2026-003,Auxiliary Engine Cylinder Head Gasket,2026-06-05,150244,472211,AE-G-03,Auxiliary Engine,Daihatsu,DK-20,DH-Head-G,PCS,6,Keep on stock,parts@daihatsu-engine.co.jp,Daihatsu Diesel,2026-06-06
+Mysore Express,PO-2026-004,Sea Water Cooling Pump Impeller,2026-06-10,590411,470120,SW-P-04,Sea Water Pump,Shinko,SVD-150,SH-5904,PCS,2,Confirm material certificate,info@shinkopump.co.jp,Shinko Machinery,2026-06-12
+Mysore Express,PO-2026-005,Oily Water Separator Coalescer Pack,2026-06-12,812245,475102,OWS-C-05,OWS Bilge Guard,RWO,BilgeClean,RWO-8122,SET,1,Class approval required,spares@rwo.de,RWO CleanWater,2026-06-13

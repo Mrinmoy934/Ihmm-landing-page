@@ -1,0 +1,369 @@
+/* ============================================================
+   Contact page — fits the viewport, no page scroll.
+   Original copy + values are unchanged; this file only restyles.
+   ============================================================ */
+
+.contact-premium-container {
+    display: flex;
+    background-color: #F8FAFC;
+    height: 100vh;
+    color: #0F172A;
+    overflow: hidden;
+}
+
+.contact-viewport {
+    flex: 1;
+    margin-left: var(--sidebar-width, 240px);
+    width: calc(100% - var(--sidebar-width, 240px));
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.contact-frame {
+    flex: 1;
+    min-height: 0; /* let inner grid distribute height correctly */
+    padding: 80px 48px 20px;
+    max-width: 1240px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ── Intro (compact) ───────────────────────────────────────── */
+.contact-intro {
+    margin-bottom: 18px;
+    flex-shrink: 0;
+}
+
+.maritime-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px;
+    background: rgba(0, 177, 255, 0.08);
+    border: 1px solid rgba(0, 177, 255, 0.18);
+    border-radius: 100px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #0099e0;
+    margin-bottom: 10px;
+}
+
+.contact-intro h1 {
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    margin: 0 0 6px;
+    line-height: 1.15;
+    color: #0F172A;
+}
+
+.contact-intro p {
+    font-size: 13px;
+    color: #64748B;
+    max-width: 720px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ── Two-column layout — fills remaining height ───────────── */
+.contact-layout-grid {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 20px;
+    align-items: stretch;
+}
+
+/* ── Form card ─────────────────────────────────────────────── */
+.form-column {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 22px 26px;
+    box-shadow: 0 4px 24px rgba(15, 23, 42, 0.04);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.minimal-blueprint-form {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.input-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.minimal-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 0;
+}
+
+.minimal-group:has(textarea) {
+    flex: 1;
+    min-height: 0;
+}
+
+.minimal-group label {
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #64748B;
+}
+
+.minimal-group input,
+.minimal-group textarea {
+    border: 1.5px solid #E2E8F0;
+    border-radius: 9px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #0F172A;
+    background: #F8FAFC;
+    transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    font-family: inherit;
+}
+
+.minimal-group textarea {
+    resize: none;
+    flex: 1;
+    min-height: 80px;
+    /* Cap so the textarea can't push the Send button below the
+     * viewport on shorter screens — the button must always be
+     * fully visible at the bottom of the form card. */
+    max-height: 180px;
+}
+
+.minimal-group input:hover,
+.minimal-group textarea:hover {
+    border-color: #CBD5E1;
+}
+
+.minimal-group input:focus,
+.minimal-group textarea:focus {
+    border-color: #00B1FF;
+    background: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(0, 177, 255, 0.1);
+}
+
+.minimal-group input::placeholder,
+.minimal-group textarea::placeholder {
+    color: #CBD5E1;
+    font-weight: 400;
+}
+
+.ship-command-btn {
+    align-self: flex-start;
+    margin-top: 4px;
+    padding: 9px 22px;
+    background: #00B1FF;
+    color: white;
+    border: none;
+    border-radius: 100px;
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 12px rgba(0, 177, 255, 0.22);
+    flex-shrink: 0;
+}
+
+.ship-command-btn:hover {
+    background: #0099e0;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(0, 177, 255, 0.32);
+}
+
+.ship-command-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(0, 177, 255, 0.25);
+}
+
+/* ── Contact details card ──────────────────────────────────── */
+.contact-details-column {
+    background: #0F172A;
+    border-radius: 16px;
+    padding: 22px 26px;
+    color: #F8FAFC;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(15, 23, 42, 0.18);
+}
+
+.contact-details-column::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 100% 0%, rgba(0, 177, 255, 0.18), transparent 45%),
+        radial-gradient(circle at 0% 100%, rgba(0, 177, 255, 0.08), transparent 50%);
+    pointer-events: none;
+}
+
+.contact-details-column > * {
+    position: relative;
+}
+
+.detail-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.detail-item:first-of-type {
+    padding-top: 4px;
+}
+
+.detail-item:last-of-type {
+    border-bottom: none;
+}
+
+.detail-icon {
+    width: 36px;
+    height: 36px;
+    background: rgba(0, 177, 255, 0.14);
+    border: 1px solid rgba(0, 177, 255, 0.25);
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #00B1FF;
+    flex-shrink: 0;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.detail-item:hover .detail-icon {
+    background: rgba(0, 177, 255, 0.22);
+    border-color: rgba(0, 177, 255, 0.45);
+}
+
+.detail-content h3 {
+    font-size: 9px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin: 0 0 3px;
+    color: #94A3B8;
+}
+
+.detail-content p {
+    font-size: 13px;
+    color: #F8FAFC;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.nautical-seal {
+    margin-top: auto;
+    padding-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(248, 250, 252, 0.55);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.seal-icon {
+    opacity: 0.55;
+    color: #00B1FF;
+}
+
+/* ── Footer (compact, single line) ─────────────────────────── */
+.contact-footer {
+    border-top: 1px solid #E2E8F0;
+    padding: 12px 0 0;
+    margin-top: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    color: #94A3B8;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.footer-nav {
+    display: flex;
+    gap: 18px;
+}
+
+.footer-nav a {
+    color: #94A3B8;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-nav a:hover {
+    color: #00B1FF;
+}
+
+.copyright {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 960px) {
+    .contact-premium-container,
+    .contact-viewport {
+        height: auto;
+        overflow: auto;
+    }
+
+    .contact-frame {
+        overflow: visible;
+        padding: 80px 20px 24px;
+    }
+
+    .contact-layout-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .input-row {
+        grid-template-columns: 1fr;
+    }
+
+    .minimal-group textarea {
+        min-height: 90px;
+    }
+
+    .contact-footer {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+}

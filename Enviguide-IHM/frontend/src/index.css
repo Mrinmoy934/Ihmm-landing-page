@@ -1,0 +1,348 @@
+@import "tailwindcss";
+
+/* ========================================
+   IHM Platform - Maritime Design System
+   ======================================== */
+
+/* CSS Variables - Ocean/Water Inspired */
+:root {
+  /* Primary Colors - Maritime Blue (Updated to #00B0FA) */
+  --primary-blue: #00B0FA;
+  --primary-blue-light: #33C0FB;
+  --primary-blue-dark: #008AC5;
+  --primary-blue-subtle: #F0F9FF;
+
+  /* Background Colors */
+  --bg-white: #ffffff;
+  --bg-gray-50: #f8fafc;
+  /* Premium Light Grey */
+  --bg-gray-100: #F2F4F7;
+  --bg-gray-200: #EAECF0;
+
+  /* Status Colors */
+  --status-green: #12B76A;
+  --status-green-light: #ECFDF5;
+  --status-red: #F04438;
+  --status-red-light: #FEF3F2;
+  --status-orange: #F79009;
+  --status-orange-light: #FFFAEB;
+
+  /* Text Colors */
+  --text-primary: #101828;
+  --text-secondary: #475467;
+  --text-tertiary: #667085;
+
+  /* Borders & Shadows */
+  --border-color: #EAECF0;
+  --radius-premium: 12px;
+  --shadow-sm: 0 1px 3px rgba(16, 24, 40, 0.1), 0 1px 2px rgba(16, 24, 40, 0.06);
+  --shadow-md: 0 4px 8px -2px rgba(16, 24, 40, 0.1), 0 2px 4px -2px rgba(16, 24, 40, 0.06);
+  --shadow-lg: 0 12px 16px -4px rgba(16, 24, 40, 0.08), 0 4px 6px -2px rgba(16, 24, 40, 0.03);
+
+  /* Layout */
+  --sidebar-width: 240px;
+  --sidebar-collapsed-width: 80px;
+  --header-height: 72px;
+
+  /* Typography */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ========================================
+   Global Reset & Base Styles
+   ======================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-gray-50);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-button {
+  display: none !important;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-gray-100);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D0D5DD;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #98A2B3;
+}
+
+/* ========================================
+   Utility Classes
+   ======================================== */
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-tertiary {
+  color: var(--text-tertiary);
+}
+
+.bg-white {
+  background-color: var(--bg-white);
+}
+
+.bg-gray-50 {
+  background-color: var(--bg-gray-50);
+}
+
+.shadow-sm {
+  box-shadow: var(--shadow-sm);
+}
+
+.shadow-md {
+  box-shadow: var(--shadow-md);
+}
+
+.shadow-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+.rounded-lg {
+  border-radius: 12px;
+}
+
+.rounded-md {
+  border-radius: 8px;
+}
+
+/* Buttons */
+.btn {
+  padding: 10px 18px;
+  border-radius: var(--radius-premium);
+  /* Consistent 12px Radius */
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-family);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background: var(--primary-blue);
+  color: white;
+  border-color: var(--primary-blue);
+}
+
+.btn-primary:hover {
+  background: var(--primary-blue-dark);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary {
+  background: var(--bg-white);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-gray-50);
+}
+
+/* ========================================
+   Global Form Elements
+   ======================================== */
+
+/* Main Select Box (Button) Styling - Filters & Selections */
+select,
+.filter-dropdown,
+.doc-type-select,
+.doc-filter-select,
+.category-select-wrapper,
+.edit-risk-select,
+.select-input-mock,
+.doc-date-range,
+.zone-btn,
+.btn-create-large,
+.btn-import-large,
+.add-material-btn-small,
+.export-record-btn-top,
+.filter-btn,
+.filter-select {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/xml' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 12px center !important;
+  background-size: 16px !important;
+  padding-left: 16px !important;
+  padding-right: 40px !important;
+  border: 1.5px solid var(--border-color) !important;
+  border-radius: var(--radius-premium) !important;
+  background-color: var(--bg-white) !important;
+  color: var(--text-primary) !important;
+  font-family: var(--font-family) !important;
+  font-size: 14px !important;
+  height: 44px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  outline: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  position: relative;
+}
+
+/* Hover & Focus state - Primary Color Border & Subtle Glow */
+select:hover,
+.filter-dropdown:hover,
+.doc-type-select:hover,
+.doc-filter-select:hover,
+.category-select-wrapper:hover,
+.edit-risk-select:hover,
+.select-input-mock:hover,
+.doc-date-range:hover,
+.zone-btn:hover,
+.filter-btn:hover,
+.filter-select:hover,
+select:focus,
+.filter-dropdown:focus,
+.doc-type-select:focus,
+.doc-filter-select:focus,
+.filter-dropdown.active,
+.category-select-wrapper.active,
+.doc-type-select.active,
+.doc-filter-select.active,
+.filter-btn.active,
+.filter-select.active {
+  border-color: var(--primary-blue) !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/xml' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2300B0FA' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") !important;
+  box-shadow: 0 0 0 4px var(--primary-blue-subtle) !important;
+}
+
+/* --- Premium Custom Dropdown (List) Styling --- */
+.custom-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  /* Intentional gap for high-end feel */
+  left: 0;
+  min-width: 100%;
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  /* Premium light border */
+  border-radius: var(--radius-premium);
+  /* Matching 12px Radius */
+  padding: 8px;
+  /* Internal breathing room */
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  /* Small gap between items */
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  /* Deep soft shadow */
+  overflow: hidden;
+  animation: dropdownFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: top;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: scaleY(0.95) translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scaleY(1) translateY(0);
+  }
+}
+
+.custom-dropdown-item {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  background-color: transparent;
+  border: none;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  /* Prevent overlap */
+  min-width: 0;
+}
+
+/* HOVER STATE FOR LIST ITEMS */
+.custom-dropdown-item:hover {
+  background-color: var(--bg-gray-50);
+  color: var(--primary-blue);
+  padding-left: 20px;
+  /* Micro-interaction: slide effect */
+}
+
+/* ACTIVE/SELECTED ITEM IN LIST - Using Primary Blue as requested */
+.custom-dropdown-item.active {
+  background-color: var(--primary-blue) !important;
+  color: #ffffff !important;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 176, 250, 0.25);
+}
+
+/* Add a checkmark icon to the active item via CSS */
+.custom-dropdown-item.active::after {
+  content: '';
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg);
+  margin-right: 4px;
+  flex-shrink: 0;
+  margin-top: -4px;
+}

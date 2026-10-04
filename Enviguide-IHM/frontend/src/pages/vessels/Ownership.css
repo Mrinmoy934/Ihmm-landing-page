@@ -1,0 +1,28 @@
+/* Reuse the standard management layout from Registered.css */
+@import url('../auth/Registered.css');
+
+.email-cell {
+    color: #4F46E5;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    cursor: pointer;
+}
+
+.email-cell:hover {
+    color: var(--primary-blue);
+}
+
+.vessel-count-cell {
+    font-weight: 700;
+}
+
+.vessel-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+    background: #F0F9FF;
+    color: var(--primary-blue);
+    border-radius: 6px;
+    font-size: 13px;
+}

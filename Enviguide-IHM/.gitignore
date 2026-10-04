@@ -1,0 +1,33 @@
+# ── Root / Shared ─────────────────────────────────────────
+.DS_Store
+*.log
+*.local
+
+# ── Frontend ──────────────────────────────────────────────
+frontend/node_modules
+frontend/dist
+frontend/dist-ssr
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+
+# ── Backend ───────────────────────────────────────────────
+backend/node_modules
+backend/dist
+backend/.env
+backend/uploads/
+
+# ── Editor ────────────────────────────────────────────────
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ── Temp / Generated ──────────────────────────────────────
+frontend/public/ga_plan_illustration.png
+frontend/public/ga_plan_minimal.png
+node_modules

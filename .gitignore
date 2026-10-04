@@ -4,13 +4,15 @@
 *.env
 *.local
 
-# Cloned application submodule / workspace
-Enviguide-IHM/
-
 # Dependencies & Build
 node_modules/
+**/node_modules/
 dist/
+**/dist/
 build/
+**/build/
+.vite/
+**/.vite/
 
 # Logs & temp
 *.log

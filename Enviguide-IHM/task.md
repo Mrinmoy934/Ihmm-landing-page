@@ -1,0 +1,17 @@
+- `[x]` Backend: Update user routes to support both admin/superadmin with requirePermission guards
+- `[x]` Backend: Update user service to map categories to database role_name values
+- `[x]` Backend: Add mapping properties for vesselId, shipManager, and shipOwner to FIELD_MAP
+- `[x]` Frontend: Retrieve hasPermission and implement canCreate/canUpdate/canDelete user checks
+- `[x]` Frontend: Filter Sidebar navigation items to hide Menu, Administration, and Security for Ship Owners/Managers
+- `[x]` Frontend: Simplify Vessels sub-menu structure into a direct leaf menu link named "Vessel" pointing to "/vessels/ship"
+- `[x]` Frontend: Filter vessel list by matching name/email of logged-in Owner/Manager
+- `[x]` Frontend: Render empty state inside main content area when no vessels match the owner/manager login credentials
+- `[x]` Frontend: Implement read-only gates on Vessels, DecksView, MaterialsRecord (hiding Export), and HazardousMaterialMapping pages
+- `[x]` Frontend: Add interactive Recharts compliance dashboard conditionally for Ship Owners and Managers
+- `[x]` Frontend: Resolve Vite production bundling react-is dependency resolution
+- `[x]` Frontend: Fix dashboard overlapping layout and synchronize chart filters with timeline sliders
+- `[x]` Frontend: Reorder Category/Role dropdown to the top of Add/Edit User Modals
+- `[x]` Frontend: Implement Vessel conditional fields (Vessel Selection, Username login, hide email/phone)
+- `[x]` Frontend: Implement Manager/Owner conditional select dropdowns linked dynamically to the vessels database
+- `[x]` Frontend: Convert login credentials input to type text to accept username authentication
+- `[x]` Verification: Build backend and frontend to verify compilation

@@ -1,0 +1,451 @@
+/* MD SDOC Audit Container */
+.md-sdoc-container {
+    display: flex;
+    height: 100vh;
+    background: #F8FAFC;
+}
+
+.md-sdoc-main {
+    flex: 1;
+    margin-left: var(--sidebar-width, 240px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body:has(.sidebar.collapsed) .md-sdoc-main {
+    margin-left: var(--sidebar-collapsed-width, 80px);
+}
+
+.md-sdoc-content {
+    flex: 1;
+    padding: 80px 40px 60px 40px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+    /* Separates breadcrumbs from title area */
+}
+
+.breadcrumb-separator {
+    color: #CBD5E1;
+}
+
+/* Header */
+.md-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    /* Align title and button at bottom */
+    margin-top: 0;
+    /* Push header area a bit lower */
+    margin-bottom: 0;
+    /* Remove gap between title and table */
+}
+
+.md-title-area h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #0F172A;
+    margin: 0 0 8px 0;
+    white-space: nowrap;
+}
+
+.md-title-area p {
+    font-size: 14px;
+    color: #64748B;
+    margin: 0;
+}
+
+.md-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.registry-search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.registry-search-wrapper .search-icon {
+    position: absolute;
+    left: 12px;
+    color: #94A3B8;
+    pointer-events: none;
+}
+
+.registry-search-wrapper input {
+    padding: 10px 12px 10px 38px;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    width: 280px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.registry-search-wrapper input:focus {
+    border-color: #00B0FA;
+    box-shadow: 0 0 0 3px rgba(0, 176, 250, 0.1);
+}
+
+.export-audit-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #0F172A;
+    cursor: pointer;
+}
+
+/* Registry Table Card */
+.registry-card {
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    /* Sophisticated shadow */
+    width: 100%;
+}
+
+.md-table {
+    width: 100%;
+    /* Hard floor so percentage columns can't squeeze into each other on
+       narrow viewports — the wrapper scrolls horizontally below this. */
+    min-width: 1180px;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.md-table th {
+    background: #F8FAFC;
+    padding: 14px 24px;
+    /* Slightly reduced header padding */
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+/* Column Widths */
+.md-table th:nth-child(1) {
+    width: 10%;
+}
+
+/* IMO */
+.md-table th:nth-child(2) {
+    width: 20%;
+}
+
+/* Vessel */
+.md-table th:nth-child(3) {
+    width: 8%;
+}
+
+/* POS */
+.md-table th:nth-child(4) {
+    width: 12%;
+}
+
+/* MDS */
+.md-table th:nth-child(5) {
+    width: 12%;
+}
+
+/* SDocs */
+.md-table th:nth-child(6) {
+    width: 18%;
+}
+
+/* Clarification */
+/* Last Submission Date */
+.md-table th:nth-child(7) {
+    min-width: 200px;
+    width: 200px;
+    white-space: nowrap;
+}
+
+/* Action — fixed, generous width so the REVIEW pill never collapses
+   into a circle and the column header doesn't overlap with the date.
+   Pinned to the right edge of the scroll wrapper so the manager can
+   always reach the REVIEW button no matter how far the table is
+   scrolled horizontally. */
+.md-table th:nth-child(8),
+.md-table td:nth-child(8) {
+    position: sticky;
+    right: 0;
+    z-index: 2;
+    box-shadow: -4px 0 8px -6px rgba(15, 23, 42, 0.18);
+}
+
+.md-table th:nth-child(8) {
+    min-width: 140px;
+    width: 140px;
+    text-align: center;
+    background: #F8FAFC; /* matches the rest of the header */
+}
+
+.md-table td:nth-child(8) {
+    background: white; /* mask the scrolling content underneath */
+}
+
+.md-table td {
+    padding: 20px 24px;
+    /* Refined padding for density */
+    border-bottom: 1px solid #F1F5F9;
+    font-size: 14px;
+    color: #334155;
+    vertical-align: middle;
+}
+
+/* Tighter horizontal padding on the action cell so the pill has
+   breathing room even when the column ends up at min-width. */
+.md-table td:nth-child(8) {
+    padding: 16px 12px;
+    text-align: center;
+}
+
+/* REVIEW CTA — pill-shaped, sky-blue. Defined with high-specificity
+   selectors and !important on the size/shape so leaked global rules
+   like the .action-btn from HazardousMaterialMapping.css can't reset
+   the button into a 38px-tall square (which then rendered as a circle
+   thanks to border-radius: 999). */
+.md-table td .md-review-cta,
+button.md-review-cta {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: auto !important;
+    width: auto !important;
+    flex: none !important;
+    padding: 7px 16px !important;
+    background: #E0F2FE !important;
+    border: 1px solid #00B0FA !important;
+    color: #0369A1 !important;
+    border-radius: 999px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+    line-height: 1.2;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.md-table td .md-review-cta:hover,
+button.md-review-cta:hover {
+    background: #00B0FA !important;
+    color: white !important;
+}
+
+/* Column styles */
+.imo-cell {
+    font-weight: 700;
+    color: #0F172A;
+    /* Match screenshot dark color */
+}
+
+.vessel-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.vessel-icon {
+    width: 32px;
+    height: 32px;
+    background: #F1F5F9;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #64748B;
+}
+
+/* Status Badges */
+.pending-mds-badge,
+.pending-sdoc-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: #FFF7ED;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #C2410C;
+    border: 1px solid #FFEDD5;
+    white-space: nowrap;
+    /* Ensure text is on one line */
+}
+
+.clarification-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-height: 24px;
+}
+
+.clarification-badge.awaiting {
+    background: #E0F2FE;
+    color: #0369A1;
+}
+
+.clarification-badge.resolved {
+    background: #F0FDF4;
+    color: #166534;
+}
+
+.clarification-badge.empty {
+    background: #F1F5F9;
+    min-width: 40px;
+}
+
+.badge-dot {
+    width: 6px;
+    height: 6px;
+    background: #F97316;
+    border-radius: 50%;
+}
+
+/* Pagination styles - Unified with Pending Audits Style */
+.table-footer {
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #E2E8F0;
+}
+
+.pagination-info {
+    font-size: 13px;
+    color: #64748B;
+}
+
+.pagination-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.page-btn {
+    min-width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748B;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.page-btn.active {
+    background: #0088CC;
+    color: white;
+    border-color: #0088CC;
+}
+
+.page-btn:disabled {
+    color: #CBD5E1;
+    cursor: not-allowed;
+}
+
+.pagination-dots {
+    color: #94A3B8;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+}
+
+/* Footer Metrics bar */
+.metrics-footer-bar {
+    position: fixed;
+    bottom: 0;
+    left: var(--sidebar-width, 240px);
+    right: 0;
+    height: 60px;
+    background: #F0FDFA;
+    border-top: 1px solid #CCFBF1;
+    display: flex;
+    align-items: center;
+    padding: 0 32px;
+    z-index: 100;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body:has(.sidebar.collapsed) .metrics-footer-bar {
+    left: var(--sidebar-collapsed-width, 80px);
+}
+
+.metric-items {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* Use entire footer space */
+    width: 100%;
+}
+
+.metric-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.metric-label {
+    font-size: 10px;
+    font-weight: 800;
+    color: #047857;
+    text-transform: uppercase;
+}
+
+.metric-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #065F46;
+}
+
+.metric-value.red {
+    color: #B91C1C;
+}
+
+.metric-value.green {
+    color: #059669;
+}

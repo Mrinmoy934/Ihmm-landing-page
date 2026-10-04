@@ -1,0 +1,326 @@
+.profile-page-container {
+    display: flex;
+    background-color: #ffffff;
+    height: 100vh;
+    color: #0F172A;
+    overflow: hidden;
+}
+
+.profile-page-main {
+    flex: 1;
+    margin-left: var(--sidebar-width, 240px);
+    width: calc(100% - var(--sidebar-width, 240px));
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-page-content {
+    flex: 1;
+    padding: 40px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Allow internal scroll if needed, but aim for fixed */
+}
+
+/* Page Header */
+.page-header-standard {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 40px;
+    margin-top: 20px;
+}
+
+.breadcrumb-mini {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    color: #94A3B8;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.header-title-area h1 {
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    margin-bottom: 8px;
+    color: #0F172A;
+}
+
+.header-title-area p {
+    font-size: 15px;
+    color: #64748B;
+}
+
+/* Actions Buttons - Pill Style */
+.header-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-primary-standard {
+    padding: 12px 28px;
+    background: #00B1FF;
+    color: white;
+    border: none;
+    border-radius: 100px;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 8px 20px rgba(0, 177, 255, 0.2);
+}
+
+.btn-primary-standard:hover {
+    background: #0099e0;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(0, 177, 255, 0.3);
+}
+
+.btn-secondary-standard {
+    padding: 12px 28px;
+    background: transparent;
+    color: #64748B;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 100px;
+    font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-secondary-standard:hover {
+    background: #F8FAFC;
+    color: #0F172A;
+    border-color: #CBD5E1;
+}
+
+/* CARDS GRID */
+.profile-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 32px;
+}
+
+.profile-main-card,
+.status-control-card,
+.message-box-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 32px;
+    border: 1.5px solid #F1F5F9;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
+}
+
+.profile-side-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.card-section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.card-section-header h3 {
+    font-size: 14px;
+    font-weight: 800;
+    color: #0F172A;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0;
+}
+
+/* FORM GRID - Same as Contact Refined */
+.form-grid-premium {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.form-item-premium {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-item-premium label {
+    font-size: 10px;
+    font-weight: 800;
+    color: #94A3B8;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-icon svg {
+    position: absolute;
+    left: 18px;
+    color: #CBD5E1;
+    z-index: 1;
+}
+
+.input-with-icon input {
+    width: 100%;
+    padding: 14px 18px 14px 48px;
+    background: #F8FAFC;
+    border: 1.5px solid #F1F5F9;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1E293B;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    outline: none;
+}
+
+.input-with-icon input:focus:not(.readonly-input) {
+    border-color: #00B1FF;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(0, 177, 255, 0.08);
+}
+
+.readonly-input {
+    background: #F1F5F9 !important;
+    border-color: #F1F5F9 !important;
+    color: #94A3B8 !important;
+    cursor: default;
+}
+
+/* Custom Select Trigger */
+.select-trigger {
+    cursor: pointer;
+}
+
+.select-trigger.active {
+    border-color: #00B1FF;
+    background: white;
+}
+
+.select-chevron {
+    position: absolute;
+    right: 18px;
+    color: #CBD5E1;
+}
+
+/* TOGGLE LISTS - Refined */
+.toggle-list-premium {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.toggle-item-premium {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.toggle-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.toggle-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1E293B;
+}
+
+.toggle-desc {
+    font-size: 12px;
+    color: #94A3B8;
+}
+
+/* SWITCH - Blue Highlight */
+.switch-premium {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.switch-premium input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider-premium {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #E2E8F0;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider-premium:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    border-radius: 50%;
+}
+
+.switch-premium input:checked + .slider-premium {
+    background-color: #00B1FF;
+}
+
+.switch-premium input:checked + .slider-premium:before {
+    transform: translateX(20px);
+}
+
+/* MESSAGE BOX */
+.premium-textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 16px;
+    background: #F8FAFC;
+    border: 1.5px solid #F1F5F9;
+    border-radius: 12px;
+    font-size: 14px;
+    color: #1E293B;
+    resize: none;
+    line-height: 1.6;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.premium-textarea:focus:not([readonly]) {
+    border-color: #00B1FF;
+    background: white;
+}
+
+@media (max-width: 1200px) {
+    .profile-cards-grid {
+        grid-template-columns: 1fr;
+    }
+}

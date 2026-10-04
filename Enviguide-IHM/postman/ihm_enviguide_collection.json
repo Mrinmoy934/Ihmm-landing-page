@@ -1,0 +1,116 @@
+{
+	"info": {
+		"_postman_id": "ihm-enviguide-api",
+		"name": "IHM EnviGuide API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Vessels",
+			"item": [
+				{
+					"name": "List Vessels",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/vessels",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"vessels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Vessel",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Antigravity Explorer\",\n    \"imoNumber\": \"IMO9876543\",\n    \"vesselType\": \"Container\",\n    \"registrationNumber\": \"REG123\",\n    \"signalLetters\": \"ABCD\",\n    \"grossTonnage\": \"50000\",\n    \"deadweightTonnage\": \"60000\",\n    \"teuUnits\": \"5000\",\n    \"registeredOwner\": \"Antigravity Shipping\",\n    \"shipOwner\": \"Antigravity Corp\",\n    \"shipManager\": \"DeepMind Management\",\n    \"fleet\": \"Global\",\n    \"subFleet\": \"Explorer\",\n    \"vesselClass\": \"LR\",\n    \"vesselIhmClass\": \"IHM-1\",\n    \"classIdNo\": \"CLASS-001\",\n    \"flagState\": \"Panama\",\n    \"portOfRegistry\": \"Panama City\",\n    \"nameOfYard\": \"Hyundai Heavy Industries\",\n    \"buildersUniqueId\": \"HHI-789\",\n    \"keelLaidDate\": \"2020-01-01\",\n    \"deliveryDate\": \"2021-01-01\",\n    \"ihmMethod\": \"Visual/Sampling\",\n    \"mdStandard\": \"MEPC.269(68)\",\n    \"ihmReference\": \"IHM-REF-001\",\n    \"socReference\": \"SOC-REF-001\",\n    \"socExpiryDate\": \"2026-01-01\",\n    \"complianceStatus\": \"compliant\",\n    \"image\": \"https://images.unsplash.com/photo-1544441893-675973e31d85\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/vessels",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"vessels"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@enviguide.com\",\n    \"password\": \"admin123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000/api/v1",
+			"type": "string"
+		}
+	]
+}

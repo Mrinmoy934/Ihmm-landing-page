@@ -1,0 +1,338 @@
+.usermenu-page-container {
+    display: flex;
+    background-color: #F8FAFC;
+    min-height: 100vh;
+}
+
+.usermenu-page-main {
+    flex: 1;
+    margin-left: var(--sidebar-width, 240px);
+    width: calc(100% - var(--sidebar-width, 240px));
+    padding-top: 72px; /* Header height */
+    padding-bottom: 40px;
+}
+
+.usermenu-content-wrapper {
+    padding: 32px 40px;
+}
+
+/* HEADER SECTION */
+.usermenu-header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.header-titles h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1E293B;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+}
+
+.header-titles p {
+    font-size: 14px;
+    color: #64748B;
+    font-weight: 500;
+}
+
+.header-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.premium-search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.premium-search-bar svg {
+    position: absolute;
+    left: 16px;
+    color: #94A3B8;
+}
+
+.premium-search-bar input {
+    padding: 12px 16px 12px 48px;
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    width: 300px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1E293B;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.premium-search-bar input:focus {
+    outline: none;
+    border-color: #00B0FA;
+    box-shadow: 0 0 0 4px rgba(0, 176, 250, 0.1);
+    width: 340px;
+}
+
+.add-menu-btn-premium {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #00B0FA;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0, 176, 250, 0.3);
+}
+
+.add-menu-btn-premium:hover {
+    background: #0096d6;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 176, 250, 0.4);
+}
+
+/* GLASS CARD */
+.usermenu-glass-card {
+    background: white;
+    border-radius: 20px;
+    border: 1px solid #F1F5F9;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.usermenu-glass-card.archived-section {
+    opacity: 0.85;
+    background: #F8FAFC;
+    border-style: dashed;
+}
+
+.card-header-premium {
+    padding: 24px 32px;
+    border-bottom: 1px solid #F1F5F9;
+    background: linear-gradient(to right, rgba(0, 176, 250, 0.02), transparent);
+}
+
+.indicator-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.indicator-group h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #334155;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* TABLE STYLES */
+.premium-table-container {
+    width: 100%;
+}
+
+.usermenu-table-premium {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.usermenu-table-premium th {
+    text-align: left;
+    padding: 16px 32px;
+    font-size: 12px;
+    font-weight: 800;
+    color: #94A3B8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: #FCFDFF;
+    border-bottom: 1px solid #F1F5F9;
+}
+
+.th-action { width: 140px; }
+.th-title { width: 250px; }
+
+.usermenu-table-premium td {
+    padding: 20px 32px;
+    border-bottom: 1px solid #F8FAFC;
+    vertical-align: middle;
+}
+
+.row-hover-premium {
+    transition: all 0.2s;
+}
+
+.row-hover-premium:hover {
+    background-color: #F0F9FF;
+}
+
+.title-text {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1E293B;
+}
+
+.title-text.archived {
+    color: #94A3B8;
+    font-weight: 600;
+}
+
+.path-text-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.path-val {
+    font-size: 13px;
+    font-weight: 600;
+    color: #00B0FA;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.desc-val {
+    font-size: 13px;
+    color: #64748B;
+}
+
+/* ACTION BUTTONS */
+.action-btn-group {
+    display: flex;
+    gap: 8px;
+}
+
+.icon-btn-edit, .icon-btn-delete, .icon-btn-restore {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.icon-btn-edit {
+    background: #F0F9FF;
+    color: #00B0FA;
+}
+
+.icon-btn-edit:hover {
+    background: #00B0FA;
+    color: white;
+}
+
+.icon-btn-delete {
+    background: #FEF2F2;
+    color: #EF4444;
+}
+
+.icon-btn-delete:hover {
+    background: #EF4444;
+    color: white;
+}
+
+.icon-btn-restore {
+    background: #F1F5F9;
+    color: #64748B;
+}
+
+.icon-btn-restore:hover {
+    background: #64748B;
+    color: white;
+}
+
+/* PAGINATION */
+.pagination-footer-premium {
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #FCFDFF;
+}
+
+.total-items {
+    font-size: 13px;
+    font-weight: 600;
+    color: #94A3B8;
+}
+
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.page-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 1px solid #E2E8F0;
+    background: white;
+    color: #64748B;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.page-btn:hover:not(:disabled) {
+    border-color: #00B0FA;
+    color: #00B0FA;
+}
+
+.page-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.page-numbers {
+    display: flex;
+    gap: 8px;
+}
+
+.page-num-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 700;
+    color: #64748B;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.page-num-btn:hover {
+    background: #F8FAFC;
+    color: #00B0FA;
+}
+
+.page-num-btn.active {
+    background: #F0F9FF;
+    color: #00B0FA;
+    border-color: #00B0FA;
+}
+
+.empty-archive {
+    padding: 40px;
+    text-align: center;
+    color: #94A3B8;
+    font-size: 14px;
+    font-weight: 500;
+}
