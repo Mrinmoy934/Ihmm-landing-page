@@ -22,7 +22,7 @@ import {
     ShieldCheck
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import ihmLogo from '../assets/ihm-logo.webp';
+import ihmLogo from '../assets/ihm_logo.webp';
 import './Sidebar.css';
 
 interface MenuChild {

@@ -8,7 +8,7 @@ import './Login.css';
 import slide1 from '../../assets/login-slide-1.png';
 import slide2 from '../../assets/login-slide-2.png';
 import slide3 from '../../assets/login-slide-3.png';
-import ihmLogo from '../../assets/ihm-logo.webp';
+import ihmLogo from '../../assets/ihm_logo.webp';
 
 export default function Login() {
     const navigate = useNavigate();
